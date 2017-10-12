@@ -16,6 +16,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let myMatchesNavigationController = storyboard.instantiateViewController(withIdentifier: "MyMatchesNavigationController") as! UINavigationController
+        let myMatchesViewController = myMatchesNavigationController.topViewController as! MyMatchesViewController
+        //myMatchesViewController.endpoint = "my_matches"
+        
+        let leaderboardNavigationController = storyboard.instantiateViewController(withIdentifier: "LeaderboardNavigationController") as! UINavigationController
+        let leaderboardViewController = leaderboardNavigationController.topViewController as! LeaderboardViewController
+        //leaderboardViewController.endpoint = "leaderboard"
+        
+        let contactsNavigationController = storyboard.instantiateViewController(withIdentifier: "ContactsNavigationController") as! UINavigationController
+        let contactsViewController = contactsNavigationController.topViewController as! ContactsViewController
+        //contactsViewController.endpoint = "contacts"
+        
+        let profileNavigationController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
+        let profileViewController = profileNavigationController.topViewController as! ProfileViewController
+        //profileViewController.endpoint = "profile"
+        
+        
+        myMatchesNavigationController.tabBarItem.title = "My Matches"
+        //myMatchesNavigationController.tabBarItem.image = UIImage(named: "movie")
+        leaderboardNavigationController.tabBarItem.title = "Leaderboard"
+        //leaderboardNavigationController.tabBarItem.image = UIImage(named: "star")
+        contactsNavigationController.tabBarItem.title = "Contacts"
+        //contactsNavigationController.tabBarItem.image = UIImage(named: "star")
+        profileNavigationController.tabBarItem.title = "Profile"
+        //profileNavigationController.tabBarItem.image = UIImage(named: "star")
+        
+        let tabBarController = UITabBarController()
+        
+        tabBarController.viewControllers = [myMatchesNavigationController, leaderboardNavigationController, contactsNavigationController, profileNavigationController]
+        
+        tabBarController.selectedIndex = 0;
+        
+        tabBarController.tabBar.tintColor = UIColor(red:1.00, green:0.80, blue:0.40, alpha:1.0)
+        tabBarController.tabBar.selectionIndicatorImage = nil
+        //tabBarController.tabBar.unselectedItemTintColor = UIColor.white
+        tabBarController.tabBar.isTranslucent = false
+        tabBarController.tabBar.barTintColor = UIColor(red:0.40, green:0.06, blue:0.15, alpha:1.0)
+        
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+        
         return true
     }
 
