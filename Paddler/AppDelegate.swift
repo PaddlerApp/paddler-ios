@@ -7,61 +7,61 @@
 //
 
 import UIKit
+import Firebase
+import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        window = UIWindow(frame: UIScreen.main.bounds)
+        FirebaseApp.configure()
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().delegate = self
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let myMatchesNavigationController = storyboard.instantiateViewController(withIdentifier: "MyMatchesNavigationController") as! UINavigationController
-        let myMatchesViewController = myMatchesNavigationController.topViewController as! MyMatchesViewController
-        //myMatchesViewController.endpoint = "my_matches"
-        
-        let leaderboardNavigationController = storyboard.instantiateViewController(withIdentifier: "LeaderboardNavigationController") as! UINavigationController
-        let leaderboardViewController = leaderboardNavigationController.topViewController as! LeaderboardViewController
-        //leaderboardViewController.endpoint = "leaderboard"
-        
-        let contactsNavigationController = storyboard.instantiateViewController(withIdentifier: "ContactsNavigationController") as! UINavigationController
-        let contactsViewController = contactsNavigationController.topViewController as! ContactsViewController
-        //contactsViewController.endpoint = "contacts"
-        
-        let profileNavigationController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
-        let profileViewController = profileNavigationController.topViewController as! ProfileViewController
-        //profileViewController.endpoint = "profile"
-        
-        
-        myMatchesNavigationController.tabBarItem.title = "My Matches"
-        //myMatchesNavigationController.tabBarItem.image = UIImage(named: "movie")
-        leaderboardNavigationController.tabBarItem.title = "Leaderboard"
-        //leaderboardNavigationController.tabBarItem.image = UIImage(named: "star")
-        contactsNavigationController.tabBarItem.title = "Contacts"
-        //contactsNavigationController.tabBarItem.image = UIImage(named: "star")
-        profileNavigationController.tabBarItem.title = "Profile"
-        //profileNavigationController.tabBarItem.image = UIImage(named: "star")
-        
-        let tabBarController = UITabBarController()
-        
-        tabBarController.viewControllers = [myMatchesNavigationController, leaderboardNavigationController, contactsNavigationController, profileNavigationController]
-        
-        tabBarController.selectedIndex = 0;
-        
-        tabBarController.tabBar.tintColor = UIColor(red:1.00, green:0.80, blue:0.40, alpha:1.0)
-        tabBarController.tabBar.selectionIndicatorImage = nil
-        //tabBarController.tabBar.unselectedItemTintColor = UIColor.white
-        tabBarController.tabBar.isTranslucent = false
-        tabBarController.tabBar.barTintColor = UIColor(red:0.40, green:0.06, blue:0.15, alpha:1.0)
-        
-        window?.rootViewController = tabBarController
-        window?.makeKeyAndVisible()
+        if User.current != nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let tabVC = storyboard.instantiateViewController(withIdentifier: "tabVC")
+            self.window?.rootViewController? = tabVC
+            self.window?.makeKeyAndVisible()
+        } else {
+            print("no on signed in")
+        }
         
         return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url,
+                                                 sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+                                                 annotation: [:])
+    }
+    
+    // Called after signing in from Google
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+        if let error = error {
+            print("error: \(error.localizedDescription)")
+            return
+        }
+        
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                       accessToken: authentication.accessToken)
+        Auth.auth().signIn(with: credential) { (user, error) in
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+                return
+            }
+            self.window?.rootViewController?.performSegue(withIdentifier: "loginSegue", sender: nil)
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // ...
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

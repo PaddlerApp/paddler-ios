@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import GoogleSignIn
 
 class ProfileViewController: UIViewController {
 
@@ -14,6 +16,12 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let user = User.current!
+        print(user.displayName!)
+        print(user.firstName!)
+        print(user.lastName!)
+        print(user.uid)
+        print(user.photoURL!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,7 +29,13 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    @IBAction func logOut(_ sender: UIButton) {
+        GIDSignIn.sharedInstance().signOut()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginVC = storyboard.instantiateInitialViewController()
+        UIApplication.shared.keyWindow?.rootViewController = loginVC
+    }
+    
     /*
     // MARK: - Navigation
 
