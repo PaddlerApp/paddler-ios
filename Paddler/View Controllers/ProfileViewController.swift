@@ -16,6 +16,12 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let user = User.current!
+        print(user.displayName!)
+        print(user.firstName!)
+        print(user.lastName!)
+        print(user.uid)
+        print(user.photoURL!)
     }
 
     override func didReceiveMemoryWarning() {
