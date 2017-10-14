@@ -23,6 +23,12 @@ class MyMatchesViewController: UIViewController {
         let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
         let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
         profileVC.broadcastRequest = Request.createBroadcast()
+        
+        PaddlerUser.current!.hasOpenRequest { (request) in
+            if let request = request {
+                print("user has open request with: \(request.requestorID!)")
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
