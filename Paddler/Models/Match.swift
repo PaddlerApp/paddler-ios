@@ -63,4 +63,24 @@ class Match: NSObject {
         self.requesteeScore = 0
         self.id = FirebaseClient.sharedInstance.save(match: self)
     }
+    
+    func finish(myScore: Int, andOtherScore: Int) {
+        self.finishedAt = Date()
+        if PaddlerUser.current!.id! == self.requestorID {
+            self.requestorScore = myScore
+            self.requesteeScore = andOtherScore
+        } else {
+            self.requestorScore = andOtherScore
+            self.requesteeScore = myScore
+        }
+        
+        if self.requestorScore! > self.requesteeScore! {
+            self.winnerID = self.requestorID
+            self.loserID = self.requesteeID
+        } else {
+            self.winnerID = self.requesteeID
+            self.loserID = self.requestorID
+        }
+        FirebaseClient.sharedInstance.finish(match: self)
+    }
 }

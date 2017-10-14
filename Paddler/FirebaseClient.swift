@@ -117,6 +117,17 @@ class FirebaseClient: NSObject {
             ])
     }
     
+    func finish(match: Match) {
+        let docRef = matches.document(match.id!)
+        docRef.updateData([
+            "finished_at"       : match.finishedAt!,
+            "loser_id"          : match.loserID!,
+            "requestee_score"   : match.requesteeScore!,
+            "requestor_score"   : match.requestorScore!,
+            "winner_id"         : match.winnerID!
+            ])
+    }
+    
     func getInitiatedRequest(forUser: PaddlerUser, completion: @escaping (DocumentSnapshot?) -> ()) {
         requests.whereField("requestor", isEqualTo: forUser.id!)
             .whereField("status", isEqualTo: "open")

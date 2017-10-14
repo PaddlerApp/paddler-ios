@@ -29,6 +29,7 @@ class MyMatchesViewController: UIViewController {
                 print("user has open request with: \(request.requestorID!)")
                 let match = request.accept()
                 print("user has started match: \(match.id!)")
+                match.finish(myScore: 11, andOtherScore: 3)
             }
         }
     }
