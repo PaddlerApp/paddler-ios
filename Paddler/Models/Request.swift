@@ -24,7 +24,7 @@ class Request: NSObject {
         req.status = "open"
         req.isDirect = true
         req.createdAt = Date()
-        FirebaseClient.sharedInstance.save(request: req)
+        req.id = FirebaseClient.sharedInstance.save(request: req)
         return req
     }
     

@@ -22,7 +22,7 @@ class MyMatchesViewController: UIViewController {
         
         let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
         let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
-        profileVC.request = Request.createBroadcast()
+        profileVC.broadcastRequest = Request.createBroadcast()
     }
 
     override func didReceiveMemoryWarning() {

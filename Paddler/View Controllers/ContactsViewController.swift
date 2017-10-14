@@ -18,6 +18,9 @@ class ContactsViewController: UIViewController {
             for user in users {
                 print(user.lastName!)
             }
+            let profileNavVC = self.tabBarController?.viewControllers![3] as! UINavigationController
+            let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
+            profileVC.directRequest = Request.createDirect(with: users.first!.id!)
         }
     }
 

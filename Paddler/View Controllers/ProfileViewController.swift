@@ -12,7 +12,8 @@ import GoogleSignIn
 
 class ProfileViewController: UIViewController {
 
-    var request: Request?
+    var broadcastRequest: Request?
+    var directRequest: Request?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,11 @@ class ProfileViewController: UIViewController {
         // Do any additional setup after loading the view.
         print(PaddlerUser.current!.firstName!)
         
-        if let request = request {
+        if let request = broadcastRequest {
+            request.cancel()
+        }
+        
+        if let request = directRequest {
             request.cancel()
         }
     }
