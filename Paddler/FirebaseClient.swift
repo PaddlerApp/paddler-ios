@@ -140,4 +140,16 @@ class FirebaseClient: NSObject {
                 }
         }
     }
+    
+    func save(match: Match) -> String {
+        let docRef = matches.document()
+        docRef.setData([
+            "requestor_id"      : match.requestorID!,
+            "requestee_id"      : match.requesteeID!,
+            "requestor_score"   : match.requestorScore!,
+            "requestee_score"   : match.requesteeScore!,
+            "created_at"        : match.createdAt!
+            ])
+        return docRef.documentID
+    }
 }

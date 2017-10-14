@@ -68,4 +68,10 @@ class Request: NSObject {
         self.status = "closed"
         FirebaseClient.sharedInstance.close(request: self)
     }
+    
+    func accept() -> Match {
+        self.status = "closed"
+        FirebaseClient.sharedInstance.close(request: self)
+        return Match(from: self)
+    }
 }

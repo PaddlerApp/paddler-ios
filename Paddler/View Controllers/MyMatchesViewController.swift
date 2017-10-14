@@ -27,6 +27,8 @@ class MyMatchesViewController: UIViewController {
         PaddlerUser.current!.hasOpenRequest { (request) in
             if let request = request {
                 print("user has open request with: \(request.requestorID!)")
+                let match = request.accept()
+                print("user has started match: \(match.id!)")
             }
         }
     }

@@ -50,4 +50,17 @@ class Match: NSObject {
             self.requesteeScore = requesteeScore
         }
     }
+    
+    init(from: Request) {
+        super.init()
+        self.createdAt = Date()
+        self.finishedAt = nil
+        self.loserID = ""
+        self.winnerID = ""
+        self.requestorID = from.requestorID
+        self.requesteeID = from.requesteeID
+        self.requestorScore = 0
+        self.requesteeScore = 0
+        self.id = FirebaseClient.sharedInstance.save(match: self)
+    }
 }
