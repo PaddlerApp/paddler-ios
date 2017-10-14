@@ -19,6 +19,12 @@ class LeaderboardViewController: UIViewController {
                 print(user.winCount!)
             }
         }
+        
+        PaddlerUser.current!.hasInitiatedRequest { (request) in
+            if let request = request {
+                print("user has initiatied request: \(request.id!)")
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

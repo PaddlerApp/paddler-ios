@@ -116,4 +116,16 @@ class FirebaseClient: NSObject {
             "status" : request.status!
             ])
     }
+    
+    func getInitiatedRequest(forUser: PaddlerUser, completion: @escaping (DocumentSnapshot?) -> ()) {
+        requests.whereField("requestor", isEqualTo: forUser.id!)
+            .whereField("status", isEqualTo: "open")
+            .getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+            } else {
+                completion(querySnapshot!.documents.first)
+            }
+        }
+    }
 }

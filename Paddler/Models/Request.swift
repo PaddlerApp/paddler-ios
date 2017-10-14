@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 class Request: NSObject {
     
@@ -37,6 +38,30 @@ class Request: NSObject {
         req.createdAt = Date()
         req.id = FirebaseClient.sharedInstance.save(request: req)
         return req
+    }
+    
+    init(from: DocumentSnapshot) {
+        super.init()
+        self.id = from.documentID
+        if let requestorID = from["requestor"] as? String {
+            self.requestorID = requestorID
+        }
+        if let requesteeID = from["requestee"] as? String {
+            self.requesteeID = requesteeID
+        }
+        if let status = from["status"] as? String {
+            self.status = status
+        }
+        if let isDirect = from["isDirect"] as? Bool {
+            self.isDirect = isDirect
+        }
+        if let createdAt = from["created_at"] as? Date {
+            self.createdAt = createdAt
+        }
+    }
+    
+    override init() {
+        super.init()
     }
     
     func cancel() {

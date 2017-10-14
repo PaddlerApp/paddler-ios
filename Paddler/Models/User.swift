@@ -88,6 +88,16 @@ class PaddlerUser: NSObject {
         }
     }
     
+    func hasInitiatedRequest(completion: @escaping (Request?) -> ()) {
+        FirebaseClient.sharedInstance.getInitiatedRequest(forUser: self) { (document) in
+            if let document = document {
+                completion(Request(from: document))
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
     class func leaderboard(completion: @escaping ([PaddlerUser]) -> ()) {
         var users: [PaddlerUser] = []
         FirebaseClient.sharedInstance.getUsers { (documents) in
