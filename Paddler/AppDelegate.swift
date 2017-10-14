@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
         
-        if User.current != nil {
+        if PaddlerUser.current != nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let tabVC = storyboard.instantiateViewController(withIdentifier: "tabVC")
             self.window?.rootViewController? = tabVC
@@ -55,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 print("error: \(error.localizedDescription)")
                 return
             }
+            PaddlerUser.current = PaddlerUser(from: user!)
             self.window?.rootViewController?.performSegue(withIdentifier: "loginSegue", sender: nil)
         }
     }
