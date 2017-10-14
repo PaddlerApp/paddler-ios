@@ -97,4 +97,14 @@ class PaddlerUser: NSObject {
             completion(users)
         }
     }
+    
+    class func contacts(completion: @escaping ([PaddlerUser]) -> ()) {
+        var users: [PaddlerUser] = []
+        FirebaseClient.sharedInstance.getContacts { (documents) in
+            for document in documents {
+                users.append(PaddlerUser(from: document))
+            }
+            completion(users)
+        }
+    }
 }

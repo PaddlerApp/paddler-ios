@@ -14,6 +14,11 @@ class ContactsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        PaddlerUser.contacts { (users) in
+            for user in users {
+                print(user.lastName!)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
