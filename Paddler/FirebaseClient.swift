@@ -97,4 +97,23 @@ class FirebaseClient: NSObject {
             }
         }
     }
+    
+    func save(request: Request) -> String {
+        let docRef = requests.document()
+        docRef.setData([
+            "requestor" : request.requestorID!,
+            "requestee" : request.requesteeID!,
+            "status"    : request.status!,
+            "isDirect"  : request.isDirect!,
+            "created_at": request.createdAt!
+            ])
+        return docRef.documentID
+    }
+    
+    func close(request: Request) {
+        let docRef = requests.document(request.id!)
+        docRef.updateData([
+            "status" : request.status!
+            ])
+    }
 }

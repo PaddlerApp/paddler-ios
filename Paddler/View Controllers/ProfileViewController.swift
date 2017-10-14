@@ -12,11 +12,17 @@ import GoogleSignIn
 
 class ProfileViewController: UIViewController {
 
+    var request: Request?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         print(PaddlerUser.current!.firstName!)
+        
+        if let request = request {
+            request.cancel()
+        }
     }
 
     override func didReceiveMemoryWarning() {
