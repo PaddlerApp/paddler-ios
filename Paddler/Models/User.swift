@@ -38,8 +38,10 @@ class PaddlerUser: NSObject {
         }
     }
     
-    init(from: [String: Any]) {
+    init(from: DocumentSnapshot) {
         super.init()
+        self.id = from.documentID
+        setData(with: from.data())
     }
     
     init(from: User) {
@@ -50,25 +52,29 @@ class PaddlerUser: NSObject {
     func fetch(completion: @escaping () -> ()) {
         FirebaseClient.sharedInstance.saveUser(from: self.firUser!) { (data) in
             self.id = self.firUser!.uid
-            if let firstName = data["first_name"] as? String {
-                self.firstName = firstName
-            }
-            if let lastName = data["last_name"] as? String {
-                self.lastName = lastName
-            }
-            if let email = data["email"] as? String {
-                self.email = email
-            }
-            if let profileString = data["profile_image_url"] as? String {
-                self.profileURL = URL(string: profileString)
-            }
-            if let winCount = data["win_count"] as? Int {
-                self.winCount = winCount
-            }
-            if let lossCount = data["loss_count"] as? Int {
-                self.lossCount = lossCount
-            }
+            self.setData(with: data)
             completion()
+        }
+    }
+    
+    private func setData(with: [String: Any]) {
+        if let firstName = with["first_name"] as? String {
+            self.firstName = firstName
+        }
+        if let lastName = with["last_name"] as? String {
+            self.lastName = lastName
+        }
+        if let email = with["email"] as? String {
+            self.email = email
+        }
+        if let profileString = with["profile_image_url"] as? String {
+            self.profileURL = URL(string: profileString)
+        }
+        if let winCount = with["win_count"] as? Int {
+            self.winCount = winCount
+        }
+        if let lossCount = with["loss_count"] as? Int {
+            self.lossCount = lossCount
         }
     }
     
@@ -79,6 +85,16 @@ class PaddlerUser: NSObject {
                 matches.append(Match(from: doc))
             }
             completion(matches)
+        }
+    }
+    
+    class func leaderboard(completion: @escaping ([PaddlerUser]) -> ()) {
+        var users: [PaddlerUser] = []
+        FirebaseClient.sharedInstance.getUsers { (documents) in
+            for document in documents {
+                users.append(PaddlerUser(from: document))
+            }
+            completion(users)
         }
     }
 }

@@ -27,14 +27,12 @@ class FirebaseClient: NSObject {
         super.init()
     }
     
-    func getUsers() {
-        users.getDocuments { (querySnapshot, error) in
+    func getUsers(completion: @escaping ([DocumentSnapshot]) -> ()) {
+        users.order(by: "win_count", descending: true).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting documents: \(error)")
             } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                }
+                completion(querySnapshot!.documents)
             }
         }
     }
