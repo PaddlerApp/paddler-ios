@@ -14,6 +14,11 @@ class MyMatchesViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        PaddlerUser.current!.getMatches { (matches) in
+            for match in matches {
+                print(match.createdAt!)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

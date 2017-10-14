@@ -10,6 +10,7 @@
 		859F2F661F8DEF3000DD76DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 859F2F651F8DEE3200DD76DF /* GoogleService-Info.plist */; };
 		B1B875A303E73DBD877BE9B0 /* Pods_Paddler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB030465C0462C4E510C9E0 /* Pods_Paddler.framework */; };
 		DC187E2D1F905F6E0061EC7F /* FirebaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC187E2C1F905F6E0061EC7F /* FirebaseClient.swift */; };
+		DC187E2F1F91D7C20061EC7F /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC187E2E1F91D7C20061EC7F /* Match.swift */; };
 		DC27A5941F8C7AEE009DF634 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC27A5931F8C7AEE009DF634 /* AppDelegate.swift */; };
 		DC27A5991F8C7AEE009DF634 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC27A5971F8C7AEE009DF634 /* Main.storyboard */; };
 		DC27A59B1F8C7AEE009DF634 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC27A59A1F8C7AEE009DF634 /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 		4E950339FCCD4F6BE34FDC10 /* Pods-Paddler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Paddler.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Paddler/Pods-Paddler.debug.xcconfig"; sourceTree = "<group>"; };
 		859F2F651F8DEE3200DD76DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DC187E2C1F905F6E0061EC7F /* FirebaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseClient.swift; sourceTree = "<group>"; };
+		DC187E2E1F91D7C20061EC7F /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		DC27A5901F8C7AEE009DF634 /* Paddler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paddler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC27A5931F8C7AEE009DF634 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC27A5981F8C7AEE009DF634 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				DC27A5A61F8F4315009DF634 /* User.swift */,
+				DC187E2E1F91D7C20061EC7F /* Match.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				FBDCA59E1F8DD7D6008C768E /* LiveMatchViewController.swift in Sources */,
 				FBDCA59C1F8DD7BE008C768E /* MyMatchesViewController.swift in Sources */,
 				FBDCA5A01F8DD7ED008C768E /* LeaderboardViewController.swift in Sources */,
+				DC187E2F1F91D7C20061EC7F /* Match.swift in Sources */,
 				FBDCA5981F8DD6C3008C768E /* LoginViewController.swift in Sources */,
 				DC27A5A71F8F4315009DF634 /* User.swift in Sources */,
 				DC187E2D1F905F6E0061EC7F /* FirebaseClient.swift in Sources */,

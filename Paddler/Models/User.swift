@@ -22,6 +22,8 @@ class PaddlerUser: NSObject {
     var winCount: Int?
     var lossCount: Int?
     
+    private var firUser: User?
+    
     class var current: PaddlerUser? {
         get {
             if _current == nil {
@@ -41,10 +43,13 @@ class PaddlerUser: NSObject {
     }
     
     init(from: User) {
+        firUser = from
         super.init()
-        FirebaseClient.sharedInstance.saveUser(from: from) { (data) in
-            self.id = from.uid
-            print(data)
+    }
+    
+    func fetch(completion: @escaping () -> ()) {
+        FirebaseClient.sharedInstance.saveUser(from: self.firUser!) { (data) in
+            self.id = self.firUser!.uid
             if let firstName = data["first_name"] as? String {
                 self.firstName = firstName
             }
@@ -63,6 +68,17 @@ class PaddlerUser: NSObject {
             if let lossCount = data["loss_count"] as? Int {
                 self.lossCount = lossCount
             }
+            completion()
+        }
+    }
+    
+    func getMatches(completion: @escaping ([Match]) -> ()) {
+        var matches: [Match] = []
+        FirebaseClient.sharedInstance.getMatches(forUser: self) { (docs) in
+            for doc in docs {
+                matches.append(Match(from: doc))
+            }
+            completion(matches)
         }
     }
 }

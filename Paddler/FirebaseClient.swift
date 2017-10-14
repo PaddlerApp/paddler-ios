@@ -39,6 +39,18 @@ class FirebaseClient: NSObject {
         }
     }
     
+    func getAllMatches() {
+        matches.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                }
+            }
+        }
+    }
+    
     func saveUser(from: User, completion: @escaping ([String : Any]) -> ()) {
         let userRef = users.document(from.uid)
         
@@ -60,5 +72,21 @@ class FirebaseClient: NSObject {
             }
             completion(userData)
         })
+    }
+    
+    func getMatches(forUser: PaddlerUser, completion: @escaping ([DocumentSnapshot]) -> ()) {
+        let id: String = forUser.id!
+        matches.whereField("requestor_id", isEqualTo: id).getDocuments { (requestorSnapshot, requestorError) in
+            print("error: \(requestorError?.localizedDescription)")
+            self.matches.whereField("requestee_id", isEqualTo: id).getDocuments { (requesteeSnapshot, requesteeError) in
+                print("error: \(requesteeError?.localizedDescription)")
+                let requestorDocs: [DocumentSnapshot] = requestorSnapshot!.documents
+                let requesteeDocs: [DocumentSnapshot] = requesteeSnapshot!.documents
+                var docs: [DocumentSnapshot] = []
+                docs.append(contentsOf: requestorDocs)
+                docs.append(contentsOf: requesteeDocs)
+                completion(docs)
+            }
+        }
     }
 }
