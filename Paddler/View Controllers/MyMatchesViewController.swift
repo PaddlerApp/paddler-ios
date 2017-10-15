@@ -11,7 +11,8 @@ import UIKit
 class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-
+    @IBOutlet weak var requestGameButton: UIButton!
+    
     var matches: [Match]!
     
     override func viewDidLoad() {
@@ -31,10 +32,13 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             self.tableView.reloadData()
         }
         
+        /*
         let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
         let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
         profileVC.broadcastRequest = Request.createBroadcast()
+        */
         
+        /*
         PaddlerUser.current!.hasOpenRequest { (request) in
             if let request = request {
                 print("user has open request with: \(request.requestorID!)")
@@ -43,6 +47,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
                 match.finish(myScore: 11, andOtherScore: 3)
             }
         }
+ */
         
         // refresh control
         let refreshControl = UIRefreshControl()
@@ -86,7 +91,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         cell.playerOneNameLabel.text = "NAME TEXT"
         cell.playerTwoNameLabel.text = "NAME TEXT"
         cell.playerOneScoreLabel.text = "\(String(describing: match.requestorScore!))"
-       cell.playerTwoScoreLabel.text = "\(String(describing: match.requesteeScore!))"
+        cell.playerTwoScoreLabel.text = "\(String(describing: match.requesteeScore!))"
         
         cell.selectionStyle = .none // get rid of gray selection
         
@@ -110,4 +115,58 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             refreshControl.endRefreshing()
         }
     }
+    
+    @IBAction func requestGameButtonAction(_ sender: Any) {
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "myMatchesToLiveGameSegue" {
+            
+            if requestGameButton.titleLabel?.text == "Request Game" {
+                // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
+                let liveMatchViewController = segue.destination as! LiveMatchViewController
+                
+                let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
+                let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
+                profileVC.broadcastRequest = Request.createBroadcast()
+                
+                print("create broadcast in MyMatchesVD - request id: \(profileVC.broadcastRequest!.id)")
+                print("create broadcast in MyMatchesVD - requestor id: \(profileVC.broadcastRequest!.requestorID)")
+                
+                print("create broadcast in MyMatchesVD - requestee id: \(profileVC.broadcastRequest!.requesteeID)")
+                
+                print("create broadcast in MyMatchesVD - status: \(profileVC.broadcastRequest!.status)")
+                
+                print("create broadcast in MyMatchesVD - isDirect: \(profileVC.broadcastRequest!.isDirect)")
+                print("create broadcast in MyMatchesVD - createdAt: \(profileVC.broadcastRequest!.createdAt)")
+                
+                profileVC.broadcastRequest!.requesteeID = "2zb6QkGXIcTDfZMSxleO8IZ9DTj2"
+                
+                let match = profileVC.broadcastRequest!.accept()
+                print("user has started match: \(match.id!)")
+                
+                liveMatchViewController.match = match
+                /*
+                 PaddlerUser.current!.hasOpenRequest { (request) in
+                 if let request = request {
+                 print("user has open request with: \(request.requestorID!)")
+                 let match = request.accept()
+                 print("user has started match: \(match.id!)")
+                 self.matchId = match.id!
+                 //match.finish(myScore: 11, andOtherScore: 3)
+                 }
+                 }
+                 */
+                
+            } else if requestGameButton.titleLabel?.text == "Accept Game" {
+                // if there's a broadcast or a direct request, current user can accept the game as a requestee
+                
+            } else if requestGameButton.titleLabel?.text == "Game in Progress" {
+                // if there's a game in progress, current user is requestee and can't do anything
+                // do nothing
+            }
+        } 
+    }
+    
 }
