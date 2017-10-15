@@ -43,6 +43,14 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
                 match.finish(myScore: 11, andOtherScore: 3)
             }
         }
+        
+        // refresh control
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        
+        tableView.insertSubview(refreshControl, at: 0)
+        // refresh control - end
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,4 +93,21 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         return cell
     }
 
+    @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 162
+        
+        PaddlerUser.current!.getMatches { (matches) in
+            for match in matches {
+                print("refresh control in MyMatchesVC - match.createdAt: \(match.createdAt!)")
+            }
+            
+            self.matches = matches
+            self.tableView.reloadData()
+            refreshControl.endRefreshing()
+        }
+    }
 }
