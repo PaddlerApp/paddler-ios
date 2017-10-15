@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		859F2F661F8DEF3000DD76DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 859F2F651F8DEE3200DD76DF /* GoogleService-Info.plist */; };
 		B1B875A303E73DBD877BE9B0 /* Pods_Paddler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB030465C0462C4E510C9E0 /* Pods_Paddler.framework */; };
+		DC187E2D1F905F6E0061EC7F /* FirebaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC187E2C1F905F6E0061EC7F /* FirebaseClient.swift */; };
+		DC187E2F1F91D7C20061EC7F /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC187E2E1F91D7C20061EC7F /* Match.swift */; };
+		DC187E311F9295F50061EC7F /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC187E301F9295F50061EC7F /* Request.swift */; };
 		DC27A5941F8C7AEE009DF634 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC27A5931F8C7AEE009DF634 /* AppDelegate.swift */; };
 		DC27A5991F8C7AEE009DF634 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC27A5971F8C7AEE009DF634 /* Main.storyboard */; };
 		DC27A59B1F8C7AEE009DF634 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC27A59A1F8C7AEE009DF634 /* Assets.xcassets */; };
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		4E950339FCCD4F6BE34FDC10 /* Pods-Paddler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Paddler.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Paddler/Pods-Paddler.debug.xcconfig"; sourceTree = "<group>"; };
 		859F2F651F8DEE3200DD76DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DC187E2C1F905F6E0061EC7F /* FirebaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseClient.swift; sourceTree = "<group>"; };
+		DC187E2E1F91D7C20061EC7F /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		DC187E301F9295F50061EC7F /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DC27A5901F8C7AEE009DF634 /* Paddler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paddler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC27A5931F8C7AEE009DF634 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC27A5981F8C7AEE009DF634 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -92,6 +98,7 @@
 		DC27A5921F8C7AEE009DF634 /* Paddler */ = {
 			isa = PBXGroup;
 			children = (
+				DC187E2C1F905F6E0061EC7F /* FirebaseClient.swift */,
 				FBDCA59A1F8DD6D9008C768E /* Views */,
 				FBDCA5991F8DD6C7008C768E /* View Controllers */,
 				DC27A5A51F8F42FE009DF634 /* Models */,
@@ -109,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				DC27A5A61F8F4315009DF634 /* User.swift */,
+				DC187E2E1F91D7C20061EC7F /* Match.swift */,
+				DC187E301F9295F50061EC7F /* Request.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -249,17 +258,31 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Paddler/Pods-Paddler-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,8 +300,11 @@
 				FBDCA59E1F8DD7D6008C768E /* LiveMatchViewController.swift in Sources */,
 				FBDCA59C1F8DD7BE008C768E /* MyMatchesViewController.swift in Sources */,
 				FBDCA5A01F8DD7ED008C768E /* LeaderboardViewController.swift in Sources */,
+				DC187E2F1F91D7C20061EC7F /* Match.swift in Sources */,
+				DC187E311F9295F50061EC7F /* Request.swift in Sources */,
 				FBDCA5981F8DD6C3008C768E /* LoginViewController.swift in Sources */,
 				DC27A5A71F8F4315009DF634 /* User.swift in Sources */,
+				DC187E2D1F905F6E0061EC7F /* FirebaseClient.swift in Sources */,
 				FBDCA5A41F8DD830008C768E /* ProfileViewController.swift in Sources */,
 				DC27A5941F8C7AEE009DF634 /* AppDelegate.swift in Sources */,
 				FBDCA5A21F8DD80A008C768E /* ContactsViewController.swift in Sources */,

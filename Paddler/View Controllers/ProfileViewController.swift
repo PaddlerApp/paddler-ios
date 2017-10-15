@@ -12,16 +12,22 @@ import GoogleSignIn
 
 class ProfileViewController: UIViewController {
 
+    var broadcastRequest: Request?
+    var directRequest: Request?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let user = User.current!
-        print(user.displayName!)
-        print(user.firstName!)
-        print(user.lastName!)
-        print(user.uid)
-        print(user.photoURL!)
+        print(PaddlerUser.current!.firstName!)
+        
+        if let request = broadcastRequest {
+            request.cancel()
+        }
+        
+        if let request = directRequest {
+            request.cancel()
+        }
     }
 
     override func didReceiveMemoryWarning() {

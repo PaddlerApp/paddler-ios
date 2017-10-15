@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '10.0'
 inhibit_all_warnings!
 
 target 'Paddler' do
@@ -9,6 +9,7 @@ target 'Paddler' do
   pod 'AFNetworking'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
   pod 'GoogleSignIn'
   # Pods for Paddler
 

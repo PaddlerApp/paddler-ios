@@ -10,31 +10,121 @@ import Foundation
 import Firebase
 import GoogleSignIn
 
-extension User {
+class PaddlerUser: NSObject {
     
-    static var _current: User?
+    static var _current: PaddlerUser?
     
-    class var current: User? {
+    var id: String?
+    var firstName: String?
+    var lastName: String?
+    var email: String?
+    var profileURL: URL?
+    var winCount: Int?
+    var lossCount: Int?
+    
+    private var firUser: User?
+    
+    class var current: PaddlerUser? {
         get {
             if _current == nil {
-                _current = Auth.auth().currentUser
+                if let user = Auth.auth().currentUser {
+                    _current = PaddlerUser(from: user)
+                }
             }
-            
             return _current
         }
-    }
-    
-    var firstName: String? {
-        get {
-            let first = displayName?.split(separator: " ", maxSplits: 1)
-            return String(describing: first![0])
+        set {
+            _current = newValue
         }
     }
     
-    var lastName: String? {
-        get {
-            let last = displayName?.split(separator: " ", maxSplits: 1)
-            return String(describing: last![1])
+    init(from: DocumentSnapshot) {
+        super.init()
+        self.id = from.documentID
+        setData(with: from.data())
+    }
+    
+    init(from: User) {
+        firUser = from
+        super.init()
+    }
+    
+    func fetch(completion: @escaping () -> ()) {
+        FirebaseClient.sharedInstance.saveUser(from: self.firUser!) { (data) in
+            self.id = self.firUser!.uid
+            self.setData(with: data)
+            completion()
+        }
+    }
+    
+    private func setData(with: [String: Any]) {
+        if let firstName = with["first_name"] as? String {
+            self.firstName = firstName
+        }
+        if let lastName = with["last_name"] as? String {
+            self.lastName = lastName
+        }
+        if let email = with["email"] as? String {
+            self.email = email
+        }
+        if let profileString = with["profile_image_url"] as? String {
+            self.profileURL = URL(string: profileString)
+        }
+        if let winCount = with["win_count"] as? Int {
+            self.winCount = winCount
+        }
+        if let lossCount = with["loss_count"] as? Int {
+            self.lossCount = lossCount
+        }
+    }
+    
+    func getMatches(completion: @escaping ([Match]) -> ()) {
+        var matches: [Match] = []
+        FirebaseClient.sharedInstance.getMatches(forUser: self) { (docs) in
+            for doc in docs {
+                matches.append(Match(from: doc))
+            }
+            completion(matches)
+        }
+    }
+    
+    func hasInitiatedRequest(completion: @escaping (Request?) -> ()) {
+        FirebaseClient.sharedInstance.getInitiatedRequest(forUser: self) { (document) in
+            if let document = document {
+                completion(Request(from: document))
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func hasOpenRequest(completion: @escaping (Request?) -> ()) {
+        FirebaseClient.sharedInstance.getOpenRequest(forUser: self) { (document) in
+            if let document = document {
+                completion(Request(from: document))
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    class func leaderboard(completion: @escaping ([PaddlerUser]) -> ()) {
+        var users: [PaddlerUser] = []
+        FirebaseClient.sharedInstance.getUsers { (documents) in
+            for document in documents {
+                users.append(PaddlerUser(from: document))
+            }
+            completion(users)
+        }
+    }
+    
+    class func contacts(completion: @escaping ([PaddlerUser]) -> ()) {
+        var users: [PaddlerUser] = []
+        FirebaseClient.sharedInstance.getContacts { (documents) in
+            for document in documents {
+                users.append(PaddlerUser(from: document))
+            }
+            completion(users)
         }
     }
 }

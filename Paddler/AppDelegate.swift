@@ -22,11 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
         
-        if User.current != nil {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let tabVC = storyboard.instantiateViewController(withIdentifier: "tabVC")
-            self.window?.rootViewController? = tabVC
-            self.window?.makeKeyAndVisible()
+        if let currentUser = PaddlerUser.current {
+            
+            // Show some kind of loading indicator
+            
+            currentUser.fetch {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let tabVC = storyboard.instantiateViewController(withIdentifier: "tabVC")
+                self.window?.rootViewController? = tabVC
+                self.window?.makeKeyAndVisible()
+            }
         } else {
             print("no on signed in")
         }
@@ -55,7 +60,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 print("error: \(error.localizedDescription)")
                 return
             }
-            self.window?.rootViewController?.performSegue(withIdentifier: "loginSegue", sender: nil)
+            PaddlerUser.current = PaddlerUser(from: user!)
+            
+            // Show some kind of loading indicator
+            
+            PaddlerUser.current!.fetch {
+                self.window?.rootViewController?.performSegue(withIdentifier: "loginSegue", sender: nil)
+            }
         }
     }
     

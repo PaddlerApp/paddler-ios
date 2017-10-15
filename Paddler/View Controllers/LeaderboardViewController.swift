@@ -14,6 +14,17 @@ class LeaderboardViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        PaddlerUser.leaderboard { (users) in
+            for user in users {
+                print(user.winCount!)
+            }
+        }
+        
+        PaddlerUser.current!.hasInitiatedRequest { (request) in
+            if let request = request {
+                print("user has initiatied request: \(request.id!)")
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
