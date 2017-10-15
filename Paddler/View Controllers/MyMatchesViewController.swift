@@ -121,9 +121,9 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "myMatchesToLiveGameSegue" {
+        if segue.identifier == "myMatchesToLiveMatchSegue" {
             
-            if requestGameButton.titleLabel?.text == "Request Game" {
+            if requestGameButton.titleLabel?.text == "Request Match" {
                 // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
                 let liveMatchViewController = segue.destination as! LiveMatchViewController
                 
@@ -159,7 +159,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
                  }
                  */
                 
-            } else if requestGameButton.titleLabel?.text == "Accept Game" {
+            } else if requestGameButton.titleLabel?.text == "Accept Match" {
                 // if there's a broadcast or a direct request, current user can accept the game as a requestee
                 
             } else if requestGameButton.titleLabel?.text == "Game in Progress" {

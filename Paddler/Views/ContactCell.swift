@@ -11,7 +11,7 @@ import UIKit
 class ContactCell: UITableViewCell {
 
     @IBOutlet weak var playerNameLabel: UILabel!
-    @IBOutlet weak var requestGameButton: UIButton!
+    @IBOutlet weak var requestMatchButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,7 +24,4 @@ class ContactCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    @IBAction func requestGameButtonAction(_ sender: Any) {
-        
-    }
 }
