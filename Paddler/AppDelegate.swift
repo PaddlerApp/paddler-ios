@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 let tabVC = storyboard.instantiateViewController(withIdentifier: "tabVC")
                 self.window?.rootViewController? = tabVC
                 self.window?.makeKeyAndVisible()
+                
+                print("there is a current user")
             }
         } else {
             print("no on signed in")

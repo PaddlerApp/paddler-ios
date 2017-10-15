@@ -17,6 +17,9 @@
 		DC27A59B1F8C7AEE009DF634 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC27A59A1F8C7AEE009DF634 /* Assets.xcassets */; };
 		DC27A59E1F8C7AEE009DF634 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC27A59C1F8C7AEE009DF634 /* LaunchScreen.storyboard */; };
 		DC27A5A71F8F4315009DF634 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC27A5A61F8F4315009DF634 /* User.swift */; };
+		FB9BCCE51F930779004B5642 /* MyMatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9BCCE41F930779004B5642 /* MyMatchCell.swift */; };
+		FB9BCCE71F93078C004B5642 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9BCCE61F93078C004B5642 /* ContactCell.swift */; };
+		FB9BCCEB1F930833004B5642 /* RankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9BCCEA1F930833004B5642 /* RankCell.swift */; };
 		FBDCA5981F8DD6C3008C768E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDCA5971F8DD6C3008C768E /* LoginViewController.swift */; };
 		FBDCA59C1F8DD7BE008C768E /* MyMatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDCA59B1F8DD7BE008C768E /* MyMatchesViewController.swift */; };
 		FBDCA59E1F8DD7D6008C768E /* LiveMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDCA59D1F8DD7D6008C768E /* LiveMatchViewController.swift */; };
@@ -40,6 +43,9 @@
 		DC27A5A61F8F4315009DF634 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ED811BC9BA650F19E77773D9 /* Pods-Paddler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Paddler.release.xcconfig"; path = "Pods/Target Support Files/Pods-Paddler/Pods-Paddler.release.xcconfig"; sourceTree = "<group>"; };
 		EFB030465C0462C4E510C9E0 /* Pods_Paddler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Paddler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB9BCCE41F930779004B5642 /* MyMatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMatchCell.swift; sourceTree = "<group>"; };
+		FB9BCCE61F93078C004B5642 /* ContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
+		FB9BCCEA1F930833004B5642 /* RankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCell.swift; sourceTree = "<group>"; };
 		FBDCA5971F8DD6C3008C768E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FBDCA59B1F8DD7BE008C768E /* MyMatchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMatchesViewController.swift; sourceTree = "<group>"; };
 		FBDCA59D1F8DD7D6008C768E /* LiveMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMatchViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +144,9 @@
 		FBDCA59A1F8DD6D9008C768E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FB9BCCE41F930779004B5642 /* MyMatchCell.swift */,
+				FB9BCCE61F93078C004B5642 /* ContactCell.swift */,
+				FB9BCCEA1F930833004B5642 /* RankCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -300,14 +309,17 @@
 				FBDCA59E1F8DD7D6008C768E /* LiveMatchViewController.swift in Sources */,
 				FBDCA59C1F8DD7BE008C768E /* MyMatchesViewController.swift in Sources */,
 				FBDCA5A01F8DD7ED008C768E /* LeaderboardViewController.swift in Sources */,
+				FB9BCCE71F93078C004B5642 /* ContactCell.swift in Sources */,
 				DC187E2F1F91D7C20061EC7F /* Match.swift in Sources */,
 				DC187E311F9295F50061EC7F /* Request.swift in Sources */,
 				FBDCA5981F8DD6C3008C768E /* LoginViewController.swift in Sources */,
+				FB9BCCEB1F930833004B5642 /* RankCell.swift in Sources */,
 				DC27A5A71F8F4315009DF634 /* User.swift in Sources */,
 				DC187E2D1F905F6E0061EC7F /* FirebaseClient.swift in Sources */,
 				FBDCA5A41F8DD830008C768E /* ProfileViewController.swift in Sources */,
 				DC27A5941F8C7AEE009DF634 /* AppDelegate.swift in Sources */,
 				FBDCA5A21F8DD80A008C768E /* ContactsViewController.swift in Sources */,
+				FB9BCCE51F930779004B5642 /* MyMatchCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,16 +8,27 @@
 
 import UIKit
 
-class MyMatchesViewController: UIViewController {
+class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBOutlet weak var tableView: UITableView!
+
+    var matches: [Match]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 162
         // Do any additional setup after loading the view.
         PaddlerUser.current!.getMatches { (matches) in
             for match in matches {
-                print(match.createdAt!)
+                print("print in MyMatchesVC - match.createdAt: \(match.createdAt!)")
             }
+            
+            self.matches = matches
+            self.tableView.reloadData()
         }
         
         let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
@@ -39,15 +50,39 @@ class MyMatchesViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if matches != nil {
+            return matches!.count
+        } else {
+            return 0
+        }
     }
-    */
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "matchCell", for: indexPath) as! MyMatchCell
+        
+        let match = matches[indexPath.row]
+        
+        cell.matchTimestampLabel.text = "\(String(describing: match.createdAt!))"
+        
+        /* Add profile Image
+         //thumbImageView.setImageWith(business.imageURL!)
+         if business.imageURL != nil {
+         thumbImageView.setImageWith(business.imageURL!)
+         } else {
+         //thumbImageView.setImageWith(UIImage(named:"bizimage-small.png"))
+         thumbImageView.image = UIImage(named:"bizimage-small.png")
+         }
+         */
+        
+        cell.playerOneNameLabel.text = "NAME TEXT"
+        cell.playerTwoNameLabel.text = "NAME TEXT"
+        cell.playerOneScoreLabel.text = "\(String(describing: match.requestorScore!))"
+       cell.playerTwoScoreLabel.text = "\(String(describing: match.requesteeScore!))"
+        
+        cell.selectionStyle = .none // get rid of gray selection
+        
+        return cell
+    }
 
 }
