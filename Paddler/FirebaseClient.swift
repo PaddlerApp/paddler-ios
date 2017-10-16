@@ -85,15 +85,21 @@ class FirebaseClient: NSObject {
     func getMatches(forUser: PaddlerUser, completion: @escaping ([DocumentSnapshot]) -> ()) {
         let id: String = forUser.id!
         matches.whereField("requestor_id", isEqualTo: id).getDocuments { (requestorSnapshot, requestorError) in
-            print("error: \(requestorError?.localizedDescription)")
-            self.matches.whereField("requestee_id", isEqualTo: id).getDocuments { (requesteeSnapshot, requesteeError) in
-                print("error: \(requesteeError?.localizedDescription)")
-                let requestorDocs: [DocumentSnapshot] = requestorSnapshot!.documents
-                let requesteeDocs: [DocumentSnapshot] = requesteeSnapshot!.documents
-                var docs: [DocumentSnapshot] = []
-                docs.append(contentsOf: requestorDocs)
-                docs.append(contentsOf: requesteeDocs)
-                completion(docs)
+            if let requestorError = requestorError {
+                print("error: \(requestorError.localizedDescription)")
+            } else {
+                self.matches.whereField("requestee_id", isEqualTo: id).getDocuments { (requesteeSnapshot, requesteeError) in
+                    if let requesteeError = requesteeError {
+                        print("error: \(requesteeError.localizedDescription)")
+                    } else {
+                        let requestorDocs: [DocumentSnapshot] = requestorSnapshot!.documents
+                        let requesteeDocs: [DocumentSnapshot] = requesteeSnapshot!.documents
+                        var docs: [DocumentSnapshot] = []
+                        docs.append(contentsOf: requestorDocs)
+                        docs.append(contentsOf: requesteeDocs)
+                        completion(docs)
+                    }
+                }
             }
         }
     }
