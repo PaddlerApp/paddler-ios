@@ -15,9 +15,25 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     
     var matches: [Match]!
     
+    /*
+    let hardCodedRequestee = PaddlerUser() {
+        // requestee object
+        hardCodedRequestee.id = "2zb6QkGXIcTDfZMSxleO8IZ9DTj2"
+        hardCodedRequestee.email = "pprabahar@hearsaycorp.com"
+        hardCodedRequestee.firstName = "Prithvi"
+        hardCodedRequestee.lastName = "Prabahar"
+        hardCodedRequestee.profileURL = NSURL(string: "https://lh3.googleusercontent.com/-09oYUnuMRNc/AAAAAAAAAAI/AAAAAAAAAAA/ACnBePZjZjtj2RL2Rp5o6CitYrrLz1U1Lw/s96-c/photo.jpg") as? URL
+        hardCodedRequestee.winCount = 2
+        hardCodedRequestee.lossCount = 0
+    
+    }
+ */
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -134,17 +150,32 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
                 profileVC.broadcastRequest = Request.createBroadcast()
                 
-                print("create broadcast in MyMatchesVD - request id: \(profileVC.broadcastRequest!.id!)")
-                print("create broadcast in MyMatchesVD - requestor id: \(profileVC.broadcastRequest!.requestorID!)")
                 
-                print("create broadcast in MyMatchesVD - requestee id: \(profileVC.broadcastRequest!.requesteeID!)")
                 
-                print("create broadcast in MyMatchesVD - status: \(profileVC.broadcastRequest!.status!)")
+                print("create broadcast in MyMatchesVC - request id: \(profileVC.broadcastRequest!.id!)")
+                print("create broadcast in MyMatchesVC - requestor id: \(profileVC.broadcastRequest!.requestorID!)")
                 
-                print("create broadcast in MyMatchesVD - isDirect: \(profileVC.broadcastRequest!.isDirect!)")
-                print("create broadcast in MyMatchesVD - createdAt: \(profileVC.broadcastRequest!.createdAt!)")
+                //print("hardCodedRequestee: \(hardCodedRequestee)")
+                    
+                //profileVC.broadcastRequest!.requestee = hardCodedRequestee
+            
                 
                 profileVC.broadcastRequest!.requesteeID = "2zb6QkGXIcTDfZMSxleO8IZ9DTj2"
+                
+                print("create broadcast in MyMatchesVC - requestee id - hard coded: \(profileVC.broadcastRequest!.requesteeID!)")
+                
+                //print("hardCodedRequestee: \(hardCodedRequestee)")
+                
+                print("create broadcast in MyMatchesVC - requestee - hard coded: \(profileVC.broadcastRequest!.requestee!)")
+                
+                print("create broadcast in MyMatchesVC - requestee id: \(profileVC.broadcastRequest!.requesteeID!)")
+                
+                print("create broadcast in MyMatchesVC - status: \(profileVC.broadcastRequest!.status!)")
+                
+                print("create broadcast in MyMatchesVC - isDirect: \(profileVC.broadcastRequest!.isDirect!)")
+                print("create broadcast in MyMatchesVC - createdAt: \(profileVC.broadcastRequest!.createdAt!)")
+                
+                
                 
                 let match = profileVC.broadcastRequest!.accept()
                 print("user has started match: \(match.id!)")
