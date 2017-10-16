@@ -82,6 +82,9 @@ class Request: NSObject {
     
     func accept() -> Match {
         self.status = "closed"
+        let user = PaddlerUser.current!
+        self.requesteeID = user.id
+        self.requestee = user
         FirebaseClient.sharedInstance.close(request: self)
         return Match(from: self)
     }
