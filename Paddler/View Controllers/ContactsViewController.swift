@@ -77,15 +77,15 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
                 profileVC.directRequest = Request.createDirect(with: contact)
                 
-                print("create direct in MyMatchesVD - request id: \(profileVC.directRequest!.id!)")
-                print("create direct in MyMatchesVD - requestor id: \(String(describing: profileVC.directRequest!.requestorID))")
+                print("create direct in ContactsVC - request id: \(profileVC.directRequest!.id!)")
+                print("create direct in ContactsVC - requestor id: \(String(describing: profileVC.directRequest!.requestorID))")
                 
-                print("create direct in MyMatchesVD - requestee id: \(profileVC.directRequest!.requesteeID!)")
+                print("create direct in ContactsVC - requestee id: \(profileVC.directRequest!.requesteeID!)")
                 
-                print("create direct in MyMatchesVD - status: \(String(describing: profileVC.directRequest!.status))")
+                print("create direct in ContactsVC - status: \(String(describing: profileVC.directRequest!.status))")
                 
-                print("create direct in MyMatchesVD - isDirect: \(String(describing: profileVC.directRequest!.isDirect))")
-                print("create direct in MyMatchesVD - createdAt: \(String(describing: profileVC.directRequest!.createdAt))")
+                print("create direct in ContactsVC - isDirect: \(String(describing: profileVC.directRequest!.isDirect))")
+                print("create direct in ContactsVC - createdAt: \(String(describing: profileVC.directRequest!.createdAt))")
                 
                 let match = profileVC.directRequest!.accept()
                 print("user has started match: \(match.id!)")

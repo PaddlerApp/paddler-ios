@@ -30,8 +30,11 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         print("live match winner id: \(match.winnerID)")
         print("live match loser id: \(match.loserID)")
         
-        playerOneNameLabel.text = "requestorName"
-        playerTwoNameLabel.text = "requesteeName"
+        let requestor = match.requestor!
+        let requestee = match.requestee!
+        
+        playerOneNameLabel.text = requestor.firstName! + " " + requestor.lastName!
+        playerTwoNameLabel.text = "Prithvi Prabahar"//requestee.firstName! + " " + requestee.lastName!
         
         playerOneScoreTextField.delegate = self
         playerTwoScoreTextField.delegate = self

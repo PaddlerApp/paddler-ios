@@ -7,16 +7,16 @@ Time spent: **X** hours spent in total
 
 The following **required** functionality is completed:
 
-- [ ] Login via Google / logout
-- [ ] Request match broadcast
-- [ ] Show Leaderboard
-- [ ] Show Profile Page
-- [ ] Match Page: Track Live Score -> Initiator enters score
+- [x] Login via Google / logout
+- [x] Request match broadcast *note: buggy*
+- [x] Show Leaderboard
+- [x] Show Profile Page
+- [x] Match Page: Track Live Score -> Initiator enters score
 - [ ] Accept Match
 - [ ] Notification for match request
-- [ ] Request match contact
-- [ ] Contact page
-- [ ] My match history
+- [x] Request match contact
+- [x] Contact page
+- [x] My match history
 
 The following **optional** features are implemented:
 
@@ -35,7 +35,7 @@ Here're the wireframes of [required user stories](https://github.com/PaddlerApp/
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
+1. 
 2.
 
 ## Video Walkthrough
