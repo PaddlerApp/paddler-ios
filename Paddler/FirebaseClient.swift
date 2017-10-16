@@ -40,7 +40,7 @@ class FirebaseClient: NSObject {
     func getContacts(completion: @escaping ([DocumentSnapshot]) -> ()) {
         users.order(by: "last_name").getDocuments { (querySnapshot, error) in
             if let error = error {
-                print("Error getting documents: \(error)")
+                print("Error getting documents: \(error.localizedDescription)")
             } else {
                 completion(querySnapshot!.documents)
             }
@@ -85,15 +85,21 @@ class FirebaseClient: NSObject {
     func getMatches(forUser: PaddlerUser, completion: @escaping ([DocumentSnapshot]) -> ()) {
         let id: String = forUser.id!
         matches.whereField("requestor_id", isEqualTo: id).getDocuments { (requestorSnapshot, requestorError) in
-            print("error: \(requestorError?.localizedDescription)")
-            self.matches.whereField("requestee_id", isEqualTo: id).getDocuments { (requesteeSnapshot, requesteeError) in
-                print("error: \(requesteeError?.localizedDescription)")
-                let requestorDocs: [DocumentSnapshot] = requestorSnapshot!.documents
-                let requesteeDocs: [DocumentSnapshot] = requesteeSnapshot!.documents
-                var docs: [DocumentSnapshot] = []
-                docs.append(contentsOf: requestorDocs)
-                docs.append(contentsOf: requesteeDocs)
-                completion(docs)
+            if let requestorError = requestorError {
+                print("error: \(requestorError.localizedDescription)")
+            } else {
+                self.matches.whereField("requestee_id", isEqualTo: id).getDocuments { (requesteeSnapshot, requesteeError) in
+                    if let requesteeError = requesteeError {
+                        print("error: \(requesteeError.localizedDescription)")
+                    } else {
+                        let requestorDocs: [DocumentSnapshot] = requestorSnapshot!.documents
+                        let requesteeDocs: [DocumentSnapshot] = requesteeSnapshot!.documents
+                        var docs: [DocumentSnapshot] = []
+                        docs.append(contentsOf: requestorDocs)
+                        docs.append(contentsOf: requesteeDocs)
+                        completion(docs)
+                    }
+                }
             }
         }
     }
@@ -101,11 +107,13 @@ class FirebaseClient: NSObject {
     func save(request: Request) -> String {
         let docRef = requests.document()
         docRef.setData([
-            "requestor" : request.requestorID!,
-            "requestee" : request.requesteeID!,
+            "requestor_id" : request.requestorID!,
+            "requestee_id" : request.requesteeID!,
             "status"    : request.status!,
             "isDirect"  : request.isDirect!,
-            "created_at": request.createdAt!
+            "created_at": request.createdAt!,
+            "requestor" : request.requestor!.serialize(),
+            "requestee" : request.requestee != nil ? request.requestee!.serialize() : [String:Any]()
             ])
         return docRef.documentID
     }
@@ -159,7 +167,9 @@ class FirebaseClient: NSObject {
             "requestee_id"      : match.requesteeID!,
             "requestor_score"   : match.requestorScore!,
             "requestee_score"   : match.requesteeScore!,
-            "created_at"        : match.createdAt!
+            "created_at"        : match.createdAt!,
+            "requestor"         : match.requestor!.serialize(),
+            "requestee"         : match.requestee!.serialize()
             ])
         return docRef.documentID
     }

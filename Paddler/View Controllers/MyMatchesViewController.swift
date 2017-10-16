@@ -88,8 +88,11 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
          }
          */
         
-        cell.playerOneNameLabel.text = "NAME TEXT"
-        cell.playerTwoNameLabel.text = "NAME TEXT"
+        let requestor = match.requestor!
+        let requestee = match.requestee!
+        
+        cell.playerOneNameLabel.text = requestor.firstName! + " " + requestor.lastName!
+        cell.playerTwoNameLabel.text = requestee.firstName! + " " + requestee.lastName!
         cell.playerOneScoreLabel.text = "\(String(describing: match.requestorScore!))"
         cell.playerTwoScoreLabel.text = "\(String(describing: match.requesteeScore!))"
         
@@ -131,15 +134,15 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
                 profileVC.broadcastRequest = Request.createBroadcast()
                 
-                print("create broadcast in MyMatchesVD - request id: \(profileVC.broadcastRequest!.id)")
-                print("create broadcast in MyMatchesVD - requestor id: \(profileVC.broadcastRequest!.requestorID)")
+                print("create broadcast in MyMatchesVD - request id: \(profileVC.broadcastRequest!.id!)")
+                print("create broadcast in MyMatchesVD - requestor id: \(profileVC.broadcastRequest!.requestorID!)")
                 
-                print("create broadcast in MyMatchesVD - requestee id: \(profileVC.broadcastRequest!.requesteeID)")
+                print("create broadcast in MyMatchesVD - requestee id: \(profileVC.broadcastRequest!.requesteeID!)")
                 
-                print("create broadcast in MyMatchesVD - status: \(profileVC.broadcastRequest!.status)")
+                print("create broadcast in MyMatchesVD - status: \(profileVC.broadcastRequest!.status!)")
                 
-                print("create broadcast in MyMatchesVD - isDirect: \(profileVC.broadcastRequest!.isDirect)")
-                print("create broadcast in MyMatchesVD - createdAt: \(profileVC.broadcastRequest!.createdAt)")
+                print("create broadcast in MyMatchesVD - isDirect: \(profileVC.broadcastRequest!.isDirect!)")
+                print("create broadcast in MyMatchesVD - createdAt: \(profileVC.broadcastRequest!.createdAt!)")
                 
                 profileVC.broadcastRequest!.requesteeID = "2zb6QkGXIcTDfZMSxleO8IZ9DTj2"
                 

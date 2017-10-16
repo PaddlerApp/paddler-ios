@@ -11,12 +11,11 @@ import UIKit
 class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    var contacts: [PaddlerUser]!
+    var contacts: [PaddlerUser] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -29,7 +28,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
             let profileNavVC = self.tabBarController?.viewControllers![3] as! UINavigationController
             let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
-            profileVC.directRequest = Request.createDirect(with: users.first!.id!)
+            profileVC.directRequest = Request.createDirect(with: users.first!)
             
             self.contacts = users
             //print("contacts in ContactsVC = \(self.contacts)")
@@ -45,11 +44,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if contacts != nil {
-            return contacts!.count
-        } else {
-            return 0
-        }
+        return contacts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,7 +66,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
             let requestMatchButton = sender as! UIButton
             let indexPath = requestMatchButton.tag
-            let contact = contacts![indexPath]
+            let contact = contacts[indexPath]
             
             
             if requestMatchButton.titleLabel?.text == "Request Match" {
@@ -80,17 +75,17 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
                 let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
-                profileVC.directRequest = Request.createDirect(with: contact.id!)
+                profileVC.directRequest = Request.createDirect(with: contact)
                 
-                print("create direct in MyMatchesVD - request id: \(profileVC.directRequest!.id)")
-                print("create direct in MyMatchesVD - requestor id: \(profileVC.directRequest!.requestorID)")
+                print("create direct in MyMatchesVD - request id: \(profileVC.directRequest!.id!)")
+                print("create direct in MyMatchesVD - requestor id: \(String(describing: profileVC.directRequest!.requestorID))")
                 
-                print("create direct in MyMatchesVD - requestee id: \(profileVC.directRequest!.requesteeID)")
+                print("create direct in MyMatchesVD - requestee id: \(profileVC.directRequest!.requesteeID!)")
                 
-                print("create direct in MyMatchesVD - status: \(profileVC.directRequest!.status)")
+                print("create direct in MyMatchesVD - status: \(String(describing: profileVC.directRequest!.status))")
                 
-                print("create direct in MyMatchesVD - isDirect: \(profileVC.directRequest!.isDirect)")
-                print("create direct in MyMatchesVD - createdAt: \(profileVC.directRequest!.createdAt)")
+                print("create direct in MyMatchesVD - isDirect: \(String(describing: profileVC.directRequest!.isDirect))")
+                print("create direct in MyMatchesVD - createdAt: \(String(describing: profileVC.directRequest!.createdAt))")
                 
                 let match = profileVC.directRequest!.accept()
                 print("user has started match: \(match.id!)")
