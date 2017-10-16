@@ -107,11 +107,13 @@ class FirebaseClient: NSObject {
     func save(request: Request) -> String {
         let docRef = requests.document()
         docRef.setData([
-            "requestor" : request.requestorID!,
-            "requestee" : request.requesteeID!,
+            "requestor_id" : request.requestorID!,
+            "requestee_id" : request.requesteeID!,
             "status"    : request.status!,
             "isDirect"  : request.isDirect!,
-            "created_at": request.createdAt!
+            "created_at": request.createdAt!,
+            "requestor" : request.requestor!.serialize(),
+            "requestee" : request.requestee != nil ? request.requestee!.serialize() : [String:Any]()
             ])
         return docRef.documentID
     }
@@ -165,7 +167,9 @@ class FirebaseClient: NSObject {
             "requestee_id"      : match.requesteeID!,
             "requestor_score"   : match.requestorScore!,
             "requestee_score"   : match.requesteeScore!,
-            "created_at"        : match.createdAt!
+            "created_at"        : match.createdAt!,
+            "requestor"         : match.requestor!.serialize(),
+            "requestee"         : match.requestee!.serialize()
             ])
         return docRef.documentID
     }

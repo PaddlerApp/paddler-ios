@@ -14,14 +14,18 @@ class Request: NSObject {
     var id: String?
     var requestorID: String?
     var requesteeID: String?
+    var requestor: PaddlerUser?
+    var requestee: PaddlerUser?
     var status: String?
     var isDirect: Bool?
     var createdAt: Date?
     
-    class func createDirect(with: String) -> Request {
+    class func createDirect(with: PaddlerUser) -> Request {
         let req = Request()
         req.requestorID = PaddlerUser.current!.id
-        req.requesteeID = with
+        req.requesteeID = with.id!
+        req.requestor = PaddlerUser.current!
+        req.requestee = with
         req.status = "open"
         req.isDirect = true
         req.createdAt = Date()
@@ -33,6 +37,7 @@ class Request: NSObject {
         let req = Request()
         req.requestorID = PaddlerUser.current!.id
         req.requesteeID = ""
+        req.requestor = PaddlerUser.current!
         req.status = "open"
         req.isDirect = false
         req.createdAt = Date()
@@ -43,10 +48,10 @@ class Request: NSObject {
     init(from: DocumentSnapshot) {
         super.init()
         self.id = from.documentID
-        if let requestorID = from["requestor"] as? String {
+        if let requestorID = from["requestor_id"] as? String {
             self.requestorID = requestorID
         }
-        if let requesteeID = from["requestee"] as? String {
+        if let requesteeID = from["requestee_id"] as? String {
             self.requesteeID = requesteeID
         }
         if let status = from["status"] as? String {
@@ -57,6 +62,12 @@ class Request: NSObject {
         }
         if let createdAt = from["created_at"] as? Date {
             self.createdAt = createdAt
+        }
+        if let requestorDict = from["requestor"] as? [String: Any] {
+            self.requestor = PaddlerUser(id: requestorID!, dictionary: requestorDict)
+        }
+        if let requesteeDict = from["requestee"] as? [String: Any] {
+            self.requestee = PaddlerUser(id: requesteeID!, dictionary: requesteeDict)
         }
     }
     

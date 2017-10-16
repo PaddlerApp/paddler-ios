@@ -18,6 +18,8 @@ class Match: NSObject {
     var winnerID: String?
     var requestorID: String?
     var requesteeID: String?
+    var requestor: PaddlerUser?
+    var requestee: PaddlerUser?
     var requestorScore: Int?
     var requesteeScore: Int?
     
@@ -49,6 +51,12 @@ class Match: NSObject {
         if let requesteeScore = data["requestee_score"] as? Int {
             self.requesteeScore = requesteeScore
         }
+        if let requestorDict = from["requestor"] as? [String: Any] {
+            self.requestor = PaddlerUser(id: requestorID!, dictionary: requestorDict)
+        }
+        if let requesteeDict = from["requestee"] as? [String: Any] {
+            self.requestee = PaddlerUser(id: requesteeID!, dictionary: requesteeDict)
+        }
     }
     
     init(from: Request) {
@@ -59,6 +67,8 @@ class Match: NSObject {
         self.winnerID = ""
         self.requestorID = from.requestorID
         self.requesteeID = from.requesteeID
+        self.requestor = from.requestor
+        self.requestee = from.requestee
         self.requestorScore = 0
         self.requesteeScore = 0
         self.id = FirebaseClient.sharedInstance.save(match: self)

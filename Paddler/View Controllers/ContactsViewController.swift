@@ -28,7 +28,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
             let profileNavVC = self.tabBarController?.viewControllers![3] as! UINavigationController
             let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
-            profileVC.directRequest = Request.createDirect(with: users.first!.id!)
+            profileVC.directRequest = Request.createDirect(with: users.first!)
             
             self.contacts = users
             //print("contacts in ContactsVC = \(self.contacts)")
@@ -75,7 +75,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
                 let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
-                profileVC.directRequest = Request.createDirect(with: contact.id!)
+                profileVC.directRequest = Request.createDirect(with: contact)
                 
                 print("create direct in MyMatchesVD - request id: \(profileVC.directRequest!.id!)")
                 print("create direct in MyMatchesVD - requestor id: \(String(describing: profileVC.directRequest!.requestorID))")

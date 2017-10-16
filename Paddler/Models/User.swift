@@ -49,6 +49,12 @@ class PaddlerUser: NSObject {
         super.init()
     }
     
+    init(id: String, dictionary: [String: Any]) {
+        super.init()
+        self.id = id
+        setData(with: dictionary)
+    }
+    
     func fetch(completion: @escaping () -> ()) {
         FirebaseClient.sharedInstance.saveUser(from: self.firUser!) { (data) in
             self.id = self.firUser!.uid
@@ -76,6 +82,29 @@ class PaddlerUser: NSObject {
         if let lossCount = with["loss_count"] as? Int {
             self.lossCount = lossCount
         }
+    }
+    
+    func serialize() -> [String : Any] {
+        var dict = [String : Any]()
+        if let firstName = self.firstName {
+            dict["first_name"] = firstName
+        }
+        if let lastName = self.lastName {
+            dict["last_name"] = lastName
+        }
+        if let email = self.email {
+            dict["email"] = email
+        }
+        if let profileString = self.profileURL {
+            dict["profile_image_url"] = profileString.absoluteString
+        }
+        if let winCount = self.winCount {
+            dict["win_count"] = winCount
+        }
+        if let lossCount = self.lossCount {
+            dict["loss_count"] = lossCount
+        }
+        return dict
     }
     
     func getMatches(completion: @escaping ([Match]) -> ()) {
