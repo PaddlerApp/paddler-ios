@@ -40,7 +40,7 @@ class FirebaseClient: NSObject {
     func getContacts(completion: @escaping ([DocumentSnapshot]) -> ()) {
         users.order(by: "last_name").getDocuments { (querySnapshot, error) in
             if let error = error {
-                print("Error getting documents: \(error)")
+                print("Error getting documents: \(error.localizedDescription)")
             } else {
                 completion(querySnapshot!.documents)
             }

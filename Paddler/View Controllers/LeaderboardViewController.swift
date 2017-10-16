@@ -12,9 +12,7 @@ class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet weak var tableView: UITableView!
     
-    var rank: Int = 1
-    
-    var users: [PaddlerUser]!
+    var users: [PaddlerUser] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,20 +22,14 @@ class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
         
-        // Do any additional setup after loading the view.
         PaddlerUser.leaderboard { (users) in
-            for user in users {
-                print(user.winCount!)
-            }
-            
             self.users = users
-            
             self.tableView.reloadData()
         }
         
         PaddlerUser.current!.hasInitiatedRequest { (request) in
             if let request = request {
-                print("user has initiatied request: \(request.id!)")
+                print("user has an initiated request: \(request.id!)")
             }
         }
     }
@@ -48,11 +40,7 @@ class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if users != nil {
-            return users!.count
-        } else {
-            return 0
-        }
+        return users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,8 +48,7 @@ class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableV
         
         let user = users[indexPath.row]
         
-        cell.rankLabel.text = "\(rank)"
-        rank = rank + 1
+        cell.rankLabel.text = "\(indexPath.row+1)"
         
         cell.playerFirstNameLabel.text = user.firstName
         cell.playerLastNameLabel.text = user.lastName

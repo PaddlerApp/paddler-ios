@@ -131,15 +131,15 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
                 profileVC.broadcastRequest = Request.createBroadcast()
                 
-                print("create broadcast in MyMatchesVD - request id: \(profileVC.broadcastRequest!.id)")
-                print("create broadcast in MyMatchesVD - requestor id: \(profileVC.broadcastRequest!.requestorID)")
+                print("create broadcast in MyMatchesVD - request id: \(profileVC.broadcastRequest!.id!)")
+                print("create broadcast in MyMatchesVD - requestor id: \(profileVC.broadcastRequest!.requestorID!)")
                 
-                print("create broadcast in MyMatchesVD - requestee id: \(profileVC.broadcastRequest!.requesteeID)")
+                print("create broadcast in MyMatchesVD - requestee id: \(profileVC.broadcastRequest!.requesteeID!)")
                 
-                print("create broadcast in MyMatchesVD - status: \(profileVC.broadcastRequest!.status)")
+                print("create broadcast in MyMatchesVD - status: \(profileVC.broadcastRequest!.status!)")
                 
-                print("create broadcast in MyMatchesVD - isDirect: \(profileVC.broadcastRequest!.isDirect)")
-                print("create broadcast in MyMatchesVD - createdAt: \(profileVC.broadcastRequest!.createdAt)")
+                print("create broadcast in MyMatchesVD - isDirect: \(profileVC.broadcastRequest!.isDirect!)")
+                print("create broadcast in MyMatchesVD - createdAt: \(profileVC.broadcastRequest!.createdAt!)")
                 
                 profileVC.broadcastRequest!.requesteeID = "2zb6QkGXIcTDfZMSxleO8IZ9DTj2"
                 
