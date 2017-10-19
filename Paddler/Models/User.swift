@@ -38,6 +38,12 @@ class PaddlerUser: NSObject {
         }
     }
     
+    var fullname: String? {
+        get {
+            return firstName! + " " + lastName!
+        }
+    }
+
     init(from: DocumentSnapshot) {
         super.init()
         self.id = from.documentID

@@ -48,6 +48,8 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             self.tableView.reloadData()
         }
         
+        print("My full name is " + PaddlerUser.current!.fullname!)
+
         /*
         let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
         let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
