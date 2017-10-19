@@ -113,6 +113,9 @@ class PaddlerUser: NSObject {
             for doc in docs {
                 matches.append(Match(from: doc))
             }
+            matches.sort(by: { (match, other) -> Bool in
+                return match.createdAt! > other.createdAt!
+            })
             completion(matches)
         }
     }
