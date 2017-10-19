@@ -38,6 +38,12 @@ class PaddlerUser: NSObject {
         }
     }
     
+    var fullname: String? {
+        get {
+            return firstName! + " " + lastName!
+        }
+    }
+
     init(from: DocumentSnapshot) {
         super.init()
         self.id = from.documentID
@@ -113,6 +119,9 @@ class PaddlerUser: NSObject {
             for doc in docs {
                 matches.append(Match(from: doc))
             }
+            matches.sort(by: { (match, other) -> Bool in
+                return match.createdAt! > other.createdAt!
+            })
             completion(matches)
         }
     }
@@ -128,12 +137,15 @@ class PaddlerUser: NSObject {
     }
     
     func hasOpenRequest(completion: @escaping (Request?) -> ()) {
-        FirebaseClient.sharedInstance.getOpenRequest(forUser: self) { (document) in
-            if let document = document {
-                completion(Request(from: document))
-            } else {
-                completion(nil)
+        FirebaseClient.sharedInstance.getOpenRequests { (documents) in
+            for document in documents {
+                let request = Request(from: document)
+                if request.requesteeID == self.id || request.requesteeID == "" {
+                    completion(Request(from: document))
+                    return
+                }
             }
+            completion(nil)
         }
     }
     
