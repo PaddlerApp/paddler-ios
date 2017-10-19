@@ -15,20 +15,6 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     
     var matches: [Match]!
     
-    /*
-    let hardCodedRequestee = PaddlerUser() {
-        // requestee object
-        hardCodedRequestee.id = "2zb6QkGXIcTDfZMSxleO8IZ9DTj2"
-        hardCodedRequestee.email = "pprabahar@hearsaycorp.com"
-        hardCodedRequestee.firstName = "Prithvi"
-        hardCodedRequestee.lastName = "Prabahar"
-        hardCodedRequestee.profileURL = NSURL(string: "https://lh3.googleusercontent.com/-09oYUnuMRNc/AAAAAAAAAAI/AAAAAAAAAAA/ACnBePZjZjtj2RL2Rp5o6CitYrrLz1U1Lw/s96-c/photo.jpg") as? URL
-        hardCodedRequestee.winCount = 2
-        hardCodedRequestee.lossCount = 0
-    
-    }
- */
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +24,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 162
-        // Do any additional setup after loading the view.
+
         PaddlerUser.current!.getMatches { (matches) in
             for match in matches {
                 print("print in MyMatchesVC - match.createdAt: \(match.createdAt!)")
@@ -63,18 +49,13 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
         
-        // refresh control
         let refreshControl = UIRefreshControl()
-        
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
-        
         tableView.insertSubview(refreshControl, at: 0)
-        // refresh control - end
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
