@@ -134,6 +134,16 @@ class FirebaseClient: NSObject {
             "requestor_score"   : match.requestorScore!,
             "winner_id"         : match.winnerID!
             ])
+        let winnerRef = users.document(match.winnerID!)
+        let winner = match.requestor!.id! == match.winnerID! ? match.requestor! : match.requestee!
+        let loser = match.requestor!.id! == match.loserID! ? match.requestor! : match.requestee!
+        winnerRef.updateData([
+            "win_count"          : winner.winCount! + 1
+            ])
+        let loserRef = users.document(match.loserID!)
+        loserRef.updateData([
+            "loss_count"          : loser.lossCount! + 1
+            ])
     }
     
     func getInitiatedRequest(forUser: PaddlerUser, completion: @escaping (DocumentSnapshot?) -> ()) {
