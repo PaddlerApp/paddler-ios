@@ -54,16 +54,12 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         profileVC.broadcastRequest = Request.createBroadcast()
         */
         
-        /*
         PaddlerUser.current!.hasOpenRequest { (request) in
             if let request = request {
                 print("user has open request with: \(request.requestorID!)")
-                let match = request.accept()
-                print("user has started match: \(match.id!)")
-                match.finish(myScore: 11, andOtherScore: 3)
+                print("request is direct?: \(request.isDirect!)")
             }
         }
- */
         
         // refresh control
         let refreshControl = UIRefreshControl()
