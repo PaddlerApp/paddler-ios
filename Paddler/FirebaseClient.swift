@@ -137,7 +137,7 @@ class FirebaseClient: NSObject {
     }
     
     func getInitiatedRequest(forUser: PaddlerUser, completion: @escaping (DocumentSnapshot?) -> ()) {
-        requests.whereField("requestor", isEqualTo: forUser.id!)
+        requests.whereField("requestor_id", isEqualTo: forUser.id!)
             .whereField("status", isEqualTo: "open")
             .getDocuments { (querySnapshot, error) in
             if let error = error {
@@ -149,7 +149,7 @@ class FirebaseClient: NSObject {
     }
     
     func getOpenRequest(forUser: PaddlerUser, completion: @escaping (DocumentSnapshot?) -> ()) {
-        requests.whereField("requestee", isEqualTo: forUser.id!)
+        requests.whereField("requestee_id", isEqualTo: forUser.id!)
             .whereField("status", isEqualTo: "open")
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
