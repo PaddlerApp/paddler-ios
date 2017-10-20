@@ -45,7 +45,9 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         PaddlerUser.current!.hasOpenRequest { (request) in
             if let request = request {
                 print("user has open request with: \(request.requestorID!)")
-                print("request is direct?: \(request.isDirect!)")
+                //let match = request.accept()
+                //print("user has started match: \(match.id!)")
+                //match.finish(myScore: 11, andOtherScore: 3)
             }
         }
         
