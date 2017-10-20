@@ -8,14 +8,19 @@
 
 import UIKit
 
-class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     var contacts: [PaddlerUser] = []
+    var filteredData: [PaddlerUser] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        searchBar.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -31,6 +36,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             profileVC.directRequest = Request.createDirect(with: users.first!)
             
             self.contacts = users
+            self.filteredData = users
             //print("contacts in ContactsVC = \(self.contacts)")
             //print("contact count: \(self.contacts!.count)")
             
@@ -44,13 +50,18 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contacts.count
+        if contacts != nil {
+            return filteredData.count //return filteredData!.count
+        }
+        else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactCell
         
-        let contact = contacts[indexPath.row]
+        let contact = filteredData[indexPath.row]
         cell.requestMatchButton.tag = indexPath.row
         
         cell.playerNameLabel.text = "\(contact.firstName!) \(contact.lastName!) "
@@ -109,6 +120,47 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
+    
+    //search bar functionality related
+    // This method updates filteredData based on the text in the Search Box
+    // When there is no text, filteredData is the same as the original data
+    // When user has entered text into the search box
+    // Use the filter method to iterate over all items in the data array
+    // For each item, return true if the item should be included and false if the
+    // item should NOT be included
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("searchText: \(searchText)")
+        if !searchText.isEmpty {
+            print(self.contacts.count)
+            filteredData = self.contacts.filter { (user: PaddlerUser) -> Bool in
+                // If dataItem matches the searchText, return true to include it
+                let firstName = user.firstName
+                print("first match: \(firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil))")
+                return firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+            }
+        } else {
+            filteredData = self.contacts
+        }
+//        filteredData = searchText.isEmpty ? self.contacts : self.contacts.filter { (user: PaddlerUser) -> Bool in
+//            // If dataItem matches the searchText, return true to include it
+//            let firstName = user.firstName
+//            print("first match: \(firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil))")
+//            return firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+//        }
+        
+        tableView.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+    //search bar functionality related - end
     
     @IBAction func onTapButton(_ sender: UITapGestureRecognizer) {
         var view: UIView!
