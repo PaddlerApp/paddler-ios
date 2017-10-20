@@ -33,8 +33,8 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         let requestor = match.requestor!
         let requestee = match.requestee!
         
-        playerOneNameLabel.text = requestor.firstName! + " " + requestor.lastName!
-        playerTwoNameLabel.text = "Prithvi Prabahar"//requestee.firstName! + " " + requestee.lastName!
+        playerOneNameLabel.text = requestor.fullname
+        playerTwoNameLabel.text = requestee.fullname
         
         playerOneScoreTextField.delegate = self
         playerTwoScoreTextField.delegate = self
