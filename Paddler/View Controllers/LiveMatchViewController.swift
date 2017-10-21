@@ -80,7 +80,7 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         match.requestorScore = Int(playerOneScoreTextField.text!)
         match.requesteeScore = Int(playerTwoScoreTextField.text!)
         
-        match.finish(myScore: match.requestorScore!, andOtherScore: match.requesteeScore!)
+        match.finish(requestorScore: match.requestorScore!, andRequesteeScore: match.requesteeScore!)
         dismiss(animated: true, completion: nil)
         print("------------ finished a game ------------")
         print("live match id: \(match.id)")
