@@ -528,7 +528,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Li7-na-TVl">
-                                <rect key="frame" x="25.5" y="172" width="140" height="100"/>
+                                <rect key="frame" x="25.5" y="222" width="140" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="140" id="Fc8-VX-IQX"/>
                                     <constraint firstAttribute="height" constant="100" id="gTY-6j-kt1"/>
@@ -538,7 +538,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="skt-fu-8wL">
-                                <rect key="frame" x="210" y="172" width="140" height="100"/>
+                                <rect key="frame" x="210" y="222" width="140" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="3fW-Da-36R"/>
                                     <constraint firstAttribute="width" constant="140" id="dnt-Uj-IBZ"/>
@@ -548,19 +548,19 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8d-Od-Ffg">
-                                <rect key="frame" x="184" y="211" width="6.5" height="17"/>
+                                <rect key="frame" x="184" y="261" width="6.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppE-jt-gCQ">
-                                <rect key="frame" x="180.5" y="129" width="14.5" height="17"/>
+                                <rect key="frame" x="180.5" y="179" width="14.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ann" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mei-Cp-mud">
-                                <rect key="frame" x="210" y="123" width="42" height="29"/>
+                                <rect key="frame" x="210" y="173" width="42" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -582,24 +582,42 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lld-pt-7ZJ">
-                                <rect key="frame" x="127.5" y="123" width="38" height="29"/>
+                                <rect key="frame" x="127.5" y="173" width="38" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ItY-zN-bBj">
+                                <rect key="frame" x="125" y="125" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="0sT-R2-xWy"/>
+                                    <constraint firstAttribute="width" constant="40" id="Wko-ni-KSJ"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r41-v0-6Gs">
+                                <rect key="frame" x="210" y="125" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="7ar-Om-wkS"/>
+                                    <constraint firstAttribute="height" constant="40" id="eRc-QT-Hpt"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="ppE-jt-gCQ" firstAttribute="top" secondItem="nC2-t0-QQ0" secondAttribute="bottom" constant="50" id="BQ9-PB-QwZ"/>
+                            <constraint firstItem="ppE-jt-gCQ" firstAttribute="top" secondItem="nC2-t0-QQ0" secondAttribute="bottom" constant="100" id="BQ9-PB-QwZ"/>
                             <constraint firstItem="Mei-Cp-mud" firstAttribute="centerY" secondItem="Lld-pt-7ZJ" secondAttribute="centerY" id="CGK-If-PcK"/>
                             <constraint firstItem="ppE-jt-gCQ" firstAttribute="centerY" secondItem="Lld-pt-7ZJ" secondAttribute="centerY" id="J3Q-Tt-usM"/>
                             <constraint firstItem="skt-fu-8wL" firstAttribute="leading" secondItem="Mei-Cp-mud" secondAttribute="leading" id="SDk-W8-387"/>
+                            <constraint firstItem="Lld-pt-7ZJ" firstAttribute="top" secondItem="ItY-zN-bBj" secondAttribute="bottom" constant="8" id="SgL-nq-pF2"/>
                             <constraint firstItem="Li7-na-TVl" firstAttribute="trailing" secondItem="Lld-pt-7ZJ" secondAttribute="trailing" id="T8u-c0-EgI"/>
                             <constraint firstItem="nC2-t0-QQ0" firstAttribute="top" secondItem="Mge-8Q-oEq" secondAttribute="top" constant="30" id="XHZ-rb-E0E"/>
                             <constraint firstItem="H8d-Od-Ffg" firstAttribute="top" secondItem="ppE-jt-gCQ" secondAttribute="bottom" constant="65" id="YD6-Fr-F5C"/>
+                            <constraint firstItem="Mei-Cp-mud" firstAttribute="top" secondItem="r41-v0-6Gs" secondAttribute="bottom" constant="8" id="YQM-9X-3Vz"/>
                             <constraint firstItem="ppE-jt-gCQ" firstAttribute="leading" secondItem="Lld-pt-7ZJ" secondAttribute="trailing" constant="15" id="ah3-fZ-04h"/>
                             <constraint firstItem="Li7-na-TVl" firstAttribute="top" secondItem="Lld-pt-7ZJ" secondAttribute="bottom" constant="20" id="b3X-Sg-nVS"/>
+                            <constraint firstItem="Lld-pt-7ZJ" firstAttribute="trailing" secondItem="ItY-zN-bBj" secondAttribute="trailing" id="foP-J9-z3a"/>
                             <constraint firstItem="ppE-jt-gCQ" firstAttribute="centerX" secondItem="fk3-6f-cLY" secondAttribute="centerX" id="g94-ei-AUI"/>
+                            <constraint firstItem="Mei-Cp-mud" firstAttribute="leading" secondItem="r41-v0-6Gs" secondAttribute="leading" id="ghy-BJ-ecR"/>
                             <constraint firstItem="Mei-Cp-mud" firstAttribute="leading" secondItem="ppE-jt-gCQ" secondAttribute="trailing" constant="15" id="iXZ-QC-Lpu"/>
                             <constraint firstItem="nC2-t0-QQ0" firstAttribute="centerX" secondItem="fk3-6f-cLY" secondAttribute="centerX" id="km3-1R-NTZ"/>
                             <constraint firstItem="skt-fu-8wL" firstAttribute="top" secondItem="Mei-Cp-mud" secondAttribute="bottom" constant="20" id="nyK-gE-mAr"/>
@@ -608,8 +626,10 @@
                         <viewLayoutGuide key="safeArea" id="Mge-8Q-oEq"/>
                     </view>
                     <connections>
+                        <outlet property="playerOneImageView" destination="ItY-zN-bBj" id="BbZ-2I-RFj"/>
                         <outlet property="playerOneNameLabel" destination="Lld-pt-7ZJ" id="GM1-up-Ohs"/>
                         <outlet property="playerOneScoreTextField" destination="Li7-na-TVl" id="CgD-Yx-7Xj"/>
+                        <outlet property="playerTwoImageView" destination="r41-v0-6Gs" id="7dN-pv-rwv"/>
                         <outlet property="playerTwoNameLabel" destination="Mei-Cp-mud" id="hV2-2Z-CAV"/>
                         <outlet property="playerTwoScoreTextField" destination="skt-fu-8wL" id="CoG-eG-ohG"/>
                     </connections>

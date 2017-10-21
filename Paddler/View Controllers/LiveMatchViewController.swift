@@ -9,7 +9,9 @@
 import UIKit
 
 class LiveMatchViewController: UIViewController, UITextFieldDelegate {
-
+    
+    @IBOutlet weak var playerOneImageView: UIImageView!
+    @IBOutlet weak var playerTwoImageView: UIImageView!
     @IBOutlet weak var playerOneNameLabel: UILabel!
     @IBOutlet weak var playerTwoNameLabel: UILabel!
     @IBOutlet weak var playerOneScoreTextField: UITextField!
@@ -32,6 +34,30 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         
         let requestor = match.requestor!
         let requestee = match.requestee!
+        
+        if requestor.profileURL != nil {
+            let url = requestor.profileURL
+            let data = try? Data(contentsOf: url!)
+            playerOneImageView.image = UIImage(data: data!)
+            //.setImageWith(currentUser.imageURL!)
+        } else {
+            playerOneImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        if requestee.profileURL != nil {
+            let url = requestee.profileURL
+            let data = try? Data(contentsOf: url!)
+            playerTwoImageView.image = UIImage(data: data!)
+            //.setImageWith(currentUser.imageURL!)
+        } else {
+            playerTwoImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        playerOneImageView.layer.cornerRadius = playerOneImageView.frame.size.width / 2
+        playerOneImageView.clipsToBounds = true
+        
+        playerTwoImageView.layer.cornerRadius = playerTwoImageView.frame.size.width / 2
+        playerTwoImageView.clipsToBounds = true
         
         playerOneNameLabel.text = requestor.fullname
         playerTwoNameLabel.text = requestee.fullname
