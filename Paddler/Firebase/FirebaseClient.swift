@@ -104,6 +104,16 @@ class FirebaseClient: NSObject {
         }
     }
     
+    func addToken(forUser: PaddlerUser) {
+        let id: String = forUser.id!
+        let docRef = users.document(id)
+        if let token = Messaging.messaging().fcmToken {
+            docRef.updateData([
+                "token" : token
+                ])
+        }
+    }
+    
     func save(request: Request) -> String {
         let docRef = requests.document()
         docRef.setData([
