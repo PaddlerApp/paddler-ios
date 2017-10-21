@@ -37,9 +37,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
             self.contacts = users
             self.filteredData = users
-            //print("contacts in ContactsVC = \(self.contacts)")
-            //print("contact count: \(self.contacts!.count)")
-            
+    
             self.tableView.reloadData()
         }
     }
@@ -65,7 +63,15 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.requestMatchButton.tag = indexPath.row
         
         cell.playerNameLabel.text = "\(contact.firstName!) \(contact.lastName!) "
-        //cell.requestGameButton. = "Request Game"
+        
+        /*
+        // if user has an open request or initiated an open request, disable button
+        PaddlerUser.current!.hasOpenRequest { (request) in
+            if let request = request {
+                cell.requestMatchButton.setTitle("Request Match", for: .disabled)
+            }
+        }
+ */
         
         cell.selectionStyle = .none // get rid of gray selection
         
@@ -102,17 +108,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
                 print("user has started match: \(match.id!)")
                 
                 liveMatchViewController.match = match
-                /*
-                 PaddlerUser.current!.hasOpenRequest { (request) in
-                 if let request = request {
-                 print("user has open request with: \(request.requestorID!)")
-                 let match = request.accept()
-                 print("user has started match: \(match.id!)")
-                 self.matchId = match.id!
-                 //match.finish(myScore: 11, andOtherScore: 3)
-                 }
-                 }
-                 */
                 
             } else if requestMatchButton.titleLabel?.text == "Game in Progress" {
                 // if there's a game in progress, current user is requestee and can't do anything
@@ -134,9 +129,9 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             print(self.contacts.count)
             filteredData = self.contacts.filter { (user: PaddlerUser) -> Bool in
                 // If dataItem matches the searchText, return true to include it
-                let firstName = user.firstName
-                print("first match: \(firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil))")
-                return firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+                let fullName = user.fullname
+                print("first match: \(fullName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil))")
+                return fullName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
             }
         } else {
             filteredData = self.contacts

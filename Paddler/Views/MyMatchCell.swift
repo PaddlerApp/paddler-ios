@@ -11,8 +11,8 @@ import UIKit
 class MyMatchCell: UITableViewCell {
 
     @IBOutlet weak var matchTimestampLabel: UILabel!
-    //@IBOutlet weak var playerOneWinnerImageView: UIImageView!
-    //@IBOutlet weak var playerTwoWinnerImageView: UIImageView!
+    @IBOutlet weak var playerOneImageView: UIImageView!
+    @IBOutlet weak var playerTwoImageView: UIImageView!
     @IBOutlet weak var playerOneNameLabel: UILabel!
     @IBOutlet weak var playerTwoNameLabel: UILabel!
     @IBOutlet weak var playerOneScoreLabel: UILabel!
@@ -24,6 +24,10 @@ class MyMatchCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        playerOneImageView.layer.cornerRadius = 20
+        playerOneImageView.clipsToBounds = true
+        playerTwoImageView.layer.cornerRadius = 20
+        playerTwoImageView.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
