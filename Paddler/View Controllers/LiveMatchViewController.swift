@@ -9,7 +9,9 @@
 import UIKit
 
 class LiveMatchViewController: UIViewController, UITextFieldDelegate {
-
+    
+    @IBOutlet weak var playerOneImageView: UIImageView!
+    @IBOutlet weak var playerTwoImageView: UIImageView!
     @IBOutlet weak var playerOneNameLabel: UILabel!
     @IBOutlet weak var playerTwoNameLabel: UILabel!
     @IBOutlet weak var playerOneScoreTextField: UITextField!
@@ -33,8 +35,32 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         let requestor = match.requestor!
         let requestee = match.requestee!
         
-        playerOneNameLabel.text = requestor.firstName! + " " + requestor.lastName!
-        playerTwoNameLabel.text = "Prithvi Prabahar"//requestee.firstName! + " " + requestee.lastName!
+        if requestor.profileURL != nil {
+            let url = requestor.profileURL
+            let data = try? Data(contentsOf: url!)
+            playerOneImageView.image = UIImage(data: data!)
+            //.setImageWith(currentUser.imageURL!)
+        } else {
+            playerOneImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        if requestee.profileURL != nil {
+            let url = requestee.profileURL
+            let data = try? Data(contentsOf: url!)
+            playerTwoImageView.image = UIImage(data: data!)
+            //.setImageWith(currentUser.imageURL!)
+        } else {
+            playerTwoImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        playerOneImageView.layer.cornerRadius = playerOneImageView.frame.size.width / 2
+        playerOneImageView.clipsToBounds = true
+        
+        playerTwoImageView.layer.cornerRadius = playerTwoImageView.frame.size.width / 2
+        playerTwoImageView.clipsToBounds = true
+        
+        playerOneNameLabel.text = requestor.fullname
+        playerTwoNameLabel.text = requestee.fullname
         
         playerOneScoreTextField.delegate = self
         playerTwoScoreTextField.delegate = self
@@ -46,12 +72,16 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onCancelButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func saveGameButton(_ sender: Any) {
         match.requestorScore = Int(playerOneScoreTextField.text!)
         match.requesteeScore = Int(playerTwoScoreTextField.text!)
         
         match.finish(myScore: match.requestorScore!, andOtherScore: match.requesteeScore!)
-        
+        dismiss(animated: true, completion: nil)
         print("------------ finished a game ------------")
         print("live match id: \(match.id)")
         print("live match created at: \(match.createdAt)")

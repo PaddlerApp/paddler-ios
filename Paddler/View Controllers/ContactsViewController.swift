@@ -37,9 +37,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
             self.contacts = users
             self.filteredData = users
-            //print("contacts in ContactsVC = \(self.contacts)")
-            //print("contact count: \(self.contacts!.count)")
-            
+    
             self.tableView.reloadData()
         }
     }
@@ -64,8 +62,24 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         let contact = filteredData[indexPath.row]
         cell.requestMatchButton.tag = indexPath.row
         
-        cell.playerNameLabel.text = "\(contact.firstName!) \(contact.lastName!) "
-        //cell.requestGameButton. = "Request Game"
+        if contact.profileURL != nil {
+            let url = contact.profileURL
+            let data = try? Data(contentsOf: url!)
+            cell.profileImageView.image = UIImage(data: data!)
+        } else {
+            cell.profileImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        cell.playerNameLabel.text = "\(contact.fullname!) "
+        
+        /*
+        // if user has an open request or initiated an open request, disable button
+        PaddlerUser.current!.hasOpenRequest { (request) in
+            if let request = request {
+                cell.requestMatchButton.setTitle("Request Match", for: .disabled)
+            }
+        }
+ */
         
         cell.selectionStyle = .none // get rid of gray selection
         
@@ -82,7 +96,8 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
             if requestMatchButton.titleLabel?.text == "Request Match" {
                 // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
-                let liveMatchViewController = segue.destination as! LiveMatchViewController
+                let navigationController = segue.destination as! UINavigationController
+                let liveMatchViewController = navigationController.topViewController as! LiveMatchViewController
             
                 let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
@@ -102,17 +117,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
                 print("user has started match: \(match.id!)")
                 
                 liveMatchViewController.match = match
-                /*
-                 PaddlerUser.current!.hasOpenRequest { (request) in
-                 if let request = request {
-                 print("user has open request with: \(request.requestorID!)")
-                 let match = request.accept()
-                 print("user has started match: \(match.id!)")
-                 self.matchId = match.id!
-                 //match.finish(myScore: 11, andOtherScore: 3)
-                 }
-                 }
-                 */
                 
             } else if requestMatchButton.titleLabel?.text == "Game in Progress" {
                 // if there's a game in progress, current user is requestee and can't do anything
@@ -121,32 +125,18 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    //search bar functionality related
-    // This method updates filteredData based on the text in the Search Box
-    // When there is no text, filteredData is the same as the original data
-    // When user has entered text into the search box
-    // Use the filter method to iterate over all items in the data array
-    // For each item, return true if the item should be included and false if the
-    // item should NOT be included
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print("searchText: \(searchText)")
         if !searchText.isEmpty {
             print(self.contacts.count)
             filteredData = self.contacts.filter { (user: PaddlerUser) -> Bool in
                 // If dataItem matches the searchText, return true to include it
-                let firstName = user.firstName
-                print("first match: \(firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil))")
-                return firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+                let fullName = user.fullname
+                return fullName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
             }
         } else {
             filteredData = self.contacts
         }
-//        filteredData = searchText.isEmpty ? self.contacts : self.contacts.filter { (user: PaddlerUser) -> Bool in
-//            // If dataItem matches the searchText, return true to include it
-//            let firstName = user.firstName
-//            print("first match: \(firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil))")
-//            return firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
-//        }
         
         tableView.reloadData()
     }

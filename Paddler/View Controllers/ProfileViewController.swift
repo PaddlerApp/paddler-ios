@@ -41,6 +41,9 @@ class ProfileViewController: UIViewController {
             profileImageView.image = UIImage(named:"people-placeholder.png")
         }
         
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
+        profileImageView.clipsToBounds = true
+        
         playerNameLabel.text = "\(firstName) \(lastName)"
         playerWinsLabel.text = "\(winCount)"
         playerLossesLabel.text = "\(lossCount)"

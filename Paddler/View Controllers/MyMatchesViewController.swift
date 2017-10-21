@@ -14,11 +14,15 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var requestGameButton: UIButton!
     
     var matches: [Match]!
+    var openRequest: Request!
+    var currentRequestStatus: Int!
+    
+    enum RequestState: Int {
+        case NO_REQUEST = 0, HAS_OPEN_REQUEST, REQUEST_ACCEPTED
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -34,7 +38,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             self.tableView.reloadData()
         }
         
-        print("My full name is " + PaddlerUser.current!.fullname!)
+        //print("My full name is " + PaddlerUser.current!.fullname!)
 
         /*
         let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
@@ -42,15 +46,25 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         profileVC.broadcastRequest = Request.createBroadcast()
         */
         
+        // if there's an open broadcast or direct request - set button to be Accept Match
         PaddlerUser.current!.hasOpenRequest { (request) in
             if let request = request {
                 print("user has open request with: \(request.requestorID!)")
-                //let match = request.accept()
-                //print("user has started match: \(match.id!)")
-                //match.finish(myScore: 11, andOtherScore: 3)
+                
+                self.requestGameButton.tag = RequestState.HAS_OPEN_REQUEST.rawValue
+                self.requestGameButton.setTitle("Accept Match from \((request.requestor?.fullname)!)", for: .normal)
+                
+                self.openRequest = request
+               
+                print("open direct request in MyMatchesVC - request id: \(self.openRequest.id!)")
+                print("open direct request in MyMatchesVC - requestor name: \(self.openRequest.requestor?.fullname)")
+                
+                print("open direct request in MyMatchesVC - requestee name: \(self.openRequest.requestee?.fullname)")
+                
             }
         }
         
+        // refresh control
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
@@ -74,22 +88,28 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         let match = matches[indexPath.row]
         
         cell.matchTimestampLabel.text = "\(String(describing: match.createdAt!))"
-        
-        /* Add profile Image
-         //thumbImageView.setImageWith(business.imageURL!)
-         if business.imageURL != nil {
-         thumbImageView.setImageWith(business.imageURL!)
-         } else {
-         //thumbImageView.setImageWith(UIImage(named:"bizimage-small.png"))
-         thumbImageView.image = UIImage(named:"bizimage-small.png")
-         }
-         */
-        
+
         let requestor = match.requestor!
         let requestee = match.requestee!
         
-        cell.playerOneNameLabel.text = requestor.firstName! + " " + requestor.lastName!
-        cell.playerTwoNameLabel.text = requestee.firstName! + " " + requestee.lastName!
+        if match.requestor?.profileURL != nil {
+            let url = match.requestor?.profileURL
+            let data = try? Data(contentsOf: url!)
+            cell.playerOneImageView.image = UIImage(data: data!)
+        } else {
+            cell.playerOneImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        if match.requestee?.profileURL != nil {
+            let url = match.requestee?.profileURL
+            let data = try? Data(contentsOf: url!)
+            cell.playerTwoImageView.image = UIImage(data: data!)
+        } else {
+            cell.playerTwoImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        cell.playerOneNameLabel.text = requestor.fullname
+        cell.playerTwoNameLabel.text = requestee.fullname
         cell.playerOneScoreLabel.text = "\(String(describing: match.requestorScore!))"
         cell.playerTwoScoreLabel.text = "\(String(describing: match.requesteeScore!))"
         
@@ -121,67 +141,54 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "myMatchesToLiveMatchSegue" {
+        let navigationController = segue.destination as! UINavigationController
+        let liveMatchViewController = navigationController.topViewController as! LiveMatchViewController
             
-            if requestGameButton.titleLabel?.text == "Request Match" {
-                // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
-                let liveMatchViewController = segue.destination as! LiveMatchViewController
-                
-                let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
-                let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
-                profileVC.broadcastRequest = Request.createBroadcast()
-                
-                
-                
-                print("create broadcast in MyMatchesVC - request id: \(profileVC.broadcastRequest!.id!)")
-                print("create broadcast in MyMatchesVC - requestor id: \(profileVC.broadcastRequest!.requestorID!)")
-                
-                //print("hardCodedRequestee: \(hardCodedRequestee)")
-                    
-                //profileVC.broadcastRequest!.requestee = hardCodedRequestee
+        if self.requestGameButton.tag == RequestState.NO_REQUEST.rawValue {
+            // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
             
-                
-                profileVC.broadcastRequest!.requesteeID = "2zb6QkGXIcTDfZMSxleO8IZ9DTj2"
-                
-                print("create broadcast in MyMatchesVC - requestee id - hard coded: \(profileVC.broadcastRequest!.requesteeID!)")
-                
-                //print("hardCodedRequestee: \(hardCodedRequestee)")
-                
-                print("create broadcast in MyMatchesVC - requestee - hard coded: \(profileVC.broadcastRequest!.requestee!)")
-                
-                print("create broadcast in MyMatchesVC - requestee id: \(profileVC.broadcastRequest!.requesteeID!)")
-                
-                print("create broadcast in MyMatchesVC - status: \(profileVC.broadcastRequest!.status!)")
-                
-                print("create broadcast in MyMatchesVC - isDirect: \(profileVC.broadcastRequest!.isDirect!)")
-                print("create broadcast in MyMatchesVC - createdAt: \(profileVC.broadcastRequest!.createdAt!)")
-                
-                
-                
-                let match = profileVC.broadcastRequest!.accept()
-                print("user has started match: \(match.id!)")
-                
-                liveMatchViewController.match = match
-                /*
-                 PaddlerUser.current!.hasOpenRequest { (request) in
-                 if let request = request {
-                 print("user has open request with: \(request.requestorID!)")
-                 let match = request.accept()
-                 print("user has started match: \(match.id!)")
-                 self.matchId = match.id!
-                 //match.finish(myScore: 11, andOtherScore: 3)
-                 }
-                 }
-                 */
-                
-            } else if requestGameButton.titleLabel?.text == "Accept Match" {
-                // if there's a broadcast or a direct request, current user can accept the game as a requestee
-                
-            } else if requestGameButton.titleLabel?.text == "Game in Progress" {
-                // if there's a game in progress, current user is requestee and can't do anything
-                // do nothing
-            }
-        } 
+            let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
+            let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
+            profileVC.broadcastRequest = Request.createBroadcast()
+            
+            print("create broadcast in MyMatchesVC - request id: \(profileVC.broadcastRequest!.id!)")
+            print("create broadcast in MyMatchesVC - requestor id: \(profileVC.broadcastRequest!.requestorID!)")
+            
+            print("create broadcast in MyMatchesVC - requestee id - hard coded: \(profileVC.broadcastRequest!.requesteeID!)")
+            //print("hardCodedRequestee: \(hardCodedRequestee)")
+            
+            //let user = PaddlerUser()
+            
+            print("create broadcast in MyMatchesVC - requestee - hard coded: \(profileVC.broadcastRequest!.requestee!)")
+            print("create broadcast in MyMatchesVC - requestee id: \(profileVC.broadcastRequest!.requesteeID!)")
+            print("create broadcast in MyMatchesVC - status: \(profileVC.broadcastRequest!.status!)")
+            print("create broadcast in MyMatchesVC - isDirect: \(profileVC.broadcastRequest!.isDirect!)")
+            print("create broadcast in MyMatchesVC - createdAt: \(profileVC.broadcastRequest!.createdAt!)")
+            
+            let match = profileVC.broadcastRequest!.accept()
+            
+            // figure out a logic to make button in
+            print("user has started match: \(match.id!)")
+            liveMatchViewController.match = match
+            
+            
+        } else if self.requestGameButton.tag == RequestState.HAS_OPEN_REQUEST.rawValue {
+            // if there's a broadcast or a direct request, current user can accept the game as a requestee
+            
+            print("accept a direct match request")
+            
+            print("open direct request in MyMatchesVC - request id: \(openRequest.id!)")
+            print("open direct request in MyMatchesVC - requestor id: \(openRequest.requestorID!)")
+            
+            let match = openRequest.accept()
+            print("user has accepted match: \(match.id!)")
+            liveMatchViewController.match = match
+
+        } //else if self.requestGameButton.tag == RequestState.REQUEST_ACCEPTED { // has made request but waiting for acception
+            
+            
+        //}
     }
+    
     
 }

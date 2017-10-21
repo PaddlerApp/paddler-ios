@@ -17,10 +17,13 @@ class RankCell: UITableViewCell {
     
     @IBOutlet weak var playerWinsLabel: UILabel!
     @IBOutlet weak var playerLossesLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
+        profileImageView.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
