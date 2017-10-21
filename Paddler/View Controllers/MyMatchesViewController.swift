@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import UserNotifications
 
-class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UNUserNotificationCenterDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var requestGameButton: UIButton!
@@ -23,6 +24,8 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        registerForNotifs()
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -190,5 +193,22 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         //}
     }
     
+    func registerForNotifs() {
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+        
+        UIApplication.shared.registerForRemoteNotifications()
+    }
     
 }
