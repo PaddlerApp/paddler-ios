@@ -96,7 +96,8 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
             if requestMatchButton.titleLabel?.text == "Request Match" {
                 // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
-                let liveMatchViewController = segue.destination as! LiveMatchViewController
+                let navigationController = segue.destination as! UINavigationController
+                let liveMatchViewController = navigationController.topViewController as! LiveMatchViewController
             
                 let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController

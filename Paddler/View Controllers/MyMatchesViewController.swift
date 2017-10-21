@@ -141,7 +141,8 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       let liveMatchViewController = segue.destination as! LiveMatchViewController
+        let navigationController = segue.destination as! UINavigationController
+        let liveMatchViewController = navigationController.topViewController as! LiveMatchViewController
             
         if self.requestGameButton.tag == RequestState.NO_REQUEST.rawValue {
             // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
@@ -152,7 +153,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             
             print("create broadcast in MyMatchesVC - request id: \(profileVC.broadcastRequest!.id!)")
             print("create broadcast in MyMatchesVC - requestor id: \(profileVC.broadcastRequest!.requestorID!)")
-            //profileVC.broadcastRequest!.requesteeID = "2zb6QkGXIcTDfZMSxleO8IZ9DTj2"
+            
             print("create broadcast in MyMatchesVC - requestee id - hard coded: \(profileVC.broadcastRequest!.requesteeID!)")
             //print("hardCodedRequestee: \(hardCodedRequestee)")
             

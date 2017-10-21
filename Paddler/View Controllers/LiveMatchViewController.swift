@@ -72,12 +72,16 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onCancelButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func saveGameButton(_ sender: Any) {
         match.requestorScore = Int(playerOneScoreTextField.text!)
         match.requesteeScore = Int(playerTwoScoreTextField.text!)
         
         match.finish(myScore: match.requestorScore!, andOtherScore: match.requesteeScore!)
-        
+        dismiss(animated: true, completion: nil)
         print("------------ finished a game ------------")
         print("live match id: \(match.id)")
         print("live match created at: \(match.createdAt)")
