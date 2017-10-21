@@ -24,9 +24,9 @@ class MyMatchCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        playerOneImageView.layer.cornerRadius = 20
+        playerOneImageView.layer.cornerRadius = playerOneImageView.frame.size.width / 2
         playerOneImageView.clipsToBounds = true
-        playerTwoImageView.layer.cornerRadius = 20
+        playerTwoImageView.layer.cornerRadius = playerTwoImageView.frame.size.width / 2
         playerTwoImageView.clipsToBounds = true
     }
 

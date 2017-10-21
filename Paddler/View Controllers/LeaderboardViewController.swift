@@ -50,6 +50,14 @@ class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableV
         
         cell.rankLabel.text = "\(indexPath.row+1)"
         
+        if user.profileURL != nil {
+            let url = user.profileURL
+            let data = try? Data(contentsOf: url!)
+            cell.profileImageView.image = UIImage(data: data!)
+        } else {
+            cell.profileImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
         cell.playerFirstNameLabel.text = user.firstName
         cell.playerLastNameLabel.text = user.lastName
         cell.playerWinsLabel.text = "\(user.winCount ?? 0)"

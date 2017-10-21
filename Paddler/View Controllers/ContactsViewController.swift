@@ -62,7 +62,15 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         let contact = filteredData[indexPath.row]
         cell.requestMatchButton.tag = indexPath.row
         
-        cell.playerNameLabel.text = "\(contact.firstName!) \(contact.lastName!) "
+        if contact.profileURL != nil {
+            let url = contact.profileURL
+            let data = try? Data(contentsOf: url!)
+            cell.profileImageView.image = UIImage(data: data!)
+        } else {
+            cell.profileImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        cell.playerNameLabel.text = "\(contact.fullname!) "
         
         /*
         // if user has an open request or initiated an open request, disable button
@@ -116,13 +124,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    //search bar functionality related
-    // This method updates filteredData based on the text in the Search Box
-    // When there is no text, filteredData is the same as the original data
-    // When user has entered text into the search box
-    // Use the filter method to iterate over all items in the data array
-    // For each item, return true if the item should be included and false if the
-    // item should NOT be included
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print("searchText: \(searchText)")
         if !searchText.isEmpty {
@@ -130,18 +131,11 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             filteredData = self.contacts.filter { (user: PaddlerUser) -> Bool in
                 // If dataItem matches the searchText, return true to include it
                 let fullName = user.fullname
-                print("first match: \(fullName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil))")
                 return fullName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
             }
         } else {
             filteredData = self.contacts
         }
-//        filteredData = searchText.isEmpty ? self.contacts : self.contacts.filter { (user: PaddlerUser) -> Bool in
-//            // If dataItem matches the searchText, return true to include it
-//            let firstName = user.firstName
-//            print("first match: \(firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil))")
-//            return firstName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
-//        }
         
         tableView.reloadData()
     }

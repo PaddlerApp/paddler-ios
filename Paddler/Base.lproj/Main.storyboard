@@ -398,7 +398,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KGy-jL-192">
-                                            <rect key="frame" x="63" y="12" width="40" height="17"/>
+                                            <rect key="frame" x="103" y="12" width="40" height="17"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -425,7 +425,7 @@
                                         <constraint firstItem="pCn-Jj-EX2" firstAttribute="top" secondItem="7qC-9r-BNa" secondAttribute="top" constant="12" id="vLn-iI-iCf"/>
                                         <constraint firstItem="c9h-Ir-OZd" firstAttribute="centerY" secondItem="pCn-Jj-EX2" secondAttribute="centerY" id="wmp-lV-xIA"/>
                                         <constraint firstItem="c8b-gR-eNR" firstAttribute="centerY" secondItem="pCn-Jj-EX2" secondAttribute="centerY" id="x3d-qv-Nih"/>
-                                        <constraint firstItem="KGy-jL-192" firstAttribute="leading" secondItem="pCn-Jj-EX2" secondAttribute="trailing" constant="20" id="ykb-ve-urL"/>
+                                        <constraint firstItem="KGy-jL-192" firstAttribute="leading" secondItem="pCn-Jj-EX2" secondAttribute="trailing" constant="60" id="ykb-ve-urL"/>
                                     </constraints>
                                 </view>
                                 <prototypes>
@@ -449,13 +449,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWw-AC-ljg">
-                                                    <rect key="frame" x="63" y="12" width="28" height="21"/>
+                                                    <rect key="frame" x="103" y="12" width="28" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Smith" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGf-As-rqI">
-                                                    <rect key="frame" x="63" y="37" width="45" height="22.5"/>
+                                                    <rect key="frame" x="103" y="37" width="45" height="22.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -466,19 +466,28 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cqh-DB-4U5">
+                                                    <rect key="frame" x="51" y="2" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="Ads-bF-6NA"/>
+                                                        <constraint firstAttribute="height" constant="40" id="gOC-s4-N81"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="cqh-DB-4U5" firstAttribute="leading" secondItem="0e8-pR-lKD" secondAttribute="trailing" constant="35" id="5Lx-7M-5v8"/>
                                                 <constraint firstItem="B90-sF-ZJd" firstAttribute="centerY" secondItem="0e8-pR-lKD" secondAttribute="centerY" id="EQP-nh-3b3"/>
                                                 <constraint firstItem="aWw-AC-ljg" firstAttribute="centerY" secondItem="0e8-pR-lKD" secondAttribute="centerY" id="EbM-kv-3b9"/>
                                                 <constraint firstItem="fZ0-6V-mi5" firstAttribute="centerY" secondItem="0e8-pR-lKD" secondAttribute="centerY" id="Lf6-Ps-atc"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="yGf-As-rqI" secondAttribute="bottom" constant="12" id="NQK-AS-KZl"/>
                                                 <constraint firstItem="0e8-pR-lKD" firstAttribute="leading" secondItem="EPH-X6-Prr" secondAttribute="leading" constant="8" id="UNp-wc-dQa"/>
                                                 <constraint firstItem="fZ0-6V-mi5" firstAttribute="leading" secondItem="EPH-X6-Prr" secondAttribute="leading" constant="300" id="UcV-aX-qQ1"/>
+                                                <constraint firstItem="cqh-DB-4U5" firstAttribute="centerY" secondItem="0e8-pR-lKD" secondAttribute="centerY" id="g6G-q4-e6E"/>
                                                 <constraint firstItem="B90-sF-ZJd" firstAttribute="leading" secondItem="EPH-X6-Prr" secondAttribute="leading" constant="215" id="iHE-MF-AXI"/>
                                                 <constraint firstItem="yGf-As-rqI" firstAttribute="leading" secondItem="aWw-AC-ljg" secondAttribute="leading" id="lhc-XQ-jeD"/>
                                                 <constraint firstItem="yGf-As-rqI" firstAttribute="top" secondItem="aWw-AC-ljg" secondAttribute="bottom" constant="4" id="neT-9O-eIS"/>
                                                 <constraint firstItem="0e8-pR-lKD" firstAttribute="top" secondItem="EPH-X6-Prr" secondAttribute="top" constant="12" id="tNw-4Z-xan"/>
-                                                <constraint firstItem="aWw-AC-ljg" firstAttribute="leading" secondItem="EPH-X6-Prr" secondAttribute="leading" constant="63" id="taQ-DW-c5E"/>
+                                                <constraint firstItem="aWw-AC-ljg" firstAttribute="leading" secondItem="EPH-X6-Prr" secondAttribute="leading" constant="103" id="taQ-DW-c5E"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -486,6 +495,7 @@
                                             <outlet property="playerLastNameLabel" destination="yGf-As-rqI" id="YE6-JE-mcj"/>
                                             <outlet property="playerLossesLabel" destination="fZ0-6V-mi5" id="6WF-MV-alC"/>
                                             <outlet property="playerWinsLabel" destination="B90-sF-ZJd" id="Vy8-BH-4p2"/>
+                                            <outlet property="profileImageView" destination="cqh-DB-4U5" id="ctx-kl-UN7"/>
                                             <outlet property="rankLabel" destination="0e8-pR-lKD" id="6dr-eX-Wff"/>
                                         </connections>
                                     </tableViewCell>
