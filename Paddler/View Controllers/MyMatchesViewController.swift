@@ -33,10 +33,6 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.estimatedRowHeight = 162
 
         PaddlerUser.current!.getMatches { (matches) in
-            for match in matches {
-                print("print in MyMatchesVC - match.createdAt: \(match.createdAt!)")
-            }
-            
             self.matches = matches
             self.tableView.reloadData()
         }
@@ -56,14 +52,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
                 
                 self.requestGameButton.tag = RequestState.HAS_OPEN_REQUEST.rawValue
                 self.requestGameButton.setTitle("Accept Match from \((request.requestor?.fullname)!)", for: .normal)
-                
                 self.openRequest = request
-               
-                print("open direct request in MyMatchesVC - request id: \(self.openRequest.id!)")
-                print("open direct request in MyMatchesVC - requestor name: \(self.openRequest.requestor?.fullname)")
-                
-                print("open direct request in MyMatchesVC - requestee name: \(self.openRequest.requestee?.fullname)")
-                
             }
         }
         

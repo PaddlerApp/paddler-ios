@@ -13,5 +13,6 @@ class MessageDelegate: NSObject, MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         PaddlerUser.current!.addToken()
+        Messaging.messaging().subscribe(toTopic: "everyone")
     }
 }
