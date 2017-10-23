@@ -45,7 +45,7 @@ Here's a walkthrough of implemented user stories:
 
 **Week 6**
 <img src='https://raw.githubusercontent.com/PaddlerApp/paddler-ios/master/PaddlerApp_Week6_gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='https://github.com/PaddlerApp/paddler-ios/blob/master/PaddlerApp_Week6.PNG?raw=true' title='Push Notifications' width='' alt='Push Notifications' />
+<img src='https://github.com/PaddlerApp/paddler-ios/blob/master/PaddlerApp_Week6.PNG?raw=true' title='Push Notifications' width='375' alt='Push Notifications' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
