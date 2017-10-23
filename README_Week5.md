@@ -1,31 +1,33 @@
 # Paddler
 **Paddler** is a Ping Pong match organization tool for companies. This app helps manage tracking and coordinating scores and games between company employees!
 
-Time spent: **21.25** hours spent in total
+Time spent: **29.5** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
 - [x] Login via Google / logout
-- [x] Request match broadcast
+- [x] Request match broadcast **note: have a bug**
 - [x] Show Leaderboard
 - [x] Show Profile Page
-- [x] Match Page: Track Live Score -> Both requestor and requestee can enter score
-- [x] Accept Match
-- [x] Notification for match request
+- [x] Match Page: Track Live Score -> Initiator enters score
+- [ ] Accept Match
+- [ ] Notification for match request
 - [x] Request match contact
 - [x] Contact page
 - [x] My match history
 
 The following **optional** features are implemented:
 
+- [ ] Match history filters: All Matches, My Matches
 - [ ] Any contact’s match history
-- [x] Search contact
+- [ ] Search contact
+- [ ] Customize scoring rules
 - [ ] Profile for contacts
 - [ ] Live editing for both parties
+- [ ] Timeout for any game request
 - [ ] You can leave the game in the middle
-- [ ] Score validation - Yingying
 
 ## Wireframes
 

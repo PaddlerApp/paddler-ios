@@ -91,7 +91,7 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         
         match.finish(requestorScore: match.requestorScore!, andRequesteeScore: match.requesteeScore!)
         
-        self.delegate.didSaveMatch()
+        self.delegate?.didSaveMatch()
         
         print("------------ finished a game ------------")
         print("finish game - live match id: \(match.id)")
