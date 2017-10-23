@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		859F2F661F8DEF3000DD76DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 859F2F651F8DEE3200DD76DF /* GoogleService-Info.plist */; };
 		B1B875A303E73DBD877BE9B0 /* Pods_Paddler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB030465C0462C4E510C9E0 /* Pods_Paddler.framework */; };
-		DC187E2D1F905F6E0061EC7F /* FirebaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC187E2C1F905F6E0061EC7F /* FirebaseClient.swift */; };
 		DC187E2F1F91D7C20061EC7F /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC187E2E1F91D7C20061EC7F /* Match.swift */; };
 		DC187E311F9295F50061EC7F /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC187E301F9295F50061EC7F /* Request.swift */; };
 		DC27A5941F8C7AEE009DF634 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC27A5931F8C7AEE009DF634 /* AppDelegate.swift */; };
@@ -20,6 +19,8 @@
 		FB9BCCE51F930779004B5642 /* MyMatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9BCCE41F930779004B5642 /* MyMatchCell.swift */; };
 		FB9BCCE71F93078C004B5642 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9BCCE61F93078C004B5642 /* ContactCell.swift */; };
 		FB9BCCEB1F930833004B5642 /* RankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9BCCEA1F930833004B5642 /* RankCell.swift */; };
+		FB9EF82B1F9D9DE500E2D528 /* FirebaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF82A1F9D9DE400E2D528 /* FirebaseClient.swift */; };
+		FB9EF82D1F9D9E7400E2D528 /* MessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EF82C1F9D9E7400E2D528 /* MessageDelegate.swift */; };
 		FBDCA5981F8DD6C3008C768E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDCA5971F8DD6C3008C768E /* LoginViewController.swift */; };
 		FBDCA59C1F8DD7BE008C768E /* MyMatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDCA59B1F8DD7BE008C768E /* MyMatchesViewController.swift */; };
 		FBDCA59E1F8DD7D6008C768E /* LiveMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDCA59D1F8DD7D6008C768E /* LiveMatchViewController.swift */; };
@@ -31,7 +32,6 @@
 /* Begin PBXFileReference section */
 		4E950339FCCD4F6BE34FDC10 /* Pods-Paddler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Paddler.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Paddler/Pods-Paddler.debug.xcconfig"; sourceTree = "<group>"; };
 		859F2F651F8DEE3200DD76DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		DC187E2C1F905F6E0061EC7F /* FirebaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseClient.swift; sourceTree = "<group>"; };
 		DC187E2E1F91D7C20061EC7F /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		DC187E301F9295F50061EC7F /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DC27A5901F8C7AEE009DF634 /* Paddler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paddler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +46,8 @@
 		FB9BCCE41F930779004B5642 /* MyMatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMatchCell.swift; sourceTree = "<group>"; };
 		FB9BCCE61F93078C004B5642 /* ContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		FB9BCCEA1F930833004B5642 /* RankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCell.swift; sourceTree = "<group>"; };
+		FB9EF82A1F9D9DE400E2D528 /* FirebaseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseClient.swift; path = Firebase/FirebaseClient.swift; sourceTree = "<group>"; };
+		FB9EF82C1F9D9E7400E2D528 /* MessageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageDelegate.swift; path = Firebase/MessageDelegate.swift; sourceTree = "<group>"; };
 		FBDCA5971F8DD6C3008C768E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FBDCA59B1F8DD7BE008C768E /* MyMatchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMatchesViewController.swift; sourceTree = "<group>"; };
 		FBDCA59D1F8DD7D6008C768E /* LiveMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMatchViewController.swift; sourceTree = "<group>"; };
@@ -104,7 +106,8 @@
 		DC27A5921F8C7AEE009DF634 /* Paddler */ = {
 			isa = PBXGroup;
 			children = (
-				DC187E2C1F905F6E0061EC7F /* FirebaseClient.swift */,
+				FB9EF82C1F9D9E7400E2D528 /* MessageDelegate.swift */,
+				FB9EF82A1F9D9DE400E2D528 /* FirebaseClient.swift */,
 				FBDCA59A1F8DD6D9008C768E /* Views */,
 				FBDCA5991F8DD6C7008C768E /* View Controllers */,
 				DC27A5A51F8F42FE009DF634 /* Models */,
@@ -308,14 +311,15 @@
 			files = (
 				FBDCA59E1F8DD7D6008C768E /* LiveMatchViewController.swift in Sources */,
 				FBDCA59C1F8DD7BE008C768E /* MyMatchesViewController.swift in Sources */,
+				FB9EF82B1F9D9DE500E2D528 /* FirebaseClient.swift in Sources */,
 				FBDCA5A01F8DD7ED008C768E /* LeaderboardViewController.swift in Sources */,
 				FB9BCCE71F93078C004B5642 /* ContactCell.swift in Sources */,
+				FB9EF82D1F9D9E7400E2D528 /* MessageDelegate.swift in Sources */,
 				DC187E2F1F91D7C20061EC7F /* Match.swift in Sources */,
 				DC187E311F9295F50061EC7F /* Request.swift in Sources */,
 				FBDCA5981F8DD6C3008C768E /* LoginViewController.swift in Sources */,
 				FB9BCCEB1F930833004B5642 /* RankCell.swift in Sources */,
 				DC27A5A71F8F4315009DF634 /* User.swift in Sources */,
-				DC187E2D1F905F6E0061EC7F /* FirebaseClient.swift in Sources */,
 				FBDCA5A41F8DD830008C768E /* ProfileViewController.swift in Sources */,
 				DC27A5941F8C7AEE009DF634 /* AppDelegate.swift in Sources */,
 				FBDCA5A21F8DD80A008C768E /* ContactsViewController.swift in Sources */,

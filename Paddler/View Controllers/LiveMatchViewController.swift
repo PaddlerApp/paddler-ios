@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol LiveMatchViewControllerDelegate : class {
+    func didSaveMatch()
+}
+
 class LiveMatchViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var playerOneImageView: UIImageView!
@@ -16,6 +20,8 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var playerTwoNameLabel: UILabel!
     @IBOutlet weak var playerOneScoreTextField: UITextField!
     @IBOutlet weak var playerTwoScoreTextField: UITextField!
+    
+    weak var delegate : LiveMatchViewControllerDelegate!
     
     var match: Match!
     
@@ -64,6 +70,8 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         
         playerOneScoreTextField.delegate = self
         playerTwoScoreTextField.delegate = self
+        
+        playerOneScoreTextField.becomeFirstResponder()
         // Do any additional setup after loading the view.
     }
 
@@ -73,6 +81,7 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func onCancelButton(_ sender: Any) {
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -81,16 +90,21 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         match.requesteeScore = Int(playerTwoScoreTextField.text!)
         
         match.finish(requestorScore: match.requestorScore!, andRequesteeScore: match.requesteeScore!)
-        dismiss(animated: true, completion: nil)
+        
+        self.delegate.didSaveMatch()
+        
         print("------------ finished a game ------------")
-        print("live match id: \(match.id)")
-        print("live match created at: \(match.createdAt)")
-        print("live match finished at: \(match.finishedAt)")
-        print("live match requestor id: \(match.requestorID)")
-        print("live match requestee id: \(match.requesteeID)")
-        print("live match requestor score: \(match.requestorScore)")
-        print("live match requestee score: \(match.requesteeScore)")
-        print("live match winner id: \(match.winnerID)")
-        print("live match loser id: \(match.loserID)")
+        print("finish game - live match id: \(match.id)")
+        print("finish game - live match created at: \(match.createdAt)")
+        print("finish game - live match finished at: \(match.finishedAt)")
+        print("finish game - live match requestor id: \(match.requestorID)")
+        print("finish game - live match requestee id: \(match.requesteeID)")
+        print("finish game - live match requestor score: \(match.requestorScore)")
+        print("finish game - live match requestee score: \(match.requesteeScore)")
+        print("finish game - live match winner id: \(match.winnerID)")
+        print("finish game - live match loser id: \(match.loserID)")
+        
+        dismiss(animated: true, completion: nil)
+        
     }
 }

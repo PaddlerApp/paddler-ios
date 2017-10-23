@@ -9,17 +9,24 @@
 import UIKit
 import UserNotifications
 
-class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UNUserNotificationCenterDelegate {
+protocol MyMatchesViewControllerDelegate: class {
+    func changeMyMatchesVCButtonState(_ color: UIColor?)
+}
 
+class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, LiveMatchViewControllerDelegate, UNUserNotificationCenterDelegate {
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var requestGameButton: UIButton!
+    weak var delegate: MyMatchesViewControllerDelegate?
     
     var matches: [Match]!
     var openRequest: Request!
     var currentRequestStatus: Int!
     
+    var users: [PaddlerUser]! // used to test request match actions
+    
     enum RequestState: Int {
-        case NO_REQUEST = 0, HAS_OPEN_REQUEST, REQUEST_ACCEPTED
+        case NO_REQUEST = 0, HAS_OPEN_REQUEST, REQUEST_PENDING, REQUEST_ACCEPTED
     }
     
     override func viewDidLoad() {
@@ -33,17 +40,22 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.estimatedRowHeight = 162
 
         PaddlerUser.current!.getMatches { (matches) in
+
+//            for match in matches {
+//                print("print in MyMatchesVC - match.createdAt: \(match.createdAt!)")
+//            }
+            
             self.matches = matches
             self.tableView.reloadData()
         }
         
-        //print("My full name is " + PaddlerUser.current!.fullname!)
-
-        /*
-        let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
-        let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
-        profileVC.broadcastRequest = Request.createBroadcast()
-        */
+        PaddlerUser.leaderboard { (users) in
+            self.users = users
+            print("user from leaderboard: \(self.users)")
+        }
+        
+        // default value
+        requestGameButton.tag = RequestState.NO_REQUEST.rawValue
         
         // if there's an open broadcast or direct request - set button to be Accept Match
         PaddlerUser.current!.hasOpenRequest { (request) in
@@ -145,41 +157,56 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             
             print("create broadcast in MyMatchesVC - request id: \(profileVC.broadcastRequest!.id!)")
             print("create broadcast in MyMatchesVC - requestor id: \(profileVC.broadcastRequest!.requestorID!)")
-            
             print("create broadcast in MyMatchesVC - requestee id - hard coded: \(profileVC.broadcastRequest!.requesteeID!)")
             //print("hardCodedRequestee: \(hardCodedRequestee)")
-            
-            //let user = PaddlerUser()
-            
+
+            let user  = users[4] // get a user from leaderboard
+
+            profileVC.broadcastRequest!.requesteeID! = user.id!
+            profileVC.broadcastRequest!.requestee = user
+
             print("create broadcast in MyMatchesVC - requestee - hard coded: \(profileVC.broadcastRequest!.requestee!)")
             print("create broadcast in MyMatchesVC - requestee id: \(profileVC.broadcastRequest!.requesteeID!)")
             print("create broadcast in MyMatchesVC - status: \(profileVC.broadcastRequest!.status!)")
             print("create broadcast in MyMatchesVC - isDirect: \(profileVC.broadcastRequest!.isDirect!)")
             print("create broadcast in MyMatchesVC - createdAt: \(profileVC.broadcastRequest!.createdAt!)")
             
+            requestGameButton.tag = RequestState.REQUEST_PENDING.rawValue
+            
+            // QQQ: how to keep myself on this page without enabling segue??
+            
             let match = profileVC.broadcastRequest!.accept()
             
             // figure out a logic to make button in
-            print("user has started match: \(match.id!)")
+            //print("user has started match: \(match.id!)")
             liveMatchViewController.match = match
             
+            liveMatchViewController.delegate = self
             
         } else if self.requestGameButton.tag == RequestState.HAS_OPEN_REQUEST.rawValue {
             // if there's a broadcast or a direct request, current user can accept the game as a requestee
             
-            print("accept a direct match request")
-            
-            print("open direct request in MyMatchesVC - request id: \(openRequest.id!)")
-            print("open direct request in MyMatchesVC - requestor id: \(openRequest.requestorID!)")
+//            print("accept a direct match request")
+//            print("open direct request in MyMatchesVC - request id: \(openRequest.id!)")
+//            print("open direct request in MyMatchesVC - requestor id: \(openRequest.requestorID!)")
             
             let match = openRequest.accept()
             print("user has accepted match: \(match.id!)")
             liveMatchViewController.match = match
 
-        } //else if self.requestGameButton.tag == RequestState.REQUEST_ACCEPTED { // has made request but waiting for acception
+        } else if self.requestGameButton.tag == RequestState.REQUEST_PENDING.rawValue { // current user has made request but waiting for acception
             
+            // Yingying: do we need a pending state? somehow we need to be able to show on button title that "Your request is waiting for response"
             
-        //}
+            // Need to disable all buttons on Contacts page
+            
+        } else if self.requestGameButton.tag == RequestState.REQUEST_ACCEPTED.rawValue { // current user made request and got accepted
+            
+            // Yingying: We have two ways to do this:
+            // 1. as soon as the match is accepted, goes to the live match screen (simplest)
+            // or 2. display the button title "your match has been accepted by XX, start match now".
+            // this requires some sort of event listener
+        }
     }
     
     func registerForNotifs() {
@@ -200,4 +227,11 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         UIApplication.shared.registerForRemoteNotifications()
     }
     
+    func didSaveMatch() {
+        PaddlerUser.current!.getMatches { (matches) in
+            self.matches = matches
+            self.tableView.reloadData()
+        }
+    
+    }
 }

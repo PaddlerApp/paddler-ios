@@ -5,7 +5,6 @@
 //  Created by Prithvi Prabahar on 10/12/17.
 //  Copyright © 2017 Paddler. All rights reserved.
 //
-
 import Foundation
 import Firebase
 import GoogleSignIn
@@ -160,11 +159,11 @@ class FirebaseClient: NSObject {
         requests.whereField("requestor_id", isEqualTo: forUser.id!)
             .whereField("status", isEqualTo: "open")
             .getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("error: \(error.localizedDescription)")
-            } else {
-                completion(querySnapshot!.documents.first)
-            }
+                if let error = error {
+                    print("error: \(error.localizedDescription)")
+                } else {
+                    completion(querySnapshot!.documents.first)
+                }
         }
     }
     

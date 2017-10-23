@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, LiveMatchViewControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -16,6 +16,13 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     var contacts: [PaddlerUser] = []
     var filteredData: [PaddlerUser] = []
+    
+    var users: [PaddlerUser]! // used to test request match actions
+    var matches: [Match]!
+    
+    enum RequestState: Int {
+        case NO_REQUEST = 0, HAS_OPEN_REQUEST, REQUEST_PENDING, REQUEST_ACCEPTED
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +32,11 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
+        
+        PaddlerUser.leaderboard { (users) in
+            self.users = users
+            print("user from leaderboard: \(self.users)")
+        }
         
         PaddlerUser.contacts { (users) in
             for user in users {
@@ -72,14 +84,16 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         
         cell.playerNameLabel.text = "\(contact.fullname!) "
         
-        /*
+        // default value
+        cell.requestMatchButton.tag = RequestState.NO_REQUEST.rawValue
+        
         // if user has an open request or initiated an open request, disable button
         PaddlerUser.current!.hasOpenRequest { (request) in
             if let request = request {
                 cell.requestMatchButton.setTitle("Request Match", for: .disabled)
             }
         }
- */
+ 
         
         cell.selectionStyle = .none // get rid of gray selection
         
@@ -93,34 +107,37 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             let indexPath = requestMatchButton.tag
             let contact = contacts[indexPath]
             
+            //print("contact: \(contact.fullname)")
             
-            if requestMatchButton.titleLabel?.text == "Request Match" {
+            if requestMatchButton.tag == RequestState.NO_REQUEST.rawValue {
                 // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
                 let navigationController = segue.destination as! UINavigationController
                 let liveMatchViewController = navigationController.topViewController as! LiveMatchViewController
             
                 let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
+               
+                // test data
+                let user  = users[6] // get first user from leaderboard
+                let contact = user
+                print("actual user object: \(contact.fullname)")
+                
                 profileVC.directRequest = Request.createDirect(with: contact)
                 
-                print("create direct in ContactsVC - request id: \(profileVC.directRequest!.id!)")
-                print("create direct in ContactsVC - requestor id: \(String(describing: profileVC.directRequest!.requestorID))")
+                requestMatchButton.tag = RequestState.REQUEST_PENDING.rawValue
                 
-                print("create direct in ContactsVC - requestee id: \(profileVC.directRequest!.requesteeID!)")
+                //self.tableView.reloadData()
                 
-                print("create direct in ContactsVC - status: \(String(describing: profileVC.directRequest!.status))")
-                
-                print("create direct in ContactsVC - isDirect: \(String(describing: profileVC.directRequest!.isDirect))")
-                print("create direct in ContactsVC - createdAt: \(String(describing: profileVC.directRequest!.createdAt))")
-                
+                // how can I not go to segue
+    
                 let match = profileVC.directRequest!.accept()
                 print("user has started match: \(match.id!)")
-                
                 liveMatchViewController.match = match
                 
-            } else if requestMatchButton.titleLabel?.text == "Game in Progress" {
-                // if there's a game in progress, current user is requestee and can't do anything
-                // do nothing
+            } else if requestMatchButton.tag == RequestState.REQUEST_PENDING.rawValue {
+                // Yingying: do we need a pending state? somehow we need to be able to show on button title that "Your request is waiting for response"
+                
+                // Disable all buttons on Contacts page
             }
         }
     }
@@ -166,6 +183,18 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         //print("indexPath: \(indexPath)")
         
         self.performSegue(withIdentifier: "homeTimelineToProfileSegue", sender: indexPath)
+    }
+    
+    func didSaveMatch() {
+        let myMatchesNavVC = tabBarController?.viewControllers![0] as! UINavigationController
+        let myMatchesVC = myMatchesNavVC.viewControllers[0] as! MyMatchesViewController
+        
+        navigationController?.popToViewController(myMatchesVC, animated: true)
+        
+        PaddlerUser.current!.getMatches { (matches) in
+            self.matches = matches
+            self.tableView.reloadData()
+        }
     }
 
 }
