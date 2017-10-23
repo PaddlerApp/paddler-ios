@@ -1,7 +1,7 @@
 # Paddler
 **Paddler** is a Ping Pong match organization tool for companies. This app helps manage tracking and coordinating scores and games between company employees!
 
-Time spent: **21.25** hours spent in total
+Time spent: **22.25** hours spent in total
 
 ## User Stories
 
@@ -25,7 +25,7 @@ The following **optional** features are implemented:
 - [ ] Profile for contacts
 - [ ] Live editing for both parties
 - [ ] You can leave the game in the middle
-- [ ] Score validation - Yingying
+- [ ] Score validation
 
 ## Wireframes
 
@@ -40,7 +40,12 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
+**Week 5**
 <img src='https://github.com/PaddlerApp/paddler-ios/blob/master/PaddlerApp_Week5_gif.gif?raw=true' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+**Week 6**
+<img src='https://raw.githubusercontent.com/PaddlerApp/paddler-ios/master/PaddlerApp_Week6_gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/PaddlerApp/paddler-ios/blob/master/PaddlerApp_Week6.PNG?raw=true' title='Push Notifications' width='' alt='Push Notifications' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
