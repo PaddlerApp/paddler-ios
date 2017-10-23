@@ -149,6 +149,10 @@ class PaddlerUser: NSObject {
         }
     }
     
+    func addToken() {
+        FirebaseClient.sharedInstance.addToken(forUser: self)
+    }
+    
     class func leaderboard(completion: @escaping ([PaddlerUser]) -> ()) {
         var users: [PaddlerUser] = []
         FirebaseClient.sharedInstance.getUsers { (documents) in

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import UserNotifications
 
-class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UNUserNotificationCenterDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var requestGameButton: UIButton!
@@ -24,16 +25,14 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        registerForNotifs()
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 162
 
         PaddlerUser.current!.getMatches { (matches) in
-            for match in matches {
-                print("print in MyMatchesVC - match.createdAt: \(match.createdAt!)")
-            }
-            
             self.matches = matches
             self.tableView.reloadData()
         }
@@ -53,14 +52,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
                 
                 self.requestGameButton.tag = RequestState.HAS_OPEN_REQUEST.rawValue
                 self.requestGameButton.setTitle("Accept Match from \((request.requestor?.fullname)!)", for: .normal)
-                
                 self.openRequest = request
-               
-                print("open direct request in MyMatchesVC - request id: \(self.openRequest.id!)")
-                print("open direct request in MyMatchesVC - requestor name: \(self.openRequest.requestor?.fullname)")
-                
-                print("open direct request in MyMatchesVC - requestee name: \(self.openRequest.requestee?.fullname)")
-                
             }
         }
         
@@ -190,5 +182,22 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         //}
     }
     
+    func registerForNotifs() {
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+        
+        UIApplication.shared.registerForRemoteNotifications()
+    }
     
 }
