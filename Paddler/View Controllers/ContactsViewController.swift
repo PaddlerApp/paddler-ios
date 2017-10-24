@@ -18,7 +18,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     var filteredData: [PaddlerUser] = []
     
     var users: [PaddlerUser]! // used to test request match actions
-    var matches: [Match]!
     
     enum RequestState: Int {
         case NO_REQUEST = 0, HAS_OPEN_REQUEST, REQUEST_PENDING, REQUEST_ACCEPTED
@@ -133,6 +132,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
                 let match = profileVC.directRequest!.accept()
                 print("user has started match: \(match.id!)")
                 liveMatchViewController.match = match
+                liveMatchViewController.delegate = self
                 
             } else if requestMatchButton.tag == RequestState.REQUEST_PENDING.rawValue {
                 // Yingying: do we need a pending state? somehow we need to be able to show on button title that "Your request is waiting for response"
@@ -186,15 +186,8 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func didSaveMatch() {
-        let myMatchesNavVC = tabBarController?.viewControllers![0] as! UINavigationController
-        let myMatchesVC = myMatchesNavVC.viewControllers[0] as! MyMatchesViewController
-        
-        navigationController?.popToViewController(myMatchesVC, animated: true)
-        
-        PaddlerUser.current!.getMatches { (matches) in
-            self.matches = matches
-            self.tableView.reloadData()
-        }
+        // a func to go back to My Matches View Controller
+        tabBarController?.selectedIndex = 0
     }
 
 }
