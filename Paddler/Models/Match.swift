@@ -88,4 +88,23 @@ class Match: NSObject {
         }
         FirebaseClient.sharedInstance.finish(match: self)
     }
+    
+    func cancel() {
+        FirebaseClient.sharedInstance.cancel(match: self)
+    }
+    
+    func onComplete(completion: @escaping () -> ()) {
+        FirebaseClient.sharedInstance.onComplete(match: self) { (documentSnapshot) in
+            if let document = documentSnapshot {
+                if !document.exists {
+                    completion()
+                } else {
+                    let match = Match(from: document)
+                    if match.finishedAt != nil {
+                        completion()
+                    }
+                }
+            }
+        }
+    }
 }

@@ -149,6 +149,20 @@ class PaddlerUser: NSObject {
         }
     }
     
+    func listenForActiveMatch(completion: @escaping (Match?) -> ()) {
+        FirebaseClient.sharedInstance.listenForActiveMatch(forUser: self) { (documentSnapshot) in
+            for document in documentSnapshot {
+                let match = Match(from: document)
+                if match.finishedAt == nil {
+                    completion(match)
+                    return
+                }
+            }
+            completion(nil)
+        }
+    
+    }
+    
     func addToken() {
         FirebaseClient.sharedInstance.addToken(forUser: self)
     }

@@ -41,6 +41,10 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         let requestor = match.requestor!
         let requestee = match.requestee!
         
+        match.onComplete {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
         if requestor.profileURL != nil {
             let url = requestor.profileURL
             let data = try? Data(contentsOf: url!)
@@ -81,7 +85,7 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func onCancelButton(_ sender: Any) {
-        
+        match.cancel()
         dismiss(animated: true, completion: nil)
     }
     
