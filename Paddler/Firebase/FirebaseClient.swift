@@ -189,6 +189,17 @@ class FirebaseClient: NSObject {
         }
     }
     
+    func listenForMatchFinish(forMatch: Match, completion: @escaping (DocumentSnapshot?) -> ()) {
+        matches.document(forMatch.id!)
+            .addSnapshotListener { (documentSnapshot, error) in
+                if let error = error {
+                    print("error: \(error.localizedDescription)")
+                } else {
+                    completion(documentSnapshot)
+                }
+        }
+    }
+    
     func save(match: Match) -> String {
         let docRef = matches.document()
         docRef.setData([

@@ -41,6 +41,10 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         let requestor = match.requestor!
         let requestee = match.requestee!
         
+        match.listenForFinish {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
         if requestor.profileURL != nil {
             let url = requestor.profileURL
             let data = try? Data(contentsOf: url!)
