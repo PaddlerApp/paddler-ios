@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -22,9 +23,13 @@ class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
         
+        // Display HUD right before the request is made
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         PaddlerUser.leaderboard { (users) in
             self.users = users
             self.tableView.reloadData()
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
         
         PaddlerUser.current!.hasInitiatedRequest { (request) in

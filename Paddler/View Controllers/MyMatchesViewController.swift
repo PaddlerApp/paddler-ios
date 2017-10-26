@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import MBProgressHUD
 
 protocol MyMatchesViewControllerDelegate: class {
     func changeMyMatchesVCButtonState(_ color: UIColor?)
@@ -43,10 +44,14 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 162
+        
+        // Display HUD right before the request is made
+        MBProgressHUD.showAdded(to: self.view, animated: true)
 
         PaddlerUser.current!.getMatches { (matches) in
             self.matches = matches
             self.tableView.reloadData()
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
         
         // default value

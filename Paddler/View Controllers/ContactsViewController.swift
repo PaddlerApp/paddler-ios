@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, LiveMatchViewControllerDelegate {
 
@@ -32,15 +33,15 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
         
+        // Display HUD right before the request is made
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         PaddlerUser.leaderboard { (users) in
             self.users = users
             print("user from leaderboard: \(self.users)")
         }
         
         PaddlerUser.contacts { (users) in
-            for user in users {
-                print(user.lastName!)
-            }
             
             let profileNavVC = self.tabBarController?.viewControllers![3] as! UINavigationController
             let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
@@ -50,6 +51,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             self.filteredData = users
     
             self.tableView.reloadData()
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
         
         // refresh control
