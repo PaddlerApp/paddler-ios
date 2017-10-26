@@ -51,6 +51,11 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
             self.tableView.reloadData()
         }
+        
+        // refresh control
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,6 +102,22 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.selectionStyle = .none // get rid of gray selection
         
         return cell
+    }
+    
+    @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 162
+        
+        PaddlerUser.contacts { (users) in
+            self.contacts = users
+            self.filteredData = users
+            self.tableView.reloadData()
+            refreshControl.endRefreshing()
+        }
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

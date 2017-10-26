@@ -32,11 +32,11 @@ class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableV
                 print("user has an initiated request: \(request.id!)")
             }
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        // refresh control
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,4 +68,17 @@ class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableV
         return cell
     }
 
+    @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 162
+        
+        PaddlerUser.leaderboard { (users) in
+            self.users = users
+            self.tableView.reloadData()
+            refreshControl.endRefreshing()
+        }
+    }
 }
