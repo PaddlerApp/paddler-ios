@@ -44,7 +44,9 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 162
 
-        PaddlerUser.current!.getMatches { (matches) in
+        let user = PaddlerUser.current!
+        
+        user.getMatches { (matches) in
             self.matches = matches
             self.tableView.reloadData()
         }
@@ -53,11 +55,21 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         requestGameButton.tag = RequestState.NO_REQUEST.rawValue
         
         // if there's an open broadcast or direct request - set button to be Accept Match
-        PaddlerUser.current!.hasOpenRequest { (request) in
+        user.hasOpenRequest { (request) in
             if let request = request {
                 self.openRequest = request
                 self.requestGameButton.tag = RequestState.HAS_OPEN_REQUEST.rawValue
                 self.requestGameButton.setTitle("Accept Match from \(request.requestor!.fullname!)", for: .normal)
+            }
+        }
+        
+        user.listenForActiveMatch { (match) in
+            if let match = match {
+                self.acceptedMatch = match
+                self.performSegue(withIdentifier: "myMatchesToLiveMatchSegue", sender: self)
+                self.requestGameButton.tag = RequestState.NO_REQUEST.rawValue
+                self.requestGameButton.isEnabled = true
+                self.requestGameButton.setTitle("Request Match", for: .normal)
             }
         }
         

@@ -178,6 +178,17 @@ class FirebaseClient: NSObject {
         }
     }
     
+    func listenForActiveMatch(forUser: PaddlerUser, completion: @escaping ([DocumentSnapshot]) -> ()) {
+        matches.whereField("requestor_id", isEqualTo: forUser.id!)
+            .addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    print("error: \(error.localizedDescription)")
+                } else {
+                    completion((querySnapshot?.documents)!)
+                }
+        }
+    }
+    
     func save(match: Match) -> String {
         let docRef = matches.document()
         docRef.setData([
