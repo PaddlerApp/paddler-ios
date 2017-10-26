@@ -189,8 +189,8 @@ class FirebaseClient: NSObject {
         }
     }
     
-    func listenForMatchFinish(forMatch: Match, completion: @escaping (DocumentSnapshot?) -> ()) {
-        matches.document(forMatch.id!)
+    func onComplete(match: Match, completion: @escaping (DocumentSnapshot?) -> ()) {
+        matches.document(match.id!)
             .addSnapshotListener { (documentSnapshot, error) in
                 if let error = error {
                     print("error: \(error.localizedDescription)")
@@ -212,5 +212,10 @@ class FirebaseClient: NSObject {
             "requestee"         : match.requestee!.serialize()
             ])
         return docRef.documentID
+    }
+    
+    func cancel(match: Match) {
+        let docRef = matches.document(match.id!)
+        docRef.delete()
     }
 }
