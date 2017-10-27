@@ -32,12 +32,6 @@ class LeaderboardViewController: UIViewController, UITableViewDelegate, UITableV
             MBProgressHUD.hide(for: self.view, animated: true)
         }
         
-        PaddlerUser.current!.hasInitiatedRequest { (request) in
-            if let request = request {
-                print("user has an initiated request: \(request.id!)")
-            }
-        }
-        
         // refresh control
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)

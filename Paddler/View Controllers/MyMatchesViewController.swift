@@ -152,11 +152,6 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
 //            print("create broadcast in MyMatchesVC - requestee id - hard coded: \(profileVC.broadcastRequest!.requesteeID!)")
             
         } else if self.requestGameButton.tag == RequestState.HAS_OPEN_REQUEST.rawValue {
-            // if there's a broadcast or a direct request, current user can accept the game as a requestee
-            
-            //            print("accept a direct match request")
-            //            print("open direct request in MyMatchesVC - request id: \(openRequest.id!)")
-            //            print("open direct request in MyMatchesVC - requestor id: \(openRequest.requestorID!)")
             
             acceptedMatch = openRequest.accept()
             performSegue(withIdentifier: "myMatchesToLiveMatchSegue", sender: self)
