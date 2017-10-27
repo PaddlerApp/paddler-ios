@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import MBProgressHUD
 
 protocol MyMatchesViewControllerDelegate: class {
     func changeMyMatchesVCButtonState(_ color: UIColor?)
@@ -43,12 +44,16 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 162
+        
+        // Display HUD right before the request is made
+        MBProgressHUD.showAdded(to: self.view, animated: true)
 
         let user = PaddlerUser.current!
         
         user.getMatches { (matches) in
             self.matches = matches
             self.tableView.reloadData()
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
         
         // default value
@@ -159,11 +164,6 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
 //            print("create broadcast in MyMatchesVC - requestee id - hard coded: \(profileVC.broadcastRequest!.requesteeID!)")
             
         } else if self.requestGameButton.tag == RequestState.HAS_OPEN_REQUEST.rawValue {
-            // if there's a broadcast or a direct request, current user can accept the game as a requestee
-            
-            //            print("accept a direct match request")
-            //            print("open direct request in MyMatchesVC - request id: \(openRequest.id!)")
-            //            print("open direct request in MyMatchesVC - requestor id: \(openRequest.requestorID!)")
             
             acceptedMatch = openRequest.accept()
             performSegue(withIdentifier: "myMatchesToLiveMatchSegue", sender: self)
