@@ -105,7 +105,12 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - Pageboy (2.0.1)
   - Protobuf (3.4.0)
+  - PureLayout (3.0.2)
+  - Tabman (1.0.4):
+    - Pageboy (~> 2.0.0)
+    - PureLayout (~> 3.0.0)
 
 DEPENDENCIES:
   - AFNetworking
@@ -115,6 +120,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - GoogleSignIn
   - MBProgressHUD
+  - Tabman
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -137,8 +143,11 @@ SPEC CHECKSUMS:
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  Pageboy: 66f3d174b0a396c177b804323c56905837dadf1d
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
+  PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
+  Tabman: 6197bc24fc5462ff38252c037ae68ca4003df8f4
 
-PODFILE CHECKSUM: a6db070a931ce223056feeecd07e22595aeec551
+PODFILE CHECKSUM: 316c76acf13d3372640bf91f1665f78fc4b48418
 
 COCOAPODS: 1.3.1

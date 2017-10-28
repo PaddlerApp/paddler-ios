@@ -51,6 +51,7 @@ class ProfileViewController: UIViewController {
     
     @IBAction func logOut(_ sender: UIButton) {
         GIDSignIn.sharedInstance().signOut()
+        PaddlerUser.current = nil
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let loginVC = storyboard.instantiateInitialViewController()
         UIApplication.shared.keyWindow?.rootViewController = loginVC

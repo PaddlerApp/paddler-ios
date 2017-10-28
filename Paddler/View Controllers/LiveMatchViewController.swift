@@ -35,20 +35,14 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
             self.dismiss(animated: true, completion: nil)
         }
         
-        if requestor.profileURL != nil {
-            let url = requestor.profileURL
-            let data = try? Data(contentsOf: url!)
-            playerOneImageView.image = UIImage(data: data!)
-            //.setImageWith(currentUser.imageURL!)
+        if let url = requestor.profileURL {
+            playerOneImageView.setImageWith(url)
         } else {
             playerOneImageView.image = UIImage(named:"people-placeholder.png")
         }
         
-        if requestee.profileURL != nil {
-            let url = requestee.profileURL
-            let data = try? Data(contentsOf: url!)
-            playerTwoImageView.image = UIImage(data: data!)
-            //.setImageWith(currentUser.imageURL!)
+        if let url = requestee.profileURL {
+            playerTwoImageView.setImageWith(url)
         } else {
             playerTwoImageView.image = UIImage(named:"people-placeholder.png")
         }

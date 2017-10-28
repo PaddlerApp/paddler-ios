@@ -23,20 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().delegate = self
         Messaging.messaging().delegate = MessageDelegate()
         
-        if let currentUser = PaddlerUser.current {
+        if PaddlerUser.current != nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let tabVC = storyboard.instantiateViewController(withIdentifier: "tabVC") as! MyTabManViewController
             
-            // Show some kind of loading indicator
-            
-            currentUser.fetch {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let tabVC = storyboard.instantiateViewController(withIdentifier: "tabVC")
-                self.window?.rootViewController? = tabVC
-                self.window?.makeKeyAndVisible()
-                
-                print("there is a current user")
-            }
+            self.window?.rootViewController? = tabVC
+            self.window?.makeKeyAndVisible()
         } else {
-            print("no on signed in")
+            print("no one signed in")
         }
         
         return true
@@ -63,13 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 print("error: \(error.localizedDescription)")
                 return
             }
-            PaddlerUser.current = PaddlerUser(from: user!)
-            
-            // Show some kind of loading indicator
-            
-            PaddlerUser.current!.fetch {
-                self.window?.rootViewController?.performSegue(withIdentifier: "loginSegue", sender: nil)
-            }
+            let _ = PaddlerUser.current!
+            self.window?.rootViewController?.performSegue(withIdentifier: "loginSegue", sender: nil)
         }
     }
     
