@@ -166,10 +166,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
                 self.shouldDisableButton = true
                 self.tableView.reloadData()
                 // how can I not go to segue
-    
-                let match = profileVC.directRequest!.accept()
-                print("user has started match: \(match.id!)")
-                liveMatchViewController.match = match
+                
                 liveMatchViewController.delegate = self
             } else if requestMatchButton.tag == RequestState.REQUEST_PENDING.rawValue {
                 // Yingying: do we need a pending state? somehow we need to be able to show on button title that "Your request is waiting for response"
