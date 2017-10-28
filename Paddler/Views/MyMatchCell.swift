@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AFNetworking
 
 class MyMatchCell: UITableViewCell {
 
@@ -18,8 +19,42 @@ class MyMatchCell: UITableViewCell {
     @IBOutlet weak var playerOneScoreLabel: UILabel!
     @IBOutlet weak var playerTwoScoreLabel: UILabel!
     
+    var match: Match! {
+        didSet {
+            updateViews()
+        }
+    }
+    
     // playerOne is always the requestor
     // playerTwo is always the requestee
+    
+    func updateViews() {
+        self.matchTimestampLabel.text = String(describing: match.createdAt!)
+        
+        let requestor = match.requestor!
+        let requestee = match.requestee!
+        
+        
+        
+        if let url = match.requestor?.profileURL {
+            self.playerOneImageView.setImageWith(url)
+        } else {
+            self.playerOneImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        if let url = match.requestee?.profileURL {
+            self.playerTwoImageView.setImageWith(url)
+        } else {
+            self.playerTwoImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        
+        self.playerOneNameLabel.text = requestor.fullName!
+        self.playerTwoNameLabel.text = requestee.fullName!
+        self.playerOneScoreLabel.text = String(describing: match.requestorScore!)
+        self.playerTwoScoreLabel.text = String(describing: match.requesteeScore!)
+        
+        self.selectionStyle = .none // get rid of gray selection
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

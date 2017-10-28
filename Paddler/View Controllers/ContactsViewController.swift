@@ -12,7 +12,6 @@ import MBProgressHUD
 class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, LiveMatchViewControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var searchBar: UISearchBar!
     
     var contacts: [PaddlerUser] = []
@@ -20,11 +19,11 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     var shouldDisableButton: Bool = false
     
-    var users: [PaddlerUser]! // used to test request match actions
-    
     enum RequestState: Int {
         case NO_REQUEST = 0, HAS_OPEN_REQUEST, REQUEST_PENDING, REQUEST_ACCEPTED
     }
+
+    private var isSearching: Bool = false
     
     override func viewDidAppear(_ animated: Bool) {
         //MBProgressHUD.showAdded(to: self.view, animated: true)
@@ -61,10 +60,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         // Display HUD right before the request is made
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
-        PaddlerUser.leaderboard { (users) in
-            self.users = users
-            print("user from leaderboard: \(self.users)")
-        }
+        searchBar.showsCancelButton = true
         
         PaddlerUser.contacts { (users) in
             
@@ -96,30 +92,17 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if contacts != nil {
-            return filteredData.count //return filteredData!.count
-        }
-        else {
-            return 0
+        if isSearching {
+            return filteredData.count
+        } else {
+            return contacts.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactCell
-        
-        let contact = filteredData[indexPath.row]
-        cell.requestMatchButton.tag = indexPath.row
-        
-        if contact.profileURL != nil {
-            let url = contact.profileURL
-            let data = try? Data(contentsOf: url!)
-            cell.profileImageView.image = UIImage(data: data!)
-        } else {
-            cell.profileImageView.image = UIImage(named:"people-placeholder.png")
-        }
-        
-        cell.playerNameLabel.text = "\(contact.fullname!) "
-        
+        let data = isSearching ? filteredData : contacts
+        cell.contact = data[indexPath.row]
         // default value
         //cell.requestMatchButton.tag = RequestState.NO_REQUEST.rawValue
         //print("in cell: \(shouldDisableButton)")
@@ -131,7 +114,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         }
  
         cell.selectionStyle = .none // get rid of gray selection
-        
         return cell
     }
     
@@ -178,25 +160,14 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             
                 let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
                 let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
-               
-                // test data
-                let user  = users[6] // get first user from leaderboard
-                let contact = user
-                print("actual user object: \(contact.fullname)")
-                
-                profileVC.directRequest = Request.createDirect(with: contact)
                 
                 requestMatchButton.tag = RequestState.REQUEST_PENDING.rawValue
                 
                 self.shouldDisableButton = true
                 self.tableView.reloadData()
                 // how can I not go to segue
-    
-                let match = profileVC.directRequest!.accept()
-                print("user has started match: \(match.id!)")
-                liveMatchViewController.match = match
-                liveMatchViewController.delegate = self
                 
+                liveMatchViewController.delegate = self
             } else if requestMatchButton.tag == RequestState.REQUEST_PENDING.rawValue {
                 // Yingying: do we need a pending state? somehow we need to be able to show on button title that "Your request is waiting for response"
                 
@@ -206,29 +177,25 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("searchText: \(searchText)")
-        if !searchText.isEmpty {
-            print(self.contacts.count)
-            filteredData = self.contacts.filter { (user: PaddlerUser) -> Bool in
-                // If dataItem matches the searchText, return true to include it
-                let fullName = user.fullname
-                return fullName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
-            }
-        } else {
-            filteredData = self.contacts
+        filteredData = searchText.isEmpty ? self.contacts : self.contacts.filter { (user: PaddlerUser) -> Bool in
+            let fullName = user.fullName!
+            return fullName.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
         }
         
         tableView.reloadData()
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.searchBar.showsCancelButton = true
+        isSearching = true
+        searchBar.showsCancelButton = true
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
         searchBar.text = ""
         searchBar.resignFirstResponder()
+        isSearching = false
+        searchBar.showsCancelButton = false
+        tableView.reloadData()
     }
     //search bar functionality related - end
     

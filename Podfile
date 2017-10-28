@@ -12,8 +12,8 @@ target 'Paddler' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Messaging'
   pod 'GoogleSignIn'
-
   pod 'MBProgressHUD'
+  pod 'Tabman'
   # Pods for Paddler
 
 end

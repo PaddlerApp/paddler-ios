@@ -12,7 +12,7 @@ import GoogleSignIn
 
 class PaddlerUser: NSObject {
     
-    static var _current: PaddlerUser?
+    fileprivate static var _current: PaddlerUser?
     
     var id: String?
     var firstName: String?
@@ -29,6 +29,9 @@ class PaddlerUser: NSObject {
             if _current == nil {
                 if let user = Auth.auth().currentUser {
                     _current = PaddlerUser(from: user)
+                    _current?.fetch {
+                        print("done fetching")
+                    }
                 }
             }
             return _current
@@ -38,7 +41,7 @@ class PaddlerUser: NSObject {
         }
     }
     
-    var fullname: String? {
+    var fullName: String? {
         get {
             return firstName! + " " + lastName!
         }
@@ -52,6 +55,7 @@ class PaddlerUser: NSObject {
     
     init(from: User) {
         firUser = from
+        id = from.uid
         super.init()
     }
     

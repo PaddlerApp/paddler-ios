@@ -1,0 +1,63 @@
+//
+//  MyTabManViewController.swift
+//  Paddler
+//
+//  Created by Prithvi Prabahar on 10/25/17.
+//  Copyright © 2017 Paddler. All rights reserved.
+//
+
+import UIKit
+import Tabman
+import Pageboy
+
+class MyTabManViewController: TabmanViewController, PageboyViewControllerDataSource {
+    
+    var viewControllers: [UIViewController]
+    
+    required init?(coder aDecoder: NSCoder) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let myMatchesNavigationController = storyboard.instantiateViewController(withIdentifier: "MyMatchesNavigationController") as! UINavigationController
+        let leaderboardNavigationController = storyboard.instantiateViewController(withIdentifier: "LeaderboardNavigationController") as! UINavigationController
+        let contactsNavigationController = storyboard.instantiateViewController(withIdentifier: "ContactsNavigationController") as! UINavigationController
+        let profileNavigationController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
+        
+        viewControllers = [myMatchesNavigationController, leaderboardNavigationController, contactsNavigationController, profileNavigationController]
+        super.init(coder: aDecoder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.dataSource = self
+        
+        // configure the bar
+        self.bar.items = [Item(title: "My Matches"),
+                          Item(title: "Leaderboard"),
+                          Item(title: "Contacts"),
+                          Item(title: "Profile")]
+        
+        self.bar.location = .bottom
+        
+        self.bar.appearance = TabmanBar.Appearance({ (appearance) in
+            appearance.text.font = .systemFont(ofSize: 12.0)
+            appearance.indicator.bounces = true
+            appearance.layout.minimumItemWidth = self.view.frame.width/4
+            appearance.layout.interItemSpacing = 0
+            appearance.layout.edgeInset = 0
+        })
+    }
+    
+    func numberOfViewControllers(in pageboyViewController: PageboyViewController) -> Int {
+        return viewControllers.count
+    }
+    
+    func viewController(for pageboyViewController: PageboyViewController,
+                        at index: PageboyViewController.PageIndex) -> UIViewController? {
+        return viewControllers[index]
+    }
+    
+    func defaultPage(for pageboyViewController: PageboyViewController) -> PageboyViewController.Page? {
+        return nil
+    }
+    
+}

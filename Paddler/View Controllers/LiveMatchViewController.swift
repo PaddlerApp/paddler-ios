@@ -27,16 +27,6 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("live match id: \(match.id)")
-        print("live match created at: \(match.createdAt)")
-        print("live match finished at: \(match.finishedAt)")
-        print("live match requestor id: \(match.requestorID)")
-        print("live match requestee id: \(match.requesteeID)")
-        print("live match requestor score: \(match.requestorScore)")
-        print("live match requestee score: \(match.requesteeScore)")
-        print("live match winner id: \(match.winnerID)")
-        print("live match loser id: \(match.loserID)")
         
         let requestor = match.requestor!
         let requestee = match.requestee!
@@ -45,20 +35,14 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
             self.dismiss(animated: true, completion: nil)
         }
         
-        if requestor.profileURL != nil {
-            let url = requestor.profileURL
-            let data = try? Data(contentsOf: url!)
-            playerOneImageView.image = UIImage(data: data!)
-            //.setImageWith(currentUser.imageURL!)
+        if let url = requestor.profileURL {
+            playerOneImageView.setImageWith(url)
         } else {
             playerOneImageView.image = UIImage(named:"people-placeholder.png")
         }
         
-        if requestee.profileURL != nil {
-            let url = requestee.profileURL
-            let data = try? Data(contentsOf: url!)
-            playerTwoImageView.image = UIImage(data: data!)
-            //.setImageWith(currentUser.imageURL!)
+        if let url = requestee.profileURL {
+            playerTwoImageView.setImageWith(url)
         } else {
             playerTwoImageView.image = UIImage(named:"people-placeholder.png")
         }
@@ -69,8 +53,8 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         playerTwoImageView.layer.cornerRadius = playerTwoImageView.frame.size.width / 2
         playerTwoImageView.clipsToBounds = true
         
-        playerOneNameLabel.text = requestor.fullname
-        playerTwoNameLabel.text = requestee.fullname
+        playerOneNameLabel.text = requestor.fullName
+        playerTwoNameLabel.text = requestee.fullName
         
         playerOneScoreTextField.delegate = self
         playerTwoScoreTextField.delegate = self
@@ -97,18 +81,6 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         
         self.delegate?.didSaveMatch()
         
-        print("------------ finished a game ------------")
-        print("finish game - live match id: \(match.id)")
-        print("finish game - live match created at: \(match.createdAt)")
-        print("finish game - live match finished at: \(match.finishedAt)")
-        print("finish game - live match requestor id: \(match.requestorID)")
-        print("finish game - live match requestee id: \(match.requesteeID)")
-        print("finish game - live match requestor score: \(match.requestorScore)")
-        print("finish game - live match requestee score: \(match.requesteeScore)")
-        print("finish game - live match winner id: \(match.winnerID)")
-        print("finish game - live match loser id: \(match.loserID)")
-        
         dismiss(animated: true, completion: nil)
-        
     }
 }

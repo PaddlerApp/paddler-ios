@@ -20,7 +20,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var requestGameButton: UIButton!
     weak var delegate: MyMatchesViewControllerDelegate?
     
-    var matches: [Match]!
+    var matches: [Match] = []
     var openRequest: Request!
     var initiatedRequest: Request!
     var currentRequestStatus: Int!
@@ -64,7 +64,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             if let request = request {
                 self.openRequest = request
                 self.requestGameButton.tag = RequestState.HAS_OPEN_REQUEST.rawValue
-                self.requestGameButton.setTitle("Accept Match from \(request.requestor!.fullname!)", for: .normal)
+                self.requestGameButton.setTitle("Accept Match from \(request.requestor!.fullName!)", for: .normal)
             }
         }
         
@@ -89,61 +89,17 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if matches != nil {
-            return matches!.count
-        } else {
-            return 0
-        }
+        return matches.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "matchCell", for: indexPath) as! MyMatchCell
-        
-        let match = matches[indexPath.row]
-        
-        cell.matchTimestampLabel.text = "\(String(describing: match.createdAt!))"
-
-        let requestor = match.requestor!
-        let requestee = match.requestee!
-        
-        if match.requestor?.profileURL != nil {
-            let url = match.requestor?.profileURL
-            let data = try? Data(contentsOf: url!)
-            cell.playerOneImageView.image = UIImage(data: data!)
-        } else {
-            cell.playerOneImageView.image = UIImage(named:"people-placeholder.png")
-        }
-        
-        if match.requestee?.profileURL != nil {
-            let url = match.requestee?.profileURL
-            let data = try? Data(contentsOf: url!)
-            cell.playerTwoImageView.image = UIImage(data: data!)
-        } else {
-            cell.playerTwoImageView.image = UIImage(named:"people-placeholder.png")
-        }
-        
-        cell.playerOneNameLabel.text = requestor.fullname
-        cell.playerTwoNameLabel.text = requestee.fullname
-        cell.playerOneScoreLabel.text = "\(String(describing: match.requestorScore!))"
-        cell.playerTwoScoreLabel.text = "\(String(describing: match.requesteeScore!))"
-        
-        cell.selectionStyle = .none // get rid of gray selection
-        
+        cell.match = matches[indexPath.row]
         return cell
     }
 
     @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 162
-        
         PaddlerUser.current!.getMatches { (matches) in
-            for match in matches {
-                print("refresh control in MyMatchesVC - match.createdAt: \(match.createdAt!)")
-            }
-            
             self.matches = matches
             self.tableView.reloadData()
             refreshControl.endRefreshing()
@@ -154,14 +110,10 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         
         if self.requestGameButton.tag == RequestState.NO_REQUEST.rawValue {
             // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
-            
             initiatedRequest = Request.createBroadcast()
             requestGameButton.isEnabled = false
             requestGameButton.setTitle("Request Pending", for: .disabled)
             requestGameButton.tag = RequestState.REQUEST_PENDING.rawValue
-//            print("create broadcast in MyMatchesVC - request id: \(profileVC.broadcastRequest!.id!)")
-//            print("create broadcast in MyMatchesVC - requestor id: \(profileVC.broadcastRequest!.requestorID!)")
-//            print("create broadcast in MyMatchesVC - requestee id - hard coded: \(profileVC.broadcastRequest!.requesteeID!)")
             
         } else if self.requestGameButton.tag == RequestState.HAS_OPEN_REQUEST.rawValue {
             
