@@ -17,9 +17,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var playerWinsLabel: UILabel!
     @IBOutlet weak var playerLossesLabel: UILabel!
     
-    var broadcastRequest: Request?
-    var directRequest: Request?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,16 +24,12 @@ class ProfileViewController: UIViewController {
         //print(PaddlerUser.current!.firstName!)
         let currentUser = PaddlerUser.current!
         
-        let firstName = currentUser.firstName!
-        let lastName = currentUser.lastName!
+        let fullName = currentUser.fullName!
         let winCount = currentUser.winCount!
         let lossCount = currentUser.lossCount!
         
-        if currentUser.profileURL != nil {
-            let url = currentUser.profileURL
-            let data = try? Data(contentsOf: url!)
-            profileImageView.image = UIImage(data: data!)
-            //.setImageWith(currentUser.imageURL!)
+        if let url = currentUser.profileURL {
+            profileImageView.setImageWith(url)
         } else {
             profileImageView.image = UIImage(named:"people-placeholder.png")
         }
@@ -44,17 +37,9 @@ class ProfileViewController: UIViewController {
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
         profileImageView.clipsToBounds = true
         
-        playerNameLabel.text = "\(firstName) \(lastName)"
+        playerNameLabel.text = fullName
         playerWinsLabel.text = "\(winCount)"
         playerLossesLabel.text = "\(lossCount)"
-        
-        if let request = broadcastRequest {
-            request.cancel()
-        }
-        
-        if let request = directRequest {
-            request.cancel()
-        }
     }
     
     

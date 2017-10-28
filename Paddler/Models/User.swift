@@ -38,7 +38,7 @@ class PaddlerUser: NSObject {
         }
     }
     
-    var fullname: String? {
+    var fullName: String? {
         get {
             return firstName! + " " + lastName!
         }

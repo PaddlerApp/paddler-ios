@@ -14,6 +14,22 @@ class ContactCell: UITableViewCell {
     @IBOutlet weak var requestMatchButton: UIButton!
     @IBOutlet weak var profileImageView: UIImageView!
     
+    var contact: PaddlerUser! {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    private func updateViews() {
+        playerNameLabel.text = contact.fullName!
+        if let url = contact.profileURL {
+            self.profileImageView.setImageWith(url)
+        } else {
+            self.profileImageView.image = UIImage(named:"people-placeholder.png")
+        }
+        selectionStyle = .none // get rid of gray selection
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
