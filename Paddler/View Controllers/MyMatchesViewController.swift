@@ -26,6 +26,8 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     var currentRequestStatus: Int!
     var acceptedMatch: Match!
     
+    @IBOutlet weak var requestButtonWidth: NSLayoutConstraint!
+    
     enum RequestState: Int {
         case NO_REQUEST = 0, HAS_OPEN_REQUEST, REQUEST_PENDING, REQUEST_ACCEPTED
     }
@@ -63,14 +65,12 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         // default value
-        requestGameButton.tag = RequestState.NO_REQUEST.rawValue
+        setToRequestButton()
         
         // if there's an open broadcast or direct request - set button to be Accept Match
-        user.hasOpenRequest { (request) in
+        user.listenForOpenRequest { (request) in
             if let request = request {
-                self.openRequest = request
-                self.requestGameButton.tag = RequestState.HAS_OPEN_REQUEST.rawValue
-                self.requestGameButton.setTitle("Accept Match from \(request.requestor!.fullName!)", for: .normal)
+                self.setToAcceptButton(request)
             }
         }
         
@@ -78,9 +78,7 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             if let match = match {
                 self.acceptedMatch = match
                 self.performSegue(withIdentifier: "myMatchesToLiveMatchSegue", sender: self)
-                self.requestGameButton.tag = RequestState.NO_REQUEST.rawValue
-                self.requestGameButton.isEnabled = true
-                self.requestGameButton.setTitle("Request Match", for: .normal)
+                self.setToRequestButton()
             }
         }
         
@@ -122,13 +120,9 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             requestGameButton.tag = RequestState.REQUEST_PENDING.rawValue
             
         } else if self.requestGameButton.tag == RequestState.HAS_OPEN_REQUEST.rawValue {
-            
             acceptedMatch = openRequest.accept()
             performSegue(withIdentifier: "myMatchesToLiveMatchSegue", sender: self)
-            openRequest = nil
-            requestGameButton.tag = RequestState.NO_REQUEST.rawValue
-            requestGameButton.isEnabled = true
-            self.requestGameButton.setTitle("Request Match", for: .normal)
+            self.setToRequestButton()
         } else if self.requestGameButton.tag == RequestState.REQUEST_PENDING.rawValue { // current user has made request but waiting for acception
             
             print("Does nothing; request is pending")
@@ -138,6 +132,34 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
             // Yingying: We have two ways to do this:
             // 1. as soon as the match is accepted, goes to the live match screen (simplest)
             
+        }
+    }
+    
+    func setToAcceptButton(_ request: Request) {
+        self.openRequest = request
+        self.requestGameButton.tag = RequestState.HAS_OPEN_REQUEST.rawValue
+        UIView.animate(withDuration: 0.7) {
+            self.requestButtonWidth.constant = self.view.frame.width * 0.8
+            self.requestGameButton.backgroundColor = Constants.buttonGreenBackground
+            self.requestGameButton.setTitle("Accept Match from \(request.requestor!.firstName!)", for: .normal)
+            self.requestGameButton.tintColor = UIColor.white
+            self.requestGameButton.layer.borderWidth = 0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func setToRequestButton() {
+        requestGameButton.tag = RequestState.NO_REQUEST.rawValue
+        requestGameButton.layer.cornerRadius = 5
+        openRequest = nil
+        requestGameButton.isEnabled = true
+        UIView.animate(withDuration: 0.7) {
+            self.requestButtonWidth.constant = 130
+            self.requestGameButton.backgroundColor = Constants.buttonGreenBackground
+            self.requestGameButton.tintColor = UIColor.white
+            self.requestGameButton.setTitle("Request Match", for: .normal)
+            self.requestGameButton.layer.borderWidth = 0
+            self.view.layoutIfNeeded()
         }
     }
     
