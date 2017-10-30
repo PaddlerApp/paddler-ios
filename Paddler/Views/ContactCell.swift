@@ -35,9 +35,14 @@ class ContactCell: UITableViewCell {
         // Initialization code
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
         profileImageView.clipsToBounds = true
+        profileImageView.layer.borderWidth = 3
+        profileImageView.layer.borderColor = UIColor.white.cgColor
         
         requestMatchButton.layer.cornerRadius = 5
         requestMatchButton.layer.shadowColor = UIColor(red:0.18, green:0.49, blue:0.20, alpha:1.0).cgColor
+        requestMatchButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        requestMatchButton.layer.shadowRadius = 1
+        requestMatchButton.layer.shadowOpacity = 0.5
         //requestMatchButton.layer.borderWidth = 1
         //requestMatchButton.layer.borderColor = UIColor(red:0.18, green:0.49, blue:0.20, alpha:1.0).cgColor
     }

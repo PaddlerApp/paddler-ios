@@ -217,5 +217,10 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         // a func to go back to My Matches View Controller
         tabBarController?.selectedIndex = 0
     }
+    
+    @IBAction func onTapView(_ sender: Any) {
+        view.endEditing(true)
+        searchBar.showsCancelButton = false
+    }
 
 }

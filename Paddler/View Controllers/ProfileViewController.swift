@@ -45,9 +45,10 @@ class ProfileViewController: UIViewController {
         playerLossesLabel.text = "\(lossCount)"
         
         logoutButton.layer.cornerRadius = 5
-        logoutButton.layer.borderWidth = 1
-        logoutButton.layer.borderColor = UIColor(red:1.00, green:0.80, blue:0.50, alpha:1.0).cgColor
-        
+        logoutButton.layer.shadowColor = UIColor(red:1.00, green:0.80, blue:0.50, alpha:1.0).cgColor
+        logoutButton.layer.shadowOffset = CGSize(width: 0, height: 0)
+        logoutButton.layer.shadowRadius = 1
+        logoutButton.layer.shadowOpacity = 1.0
     }
     
     

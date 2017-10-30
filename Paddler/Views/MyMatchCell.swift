@@ -34,7 +34,11 @@ class MyMatchCell: UITableViewCell {
         let requestor = match.requestor!
         let requestee = match.requestee!
         
+        playerOneImageView.layer.borderWidth = 3
+        playerOneImageView.layer.borderColor = UIColor.white.cgColor
         
+        playerTwoImageView.layer.borderWidth = 3
+        playerTwoImageView.layer.borderColor = UIColor.white.cgColor
         
         if let url = match.requestor?.profileURL {
             self.playerOneImageView.setImageWith(url)
