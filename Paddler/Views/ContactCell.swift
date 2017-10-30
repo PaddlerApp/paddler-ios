@@ -35,6 +35,11 @@ class ContactCell: UITableViewCell {
         // Initialization code
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
         profileImageView.clipsToBounds = true
+        
+        requestMatchButton.layer.cornerRadius = 5
+        requestMatchButton.layer.shadowColor = UIColor(red:0.18, green:0.49, blue:0.20, alpha:1.0).cgColor
+        //requestMatchButton.layer.borderWidth = 1
+        //requestMatchButton.layer.borderColor = UIColor(red:0.18, green:0.49, blue:0.20, alpha:1.0).cgColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

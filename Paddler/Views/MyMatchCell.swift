@@ -48,8 +48,8 @@ class MyMatchCell: UITableViewCell {
             self.playerTwoImageView.image = UIImage(named:"people-placeholder.png")
         }
         
-        self.playerOneNameLabel.text = requestor.fullName!
-        self.playerTwoNameLabel.text = requestee.fullName!
+        self.playerOneNameLabel.text = requestor.firstName!
+        self.playerTwoNameLabel.text = requestee.firstName!
         self.playerOneScoreLabel.text = String(describing: match.requestorScore!)
         self.playerTwoScoreLabel.text = String(describing: match.requesteeScore!)
         

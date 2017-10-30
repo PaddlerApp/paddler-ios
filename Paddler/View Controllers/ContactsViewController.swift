@@ -52,6 +52,8 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
 
         searchBar.delegate = self
+        searchBar.backgroundImage = UIImage(named: "orange-image")
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -59,8 +61,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         
         // Display HUD right before the request is made
         MBProgressHUD.showAdded(to: self.view, animated: true)
-        
-        searchBar.showsCancelButton = true
         
         PaddlerUser.contacts { (users) in
             
@@ -192,8 +192,8 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
-        searchBar.resignFirstResponder()
         isSearching = false
+        //searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
         tableView.reloadData()
     }
@@ -209,8 +209,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         var indexPath: Int!
         
         indexPath = view.hitTest(loc, with: nil)?.tag
-    
-        //print("indexPath: \(indexPath)")
         
         self.performSegue(withIdentifier: "homeTimelineToProfileSegue", sender: indexPath)
     }

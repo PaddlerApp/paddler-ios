@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //UILabel.appearance().defaultFont = "Trebuchet MS"
+        
         FirebaseApp.configure()
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
@@ -90,5 +93,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
 
 
+}
+
+extension UILabel {
+    
+    var defaultFont : String {
+        get { return self.font.fontName }
+        set {
+            let fontNameToTest = self.font.fontName.lowercased();
+            
+            var fontName = newValue;
+            if fontNameToTest.range(of: "bold") != nil {
+                fontName += "-Bold";
+            } else if fontNameToTest.range(of: "medium") != nil {
+                fontName += "-Medium";
+            } else if fontNameToTest.range(of: "light") != nil {
+                fontName += "-Light";
+            } else if fontNameToTest.range(of: "ultralight") != nil {
+                fontName += "-UltraLight";
+            }
+            self.font = UIFont(name: fontName, size: self.font.pointSize)
+            
+        }
+    }
 }
 

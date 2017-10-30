@@ -16,10 +16,11 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var playerWinsLabel: UILabel!
     @IBOutlet weak var playerLossesLabel: UILabel!
+    @IBOutlet weak var logoutButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         //print(PaddlerUser.current!.firstName!)
         let currentUser = PaddlerUser.current!
@@ -36,10 +37,17 @@ class ProfileViewController: UIViewController {
         
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
         profileImageView.clipsToBounds = true
+        profileImageView.layer.borderWidth = 5
+        profileImageView.layer.borderColor = UIColor.white.cgColor
         
         playerNameLabel.text = fullName
         playerWinsLabel.text = "\(winCount)"
         playerLossesLabel.text = "\(lossCount)"
+        
+        logoutButton.layer.cornerRadius = 5
+        logoutButton.layer.borderWidth = 1
+        logoutButton.layer.borderColor = UIColor(red:1.00, green:0.80, blue:0.50, alpha:1.0).cgColor
+        
     }
     
     

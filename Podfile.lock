@@ -105,10 +105,10 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
-  - Pageboy (2.0.1)
+  - Pageboy (2.0.2)
   - Protobuf (3.4.0)
   - PureLayout (3.0.2)
-  - Tabman (1.0.4):
+  - Tabman (1.0.5):
     - Pageboy (~> 2.0.0)
     - PureLayout (~> 3.0.0)
 
@@ -143,10 +143,10 @@ SPEC CHECKSUMS:
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  Pageboy: 66f3d174b0a396c177b804323c56905837dadf1d
+  Pageboy: d5b9fe9a59202674c44111e513e67ccc680e18b7
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
   PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
-  Tabman: 6197bc24fc5462ff38252c037ae68ca4003df8f4
+  Tabman: 9f87244fdbbd070fe6a518f445880b2b4a56ea1b
 
 PODFILE CHECKSUM: 316c76acf13d3372640bf91f1665f78fc4b48418
 
