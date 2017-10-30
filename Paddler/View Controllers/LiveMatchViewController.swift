@@ -38,13 +38,13 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         if let url = requestor.profileURL {
             playerOneImageView.setImageWith(url)
         } else {
-            playerOneImageView.image = UIImage(named:"people-placeholder.png")
+            playerOneImageView.image = UIImage(named: Constants.placeholderImageString)
         }
         
         if let url = requestee.profileURL {
             playerTwoImageView.setImageWith(url)
         } else {
-            playerTwoImageView.image = UIImage(named:"people-placeholder.png")
+            playerTwoImageView.image = UIImage(named: Constants.placeholderImageString)
         }
         
         playerOneImageView.layer.cornerRadius = playerOneImageView.frame.size.width / 2
