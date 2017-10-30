@@ -30,6 +30,8 @@ class RankCell: UITableViewCell {
         // Initialization code
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
         profileImageView.clipsToBounds = true
+        profileImageView.layer.borderWidth = 3
+        profileImageView.layer.borderColor = UIColor.white.cgColor
     }
     
     private func updateViews() {
