@@ -53,8 +53,8 @@ class LiveMatchViewController: UIViewController, UITextFieldDelegate {
         playerTwoImageView.layer.cornerRadius = playerTwoImageView.frame.size.width / 2
         playerTwoImageView.clipsToBounds = true
         
-        playerOneNameLabel.text = requestor.fullName
-        playerTwoNameLabel.text = requestee.fullName
+        playerOneNameLabel.text = requestor.firstName
+        playerTwoNameLabel.text = requestee.firstName
         
         playerOneScoreTextField.delegate = self
         playerTwoScoreTextField.delegate = self
