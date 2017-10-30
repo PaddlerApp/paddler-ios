@@ -26,15 +26,11 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     private var isSearching: Bool = false
     
     override func viewDidAppear(_ animated: Bool) {
-        //MBProgressHUD.showAdded(to: self.view, animated: true)
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         
         PaddlerUser.contacts { (users) in
-            
-            //self.shouldDisableButton = false
-            
             PaddlerUser.current!.hasInitiatedRequest { (request) in
-                
-                if let request = request {
+                if request != nil {
                     self.shouldDisableButton = true
                 }
                 
@@ -42,9 +38,8 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
                 self.filteredData = users
                 
                 self.tableView.reloadData()
+                MBProgressHUD.hide(for: self.view, animated: true)
             }
-            
-            //MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
     
@@ -58,27 +53,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 70
-        
-        // Display HUD right before the request is made
-        MBProgressHUD.showAdded(to: self.view, animated: true)
-        
-        PaddlerUser.contacts { (users) in
-            
-            //self.shouldDisableButton = false
-            PaddlerUser.current!.hasInitiatedRequest { (request) in
-                
-                if let request = request {
-                    self.shouldDisableButton = true
-                }
-                
-                self.contacts = users
-                self.filteredData = users
-                
-                self.tableView.reloadData()
-            }
-            
-            MBProgressHUD.hide(for: self.view, animated: true)
-        }
         
         // refresh control
         let refreshControl = UIRefreshControl()
@@ -146,26 +120,17 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "contactsToLiveMatchSegue" {
-            
             let requestMatchButton = sender as! UIButton
-            let indexPath = requestMatchButton.tag
-            let contact = contacts[indexPath]
-            
-            //print("contact: \(contact.fullname)")
             
             if requestMatchButton.tag == RequestState.NO_REQUEST.rawValue {
                 // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
                 let navigationController = segue.destination as! UINavigationController
                 let liveMatchViewController = navigationController.topViewController as! LiveMatchViewController
-            
-                let profileNavVC = tabBarController?.viewControllers![3] as! UINavigationController
-                let profileVC = profileNavVC.viewControllers[0] as! ProfileViewController
                 
                 requestMatchButton.tag = RequestState.REQUEST_PENDING.rawValue
                 
                 self.shouldDisableButton = true
                 self.tableView.reloadData()
-                // how can I not go to segue
                 
                 liveMatchViewController.delegate = self
             } else if requestMatchButton.tag == RequestState.REQUEST_PENDING.rawValue {

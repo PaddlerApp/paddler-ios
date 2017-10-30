@@ -189,6 +189,17 @@ class FirebaseClient: NSObject {
         }
     }
     
+    func listenForOpenRequest(completion: @escaping ([DocumentSnapshot]) -> ()) {
+        requests.whereField("status", isEqualTo: "open")
+            .addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    print("error: \(error.localizedDescription)")
+                } else {
+                    completion(querySnapshot!.documents)
+                }
+        }
+    }
+    
     func onComplete(match: Match, completion: @escaping (DocumentSnapshot?) -> ()) {
         matches.document(match.id!)
             .addSnapshotListener { (documentSnapshot, error) in

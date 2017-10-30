@@ -164,7 +164,18 @@ class PaddlerUser: NSObject {
             }
             completion(nil)
         }
+    }
     
+    func listenForOpenRequest(completion: @escaping (Request?) -> ()) {
+        FirebaseClient.sharedInstance.listenForOpenRequest { (documentSnapshot) in
+            for document in documentSnapshot {
+                let request = Request(from: document)
+                if (request.requesteeID! == self.id!) || (request.requesteeID! == "") {
+                    completion(request)
+                }
+            }
+            completion(nil)
+        }
     }
     
     func addToken() {
