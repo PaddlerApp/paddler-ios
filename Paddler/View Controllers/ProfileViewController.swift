@@ -32,7 +32,7 @@ class ProfileViewController: UIViewController {
         if let url = currentUser.profileURL {
             profileImageView.setImageWith(url)
         } else {
-            profileImageView.image = UIImage(named:"people-placeholder.png")
+            profileImageView.image = UIImage(named: Constants.placeholderImageString)
         }
         
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
@@ -44,7 +44,7 @@ class ProfileViewController: UIViewController {
         playerWinsLabel.text = "\(winCount)"
         playerLossesLabel.text = "\(lossCount)"
         
-        logoutButton.layer.cornerRadius = 5
+        logoutButton.layer.cornerRadius = Constants.buttonCornerRadius
         logoutButton.layer.shadowColor = UIColor(red:1.00, green:0.80, blue:0.50, alpha:1.0).cgColor
         logoutButton.layer.shadowOffset = CGSize(width: 0, height: 0)
         logoutButton.layer.shadowRadius = 1

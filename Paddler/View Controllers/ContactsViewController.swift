@@ -18,10 +18,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     var filteredData: [PaddlerUser] = []
     
     var shouldDisableButton: Bool = false
-    
-    enum RequestState: Int {
-        case NO_REQUEST = 0, HAS_OPEN_REQUEST, REQUEST_PENDING, REQUEST_ACCEPTED
-    }
 
     private var isSearching: Bool = false
     
@@ -47,7 +43,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
 
         searchBar.delegate = self
-        searchBar.backgroundImage = UIImage(named: "orange-image")
+        searchBar.backgroundImage = UIImage(named: Constants.orangeImageString)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -74,42 +70,20 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.contactCellIdentifier, for: indexPath) as! ContactCell
         let data = isSearching ? filteredData : contacts
         cell.contact = data[indexPath.row]
-        // default value
-        //cell.requestMatchButton.tag = RequestState.NO_REQUEST.rawValue
-        //print("in cell: \(shouldDisableButton)")
-        // if user has initiated an open request, disable button
-        if shouldDisableButton == true {
-            cell.requestMatchButton.isEnabled = false
-        } else {
-            cell.requestMatchButton.isEnabled = true
-        }
- 
-        cell.selectionStyle = .none // get rid of gray selection
+        cell.requestMatchButton.isEnabled = !shouldDisableButton
         return cell
     }
     
     @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 162
         
         PaddlerUser.contacts { (users) in
-            
-            //self.shouldDisableButton = false
-            
-            /*
-            PaddlerUser.current!.hasInitiatedRequest { (request) in
-                self.shouldDisableButton = true
-                self.contacts = users
-                self.filteredData = users
-                
-                self.tableView.reloadData()
-            }*/
             self.contacts = users
             self.filteredData = users
             self.tableView.reloadData()
@@ -119,23 +93,18 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "contactsToLiveMatchSegue" {
+        if segue.identifier == Constants.contactToLive {
             let requestMatchButton = sender as! UIButton
-            
             if requestMatchButton.tag == RequestState.NO_REQUEST.rawValue {
                 // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
                 let navigationController = segue.destination as! UINavigationController
                 let liveMatchViewController = navigationController.topViewController as! LiveMatchViewController
-                
                 requestMatchButton.tag = RequestState.REQUEST_PENDING.rawValue
-                
                 self.shouldDisableButton = true
                 self.tableView.reloadData()
-                
                 liveMatchViewController.delegate = self
             } else if requestMatchButton.tag == RequestState.REQUEST_PENDING.rawValue {
                 // Yingying: do we need a pending state? somehow we need to be able to show on button title that "Your request is waiting for response"
-                
                 // Disable all buttons on Contacts page
             }
         }
@@ -163,20 +132,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.reloadData()
     }
     //search bar functionality related - end
-    
-    @IBAction func onTapButton(_ sender: UITapGestureRecognizer) {
-        var view: UIView!
-        var loc: CGPoint!
-        
-        view = sender.view
-        loc = sender.location(in: view)
-        
-        var indexPath: Int!
-        
-        indexPath = view.hitTest(loc, with: nil)?.tag
-        
-        self.performSegue(withIdentifier: "homeTimelineToProfileSegue", sender: indexPath)
-    }
     
     func didSaveMatch() {
         // a func to go back to My Matches View Controller
