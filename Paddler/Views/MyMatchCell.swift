@@ -29,7 +29,7 @@ class MyMatchCell: UITableViewCell {
     // playerTwo is always the requestee
     
     func updateViews() {
-        self.matchTimestampLabel.text = String(describing: match.createdAt!)
+        self.matchTimestampLabel.text = match.timeAgoSinceDate()
         
         let requestor = match.requestor!
         let requestee = match.requestee!

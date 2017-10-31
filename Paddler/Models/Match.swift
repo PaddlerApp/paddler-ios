@@ -23,6 +23,15 @@ class Match: NSObject {
     var requestorScore: Int?
     var requesteeScore: Int?
     
+    static let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        // "9/30/17, 6:02 PM"
+        dateFormatter.dateFormat = "M/d/yy, h:mm a"
+        dateFormatter.amSymbol = "AM"
+        dateFormatter.pmSymbol = "PM"
+        return dateFormatter
+    }()
+    
     init(from: DocumentSnapshot) {
         super.init()
         self.id = from.documentID
@@ -106,5 +115,27 @@ class Match: NSObject {
                 }
             }
         }
+    }
+    
+    // https://gist.github.com/minorbug/468790060810e0d29545
+    func timeAgoSinceDate() -> String {
+        let calendar = NSCalendar.current
+        let unitFlags: Set<Calendar.Component> = [.minute, .hour, .day, .weekOfYear, .month, .year, .second]
+        let now = Date()
+        let components = calendar.dateComponents(unitFlags, from: finishedAt!,  to: now)
+        
+        if (components.day! >= 1) {
+            return detailTime()
+        } else if (components.hour! >= 1) {
+            return "\(components.hour!)h"
+        } else if (components.minute! >= 5){
+            return "\(components.minute!)m"
+        } else {
+            return "Just now"
+        }
+    }
+    
+    func detailTime() -> String {
+        return Match.dateFormatter.string(from: finishedAt!)
     }
 }
