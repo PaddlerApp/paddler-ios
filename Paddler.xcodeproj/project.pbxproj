@@ -18,6 +18,7 @@
 		DC27A59E1F8C7AEE009DF634 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC27A59C1F8C7AEE009DF634 /* LaunchScreen.storyboard */; };
 		DC27A5A71F8F4315009DF634 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC27A5A61F8F4315009DF634 /* User.swift */; };
 		DC300E2D1FA1B9CB00E4DC37 /* MyTabManViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC300E2C1FA1B9CB00E4DC37 /* MyTabManViewController.swift */; };
+		DC300E2F1FA6D12800E4DC37 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC300E2E1FA6D12800E4DC37 /* Constants.swift */; };
 		DCAFADBB1F9DB81100F77243 /* FirebaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC187E2C1F905F6E0061EC7F /* FirebaseClient.swift */; };
 		FB9BCCE51F930779004B5642 /* MyMatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9BCCE41F930779004B5642 /* MyMatchCell.swift */; };
 		FB9BCCE71F93078C004B5642 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9BCCE61F93078C004B5642 /* ContactCell.swift */; };
@@ -46,6 +47,7 @@
 		DC27A59F1F8C7AEE009DF634 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC27A5A61F8F4315009DF634 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DC300E2C1FA1B9CB00E4DC37 /* MyTabManViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabManViewController.swift; sourceTree = "<group>"; };
+		DC300E2E1FA6D12800E4DC37 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		ED811BC9BA650F19E77773D9 /* Pods-Paddler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Paddler.release.xcconfig"; path = "Pods/Target Support Files/Pods-Paddler/Pods-Paddler.release.xcconfig"; sourceTree = "<group>"; };
 		EFB030465C0462C4E510C9E0 /* Pods_Paddler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Paddler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9BCCE41F930779004B5642 /* MyMatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMatchCell.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				DC27A5A51F8F42FE009DF634 /* Models */,
 				DC27A5931F8C7AEE009DF634 /* AppDelegate.swift */,
 				DC27A5971F8C7AEE009DF634 /* Main.storyboard */,
+				DC300E2E1FA6D12800E4DC37 /* Constants.swift */,
 				DC27A59A1F8C7AEE009DF634 /* Assets.xcassets */,
 				DC27A59C1F8C7AEE009DF634 /* LaunchScreen.storyboard */,
 				DC27A59F1F8C7AEE009DF634 /* Info.plist */,
@@ -336,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBDCA59E1F8DD7D6008C768E /* LiveMatchViewController.swift in Sources */,
+				DC300E2F1FA6D12800E4DC37 /* Constants.swift in Sources */,
 				FBDCA59C1F8DD7BE008C768E /* MyMatchesViewController.swift in Sources */,
 				DCAFADBB1F9DB81100F77243 /* FirebaseClient.swift in Sources */,
 				FBDCA5A01F8DD7ED008C768E /* LeaderboardViewController.swift in Sources */,

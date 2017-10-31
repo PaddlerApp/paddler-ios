@@ -16,10 +16,10 @@ class MyTabManViewController: TabmanViewController, PageboyViewControllerDataSou
     
     required init?(coder aDecoder: NSCoder) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let myMatchesNavigationController = storyboard.instantiateViewController(withIdentifier: "MyMatchesNavigationController") as! UINavigationController
-        let leaderboardNavigationController = storyboard.instantiateViewController(withIdentifier: "LeaderboardNavigationController") as! UINavigationController
-        let contactsNavigationController = storyboard.instantiateViewController(withIdentifier: "ContactsNavigationController") as! UINavigationController
-        let profileNavigationController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
+        let myMatchesNavigationController = storyboard.instantiateViewController(withIdentifier: Constants.myMatchesNavigationControllerString) as! UINavigationController
+        let leaderboardNavigationController = storyboard.instantiateViewController(withIdentifier: Constants.leaderboardNavigationControllerString) as! UINavigationController
+        let contactsNavigationController = storyboard.instantiateViewController(withIdentifier: Constants.contactsNavigationControllerString) as! UINavigationController
+        let profileNavigationController = storyboard.instantiateViewController(withIdentifier: Constants.profileNavigationControllerString) as! UINavigationController
         
         viewControllers = [myMatchesNavigationController, leaderboardNavigationController, contactsNavigationController, profileNavigationController]
         super.init(coder: aDecoder)
@@ -31,10 +31,10 @@ class MyTabManViewController: TabmanViewController, PageboyViewControllerDataSou
         self.dataSource = self
         
         // configure the bar
-        self.bar.items = [Item(title: "My Matches"),
-                          Item(title: "Leaderboard"),
-                          Item(title: "Contacts"),
-                          Item(title: "Profile")]
+        self.bar.items = [Item(title: Constants.matchesItem),
+                          Item(title: Constants.leaderboardItem),
+                          Item(title: Constants.contactsItem),
+                          Item(title: Constants.profileItem)]
         
         self.bar.location = .bottom
         
