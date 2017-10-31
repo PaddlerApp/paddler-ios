@@ -41,10 +41,12 @@ class MyTabManViewController: TabmanViewController, PageboyViewControllerDataSou
         self.bar.appearance = TabmanBar.Appearance({ (appearance) in
             appearance.text.font = .systemFont(ofSize: 12.0)
             appearance.indicator.bounces = true
+            appearance.indicator.color = Constants.buttonOrangeTint
             appearance.layout.minimumItemWidth = self.view.frame.width/4
             appearance.layout.interItemSpacing = 0
             appearance.layout.edgeInset = 0
-//            appearance.layout.height = TabmanBar.Height.explicit(value: 100)
+            appearance.state.color = Constants.buttonOrangeBackground
+            appearance.state.selectedColor = Constants.buttonOrangeTint
         })
     }
     
