@@ -31,10 +31,10 @@ class MyTabManViewController: TabmanViewController, PageboyViewControllerDataSou
         self.dataSource = self
         
         // configure the bar
-        self.bar.items = [Item(title: Constants.matchesItem),
-                          Item(title: Constants.leaderboardItem),
-                          Item(title: Constants.contactsItem),
-                          Item(title: Constants.profileItem)]
+        self.bar.items = [Item(image: #imageLiteral(resourceName: "matches")),
+                          Item(image: #imageLiteral(resourceName: "leaderboard")),
+                          Item(image: #imageLiteral(resourceName: "contacts")),
+                          Item(image: #imageLiteral(resourceName: "profile"))]
         
         self.bar.location = .bottom
         
@@ -44,6 +44,7 @@ class MyTabManViewController: TabmanViewController, PageboyViewControllerDataSou
             appearance.layout.minimumItemWidth = self.view.frame.width/4
             appearance.layout.interItemSpacing = 0
             appearance.layout.edgeInset = 0
+//            appearance.layout.height = TabmanBar.Height.explicit(value: 100)
         })
     }
     

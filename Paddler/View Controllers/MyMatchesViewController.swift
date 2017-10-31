@@ -38,12 +38,6 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         
         registerForNotifs()
         
-        requestGameButton.layer.cornerRadius = 5
-        requestGameButton.layer.shadowColor = UIColor(red:0.18, green:0.49, blue:0.20, alpha:1.0).cgColor
-        requestGameButton.layer.shadowOffset = CGSize(width: 1, height: 1)
-        requestGameButton.layer.shadowRadius = 1
-        requestGameButton.layer.shadowOpacity = 0.5
-        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -55,6 +49,15 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         let user = PaddlerUser.current!
         
         requestGameButton.layer.cornerRadius = Constants.buttonCornerRadius
+        requestButtonWidth.constant = 130
+        requestGameButton.backgroundColor = Constants.buttonGreenBackground
+        requestGameButton.tintColor = UIColor.white
+        requestGameButton.setTitle(Constants.requestMatchString, for: .normal)
+        requestGameButton.layer.borderWidth = 0
+        requestGameButton.layer.shadowColor = UIColor(red:0.18, green:0.49, blue:0.20, alpha:1.0).cgColor
+        requestGameButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        requestGameButton.layer.shadowRadius = 1
+        requestGameButton.layer.shadowOpacity = 0.5
         
         user.getMatches { (matches) in
             self.matches = matches
