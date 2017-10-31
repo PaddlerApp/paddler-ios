@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -108,6 +108,7 @@
                                                     <size key="titleShadowOffset" width="2" height="2"/>
                                                     <state key="normal" title="Request Match"/>
                                                     <connections>
+                                                        <action selector="onTapRequestMatchButton:" destination="Pa8-tR-kyT" eventType="touchUpInside" id="dio-4f-TC9"/>
                                                         <outletCollection property="gestureRecognizers" destination="TVa-Bd-aEs" appends="YES" id="RmW-Ux-Xeu"/>
                                                     </connections>
                                                 </button>
@@ -839,6 +840,6 @@
         <image name="pingpong-profile-bg" width="512" height="342"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yZf-rh-9uS"/>
+        <segue reference="Gav-Fv-4z2"/>
     </inferredMetricsTieBreakers>
 </document>

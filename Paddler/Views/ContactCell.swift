@@ -14,6 +14,8 @@ class ContactCell: UITableViewCell {
     @IBOutlet weak var requestMatchButton: UIButton!
     @IBOutlet weak var profileImageView: UIImageView!
     
+    var delegate: ContactsViewControllerDelegate!
+    
     var contact: PaddlerUser! {
         didSet {
             updateViews()
@@ -48,6 +50,10 @@ class ContactCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    @IBAction func onTapRequestMatchButton(_ sender: Any) {
+        delegate.requestMatchButtonTapped(cell: self)
     }
 
 }

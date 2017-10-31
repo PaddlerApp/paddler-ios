@@ -31,6 +31,7 @@ class MyMatchCell: UITableViewCell {
     func updateViews() {
         self.matchTimestampLabel.text = match.timeAgoSinceDate()
         
+        
         let requestor = match.requestor!
         let requestee = match.requestee!
         
