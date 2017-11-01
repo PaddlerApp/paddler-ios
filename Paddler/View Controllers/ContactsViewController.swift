@@ -9,16 +9,25 @@
 import UIKit
 import MBProgressHUD
 
-class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, LiveMatchViewControllerDelegate {
+protocol ContactsViewControllerDelegate : class {
+    func requestMatchButtonTapped(cell: ContactCell)
+}
 
+class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, LiveMatchViewControllerDelegate, ContactsViewControllerDelegate {
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
     var contacts: [PaddlerUser] = []
     var filteredData: [PaddlerUser] = []
+    var acceptedMatch: Match!
+    var initiatedRequest: Request!
     
     var shouldDisableButton: Bool = false
 
+    var isRequested: Bool = false
+    var isRequestedUser: PaddlerUser? = nil
+    
     private var isSearching: Bool = false
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,6 +59,19 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 70
         
+        let user = PaddlerUser.current!
+        
+        user.listenForActiveMatch { (match) in
+            if let match = match {
+                self.acceptedMatch = match
+                self.performSegue(withIdentifier: Constants.contactToLive, sender: self)
+                self.isRequested = false
+                self.isRequestedUser = nil
+                self.shouldDisableButton = false
+                self.tableView.reloadData()
+            }
+        }
+ 
         // refresh control
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
@@ -73,7 +95,27 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.contactCellIdentifier, for: indexPath) as! ContactCell
         let data = isSearching ? filteredData : contacts
         cell.contact = data[indexPath.row]
-        cell.requestMatchButton.isEnabled = !shouldDisableButton
+        cell.delegate = self
+        
+        if isRequestedUser != nil { // YES! Has direct request
+            if isRequestedUser == cell.contact { // current cell is the request user, disable button + change button text
+                isRequested = true
+                cell.requestMatchButton.tag = RequestState.REQUEST_PENDING.rawValue
+                cell.requestMatchButton.setTitle(Constants.pendingMatchString, for: .disabled)
+                cell.requestMatchButton.isEnabled = shouldDisableButton
+                
+            } else { // current cell is NOT the request user, disable button
+                cell.requestMatchButton.isEnabled = shouldDisableButton
+            }
+            
+        } else if isRequestedUser == nil{ // NO direct request
+            isRequested = false
+            shouldDisableButton = false
+            cell.requestMatchButton.tag = RequestState.NO_REQUEST.rawValue
+            cell.requestMatchButton.isEnabled = !shouldDisableButton
+            cell.requestMatchButton.setTitle(Constants.requestMatchString, for: .normal)
+        }
+        
         return cell
     }
     
@@ -94,19 +136,10 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.contactToLive {
-            let requestMatchButton = sender as! UIButton
-            if requestMatchButton.tag == RequestState.NO_REQUEST.rawValue {
-                // if current user can request a game, create broadcast, once a requestee accepts game, goes to live game VC
-                let navigationController = segue.destination as! UINavigationController
-                let liveMatchViewController = navigationController.topViewController as! LiveMatchViewController
-                requestMatchButton.tag = RequestState.REQUEST_PENDING.rawValue
-                self.shouldDisableButton = true
-                self.tableView.reloadData()
-                liveMatchViewController.delegate = self
-            } else if requestMatchButton.tag == RequestState.REQUEST_PENDING.rawValue {
-                // Yingying: do we need a pending state? somehow we need to be able to show on button title that "Your request is waiting for response"
-                // Disable all buttons on Contacts page
-            }
+            let navigationController = segue.destination as! UINavigationController
+            let liveMatchViewController = navigationController.topViewController as! LiveMatchViewController
+            liveMatchViewController.match = acceptedMatch
+            liveMatchViewController.delegate = self
         }
     }
     
@@ -127,7 +160,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         isSearching = false
-        //searchBar.resignFirstResponder()
+        searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
         tableView.reloadData()
     }
@@ -135,12 +168,43 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func didSaveMatch() {
         // a func to go back to My Matches View Controller
-        tabBarController?.selectedIndex = 0
+        //tabBarController?.selectedIndex = 0
+        isRequested = false
+        isRequestedUser = nil
+        refreshContacts()
+        self.tableView.reloadData()
+    }
+    
+    private func refreshContacts() {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
+        PaddlerUser.contacts { (users) in
+            PaddlerUser.current!.hasInitiatedRequest { (request) in
+                if request != nil {
+                    self.shouldDisableButton = true
+                }
+                
+                self.contacts = users
+                self.filteredData = users
+                
+                self.tableView.reloadData()
+                MBProgressHUD.hide(for: self.view, animated: true)
+            }
+        }
     }
     
     @IBAction func onTapView(_ sender: Any) {
-        view.endEditing(true)
         searchBar.showsCancelButton = false
+        view.endEditing(true)
+    }
+    
+    // request match button tapped in contact view
+    func requestMatchButtonTapped(cell: ContactCell) {
+        // define what should happen when this butotn is tapped
+        isRequestedUser = cell.contact // pass tapped cell to Contacts VC
+        self.tableView.reloadData()
+        initiatedRequest = Request.createDirect(with: isRequestedUser!)
+        print("initiatedRequest: \(initiatedRequest)")
     }
 
 }
