@@ -120,11 +120,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 162
-        
         PaddlerUser.contacts { (users) in
             self.contacts = users
             self.filteredData = users
@@ -204,7 +199,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         isRequestedUser = cell.contact // pass tapped cell to Contacts VC
         self.tableView.reloadData()
         initiatedRequest = Request.createDirect(with: isRequestedUser!)
-        print("initiatedRequest: \(initiatedRequest)")
     }
 
 }

@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 import MBProgressHUD
+import SpriteKit
 
 protocol MyMatchesViewControllerDelegate: class {
     func changeMyMatchesVCButtonState(_ color: UIColor?)
@@ -26,11 +27,13 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     var currentRequestStatus: Int!
     var acceptedMatch: Match!
     
+    var emitterLayer: CAEmitterLayer = CAEmitterLayer()
+    
     @IBOutlet weak var requestButtonWidth: NSLayoutConstraint!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        refreshMatches()
+        refreshMatches(completion: nil)
     }
     
     override func viewDidLoad() {
@@ -84,6 +87,8 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
+        
+        setupFireworks()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -186,13 +191,73 @@ class MyMatchesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func didSaveMatch() {
-        refreshMatches()
+        refreshMatches {
+            let firstMatch = self.matches.first!
+            if firstMatch.winnerID! == PaddlerUser.current!.id! {
+                self.startFireworks()
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
+                    self.stopFireworks()
+                }
+            }
+        }
     }
     
-    private func refreshMatches() {
+    private func refreshMatches(completion: (() -> ())?) {
         PaddlerUser.current!.getMatches { (matches) in
             self.matches = matches
             self.tableView.reloadData()
+            if let completion = completion {
+                completion()
+            }
         }
+    }
+    
+    private func startFireworks() {
+        self.view.layer.addSublayer(emitterLayer)
+    }
+    
+    private func stopFireworks() {
+        emitterLayer.removeFromSuperlayer()
+    }
+    
+    private func setupFireworks() {
+        let image = #imageLiteral(resourceName: "ball")
+        let newSize = CGSize(width: 16.0, height: 16.0)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        let img:CGImage = (newImage?.cgImage)!
+        
+        emitterLayer.emitterPosition = CGPoint(x: self.view.bounds.size.width/2, y: 150)
+        emitterLayer.renderMode = kCAEmitterLayerAdditive
+        
+        let emitterCell = CAEmitterCell()
+        emitterCell.emissionRange = CGFloat(Double.pi);
+        emitterCell.lifetime = 2.5
+        emitterCell.birthRate = 2
+        emitterCell.velocity = 200
+        emitterCell.yAcceleration = 0
+        let newColor = UIColor(red: 244/255, green: 206/255, blue: 66/255, alpha: 0.8)
+        emitterCell.color = newColor.cgColor;
+        emitterCell.name = "base"
+        
+        let fireworkCell = CAEmitterCell()
+        fireworkCell.contents = img;
+        fireworkCell.lifetime = 1;
+        fireworkCell.birthRate = 5000;
+        fireworkCell.scale = 0.4;
+        fireworkCell.velocity = 150;
+        fireworkCell.alphaSpeed = -0.2;
+        fireworkCell.yAcceleration = 300;
+        fireworkCell.beginTime = 0.5;
+        fireworkCell.duration = 0.1;
+        fireworkCell.emissionRange = 2 * CGFloat(Double.pi);
+        fireworkCell.scaleSpeed = -0.1;
+        fireworkCell.spin = 0;
+        
+        emitterCell.emitterCells = [fireworkCell]
+        self.emitterLayer.emitterCells = [emitterCell]
     }
 }
