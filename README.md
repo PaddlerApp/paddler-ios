@@ -20,10 +20,13 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
+- [x] Fireworks for the winner
+- [x] Scrolling tab bar
+- [x] Animation for button
 - [ ] Any contact’s match history
 - [x] Search contact
 - [ ] Profile for contacts
-- [ ] Live editing for both parties
+- [x] Live editing for both parties
 - [ ] You can leave the game in the middle
 - [ ] Score validation
 
@@ -40,12 +43,15 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-**Week 5**
-<img src='https://github.com/PaddlerApp/paddler-ios/blob/master/PaddlerApp_Week5_gif.gif?raw=true' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+**Week 7**
+<img src='https://raw.githubusercontent.com/PaddlerApp/paddler-ios/master/PaddlerApp_Week6_gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 **Week 6**
 <img src='https://raw.githubusercontent.com/PaddlerApp/paddler-ios/master/PaddlerApp_Week6_gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 <img src='https://github.com/PaddlerApp/paddler-ios/blob/master/PaddlerApp_Week6.PNG?raw=true' title='Push Notifications' width='375' alt='Push Notifications' />
+
+**Week 5**
+<img src='https://github.com/PaddlerApp/paddler-ios/blob/master/PaddlerApp_Week5_gif.gif?raw=true' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
