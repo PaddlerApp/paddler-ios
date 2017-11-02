@@ -44,7 +44,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 Here's a walkthrough of implemented user stories:
 
 **Week 7**
-<img src='https://raw.githubusercontent.com/PaddlerApp/paddler-ios/master/PaddlerApp_Week6_gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/PaddlerApp/paddler-ios/blob/master/PaddlerApp_Week7_gif.gif?raw=true' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 **Week 6**
 <img src='https://raw.githubusercontent.com/PaddlerApp/paddler-ios/master/PaddlerApp_Week6_gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
