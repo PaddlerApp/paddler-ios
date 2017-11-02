@@ -1,7 +1,7 @@
 # Paddler
 **Paddler** is a Ping Pong match organization tool for companies. This app helps manage tracking and coordinating scores and games between company employees!
 
-Time spent: **22.25** hours spent in total
+Time spent: **35** hours spent in total
 
 ## User Stories
 
