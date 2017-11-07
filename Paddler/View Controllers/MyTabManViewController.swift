@@ -63,4 +63,8 @@ class MyTabManViewController: TabmanViewController, PageboyViewControllerDataSou
         return nil
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
 }
